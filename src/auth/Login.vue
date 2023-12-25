@@ -114,11 +114,10 @@ export default {
 
                     <div class="space-y-4px auth-title">
 
-                        <h1 class="color-Grey_90 text-2xl_semibold">Sign In</h1>
-                        <h6 class="color-Grey_50 text-base_regular">Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit.
-                            Quis commodi, beatae dolorem
-                            repellat reiciendis accusantium ut.</h6>
+                        <h1 class="color-Grey_90 text-2xl_semibold">Enter your phnone!</h1>
+                        <h6 class="color-Grey_50 text-base_regular">
+                            Enter your phone no to verify it.
+                        </h6>
 
                     </div>
 

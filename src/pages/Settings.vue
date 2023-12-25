@@ -4,6 +4,13 @@ import Layout from '../components/Layout.vue'
 
 export default {
     components: { Layout },
+    created(){ 
+        this.$notify({
+            group : "foo",
+            title : "Success",
+            text  : "Setting page fetched successfully!"
+        }, 2000) // 2s
+    },
     data() {
         return {
             options: [
@@ -42,7 +49,7 @@ export default {
     <Layout>
         <div>
 
-            <h2 class="text-2xl_semibold color-Grey_90">Settings</h2>
+            <h2 class="text-2xl_semibold color-Grey_90 mt-10">Settings</h2>
             <p class="text-base_regular color-Grey_50">Manage the settings for your Medusa Store</p>
 
         </div>
