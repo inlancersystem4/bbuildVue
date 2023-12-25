@@ -26,7 +26,9 @@ export default {
             </div>
             <div class="display-flex gap-8px">
                 <button class="btn-regular" @click="closeModel()">No, cancel</button>
-                <button class="btn-regular btn-danger" @click="delectItem()">Yes, delete {{ model_content }}</button>
+                <button class="btn-regular btn-danger" @click="delectItem()" v-if="model_content">Yes, {{ model_content
+                }}</button>
+                <button class="btn-regular btn-danger" @click="delectItem()" v-if="!model_content">Yes, delete</button>
             </div>
         </div>
     </div>

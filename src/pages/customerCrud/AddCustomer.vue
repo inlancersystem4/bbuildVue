@@ -32,7 +32,7 @@ export default {
     },
     computed: {
         btnDisabled() {
-            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerEmail.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.selectedRoleId || !this.customerAddress.trim();
+            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerEmail.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim();
         }
     },
     methods: {
@@ -91,22 +91,22 @@ export default {
                     <div class="address-form">
 
                         <div class="space-y-8px">
-                            <Label label="customer First Name" />
-                            <Input placeholder="Enter customer First Name" id="customer First Name"
-                                :value="customerFirstName" @input="event => customerFirstName = event.target.value" />
+                            <Label label="First Name" />
+                            <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
+                                @input="event => customerFirstName = event.target.value" />
                             <ErrorMessage msg="" v-if="!customerFirstName && formSubmitted" />
                         </div>
 
                         <div class="space-y-8px">
-                            <Label label="customer Last Name" />
-                            <Input placeholder="Enter customer Last Name" id="customer Last Name" :value="customerLastName"
+                            <Label label="Last Name" />
+                            <Input placeholder="Enter customer Last Name" id="Last Name" :value="customerLastName"
                                 @input="event => customerLastName = event.target.value" />
                             <ErrorMessage msg="" v-if="!customerLastName && formSubmitted" />
                         </div>
 
                         <div class="space-y-8px">
-                            <Label label="customer Email" />
-                            <Input placeholder="Enter customer Email" id="customer Email" :value="customerEmail"
+                            <Label label="Email" />
+                            <Input placeholder="Enter customer Email" id="Email" :value="customerEmail"
                                 @input="customerEmail = $event.target.value; isvalidEmail = validateEmail()"
                                 :class="{ 'input_error': !isvalidEmail }" />
                             <ErrorMessage msg="Invalid email" v-if="!isvalidEmail" />
@@ -114,8 +114,8 @@ export default {
                         </div>
 
                         <div class="space-y-8px">
-                            <Label label="customer Phone No." />
-                            <Input placeholder="Enter customer Number" id="customer Phone No." :value="customerNumber"
+                            <Label label="Phone No." />
+                            <Input placeholder="Enter customer Number" id="Phone No." :value="customerNumber"
                                 @input="event => customerNumber = event.target.value" type="number"
                                 :class="{ 'input_error': customerNumber.length > 10 }" />
                             <ErrorMessage msg="" v-if="!customerNumber && formSubmitted" />
@@ -123,8 +123,8 @@ export default {
                         </div>
 
                         <div class="space-y-8px col-span-2">
-                            <Label label="customer Address" />
-                            <TextArea placeholder="Enter customer Address" id="customer Address" :value="customerAddress"
+                            <Label label="Address" />
+                            <TextArea placeholder="Enter customer Address" id="Address" :value="customerAddress"
                                 @input="event => customerAddress = event.target.value" />
                             <ErrorMessage msg="" v-if="!customerAddress && formSubmitted" />
                         </div>

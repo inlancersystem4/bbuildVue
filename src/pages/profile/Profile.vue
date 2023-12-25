@@ -43,7 +43,7 @@ export default {
         }
     },
     created() {
-        this.getprofileData();
+        // this.getprofileData();
     },
     methods: {
         validateEmail() {
@@ -65,7 +65,7 @@ export default {
             var profile = new FormData();
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/details`, profile);
+                const response = await fetchWrapper.post(`${baseUrl}/user-profile`, profile);
 
                 this.profileData = response.data
 

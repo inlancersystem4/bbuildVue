@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers';
 import router from '@/router';
 import { useAlertStore } from '@/stores';
+import { notify } from "notiwind"
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -26,13 +27,34 @@ export const useAuthStore = defineStore({
 
                 this.user = new_user;
 
-                // store user details and jwt in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(new_user));
 
-                const alertStore = useAlertStore();
-                alertStore.success('Login successfully !!');
+                // const alertStore = useAlertStore();
+                // alertStore.success('Login successfully !!');
 
-                router.push(this.returnUrl || { name: 'home' });
+                if (user.success === 1) {
+                    notify({
+                        group: "foo",
+                        title: "Success",
+                        text: user.message
+                    }, 2000)
+                }
+                else {
+                    notify({
+                        group: "error",
+                        title: "Error",
+                        text: user.message
+                    }, 2000)
+                }
+
+                const projectId = 0
+
+                if (user.data.project_complete === 0) {
+                    router.push({ name: 'Project', params: { projectId } });
+                }
+                else {
+                    router.push(this.returnUrl || { name: 'home' });
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore();

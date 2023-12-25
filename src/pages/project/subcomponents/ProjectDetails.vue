@@ -52,8 +52,12 @@ export default {
 
                 if (data.success === 1) {
 
-                    this.$router.push({ path: `/project/${data.data.project}` });
+                    if (this.projectId === '0') {
+                        this.$router.push({ path: `/project/${data.data.project}` });
+                    }
 
+
+                    this.getProjectData();
                     this.$emit('getprojectAdd', data)
 
                     this.projectName = ""
@@ -61,7 +65,6 @@ export default {
                     this.projectLevel = ""
 
 
-                    this.getProjectData();
                 }
 
             } catch (error) {

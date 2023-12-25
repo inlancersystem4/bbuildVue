@@ -43,15 +43,18 @@ export default {
             }
         },
         selectedStructure(data) {
-            this.items.push(
-                {
-                    "structure_name": data,
-                    "structure_parent": this.structureParentLevel,
-                    "structure_levels": "",
-                    "project_id": this.projectId,
-                    "structure_number": "",
-                }
-            )
+            if (!Array.isArray(this.items)) {
+                this.items = [];
+            }
+
+            this.items.push({
+                "structure_name": data,
+                "structure_parent": this.structureParentLevel,
+                "structure_levels": "",
+                "project_id": this.projectId,
+                "structure_number": "",
+            });
+
             this.$emit('dropdownClose', this.items.length)
         },
         deleteItem(index) {

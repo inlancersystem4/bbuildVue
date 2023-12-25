@@ -3,6 +3,7 @@ import './assets/css/base.css'
 import './assets/css/common.css'
 import './assets/css/responsive.css'
 import './assets/css/common-responsive.css'
+import './index.css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -10,7 +11,6 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-import './index.css'
 import Notifications from 'notiwind'
 
 const app = createApp(App)

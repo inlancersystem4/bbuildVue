@@ -27,7 +27,9 @@ export default {
             errorMsg: "",
             getotp: true,
             sendotp: false,
-            otp: ""
+            otp: "",
+            verifyOTPloader: false,
+            resendOTP: false,
         }
     },
     created() {
@@ -37,14 +39,15 @@ export default {
         loginBtn() {
             return this.number.trim().length !== 10
         },
-        otpBtn() {
-            return this.otp.trim().length !== 5
-        }
+        // otpBtn() {
+        //     return this.otp.trim().length !== 5
+        // }
     },
     methods: {
         async onSubmit() {
 
             this.fromSubmited = true
+            this.verifyOTPloader = true
 
             const authStore = useAuthStore();
             const user_number = this.number;
@@ -74,17 +77,35 @@ export default {
                 const loginUser = await axios.post(`${baseUrl}/get-otp`, login_data);
 
                 if (loginUser.data.success === 1) {
-                    console.log(loginUser.data)
 
                     this.sendotp = true
                     this.getotp = false
 
                     this.fromSubmited = false
-                }
 
+                    this.otp = loginUser.data.data
+
+                    this.$notify({
+                        group: "foo",
+                        title: "Success",
+                        text: loginUser.data.success
+                    }, 2000)
+
+                    setTimeout(() => {
+                        this.resendOTP = true;
+                    }, 30000);
+
+                }
                 else {
+
                     this.errorMesgShow = true
                     this.errorMsg = loginUser.data.message
+
+                    this.$notify({
+                        group: "error",
+                        title: "Error",
+                        text: loginUser.data.message
+                    }, 2000)
                 }
 
 
@@ -132,10 +153,9 @@ export default {
                     </div>
 
 
-
                     <div class="space-y-8px">
 
-                        <button type="submit" class="btn-regular btn-w-full" :disabled="loginBtn">Send otp</button>
+                        <button type="submit" class="btn-regular btn-w-full" :disabled="loginBtn">Continue</button>
 
                     </div>
 
@@ -148,11 +168,8 @@ export default {
 
                     <div class="space-y-4px auth-title">
 
-                        <h1 class="color-Grey_90 text-2xl_semibold">Sign In</h1>
-                        <h6 class="color-Grey_50 text-base_regular">Lorem ipsum dolor sit amet consectetur, adipisicing
-                            elit.
-                            Quis commodi, beatae dolorem
-                            repellat reiciendis accusantium ut.</h6>
+                        <h1 class="color-Grey_90 text-2xl_semibold">Enter OTP</h1>
+                        <h6 class="color-Grey_50 text-base_regular">enetr your OTP and login !!</h6>
 
                     </div>
 
@@ -160,16 +177,24 @@ export default {
                         <label for="">Enter otp.</label>
                         <input name="otp" class="input-1" type="number" placeholder="Enter otp"
                             @input="event => otp = event.target.value" :value="otp" />
-                        <ErrorMessage msg="Plz Enter Valid number" v-if="this.otp.trim().length !== 5 && this.otp.trim()" />
+                        <!-- <ErrorMessage msg="Plz Enter Valid number" v-if="this.otp.trim().length !== 5 && this.otp.trim()" /> -->
                         <ErrorMessage msg="otp Is reqired" v-if="!this.otp && fromSubmited" />
                         <ErrorMessage :msg="errorMsg" v-if="errorMesgShow" />
                     </div>
 
 
-
                     <div class="space-y-8px">
 
-                        <button type="submit" class="btn-regular btn-w-full" :disabled="otpBtn">Login</button>
+                        <button type="submit" class="btn-regular btn-w-full" :class="{ 'is-loading': verifyOTPloader }"
+                            :disabled="otpBtn">Verify
+                            &
+                            Proceed</button>
+
+                        <div class="text-right" v-if="resendOTP">
+                            <p class="color-Grey_50 text-base_regular">I Resive OTP
+                                <button @click="login" type="button" class="color_violet">Resend OTP !</button>
+                            </p>
+                        </div>
 
                     </div>
 

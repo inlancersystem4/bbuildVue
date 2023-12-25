@@ -78,7 +78,6 @@ export default {
                 }
                 if (step2) {
                     step2.Status = 1;
-                    this.activeSetp = "Project_Structure"
                 }
 
 
@@ -105,21 +104,19 @@ export default {
             }
         },
 
-        // projectAdd(data) {
-        //     alert(data)
-        //     const step1 = this.setps.find(step => step.id === 1);
-        //     const step2 = this.setps.find(step => step.id === 2);
+        projectAdd(data) {
+            const step1 = this.setps.find(step => step.id === 1);
+            const step2 = this.setps.find(step => step.id === 2);
 
-        //     if (step1) {
-        //         step1.success = 1;
-        //     }
-        //     if (step2) {
-        //         step2.Status = 1;
-        //     }
+            if (step1) {
+                step1.success = 1;
+            }
+            if (step2) {
+                step2.Status = 1;
+            }
 
-        //     this.activeSetp = "Project_Structure"
-
-        // },
+            this.activeSetp = "Project_Structure"
+        },
 
         getSetpData(data) {
             this.activeSetp = data.Setp_category

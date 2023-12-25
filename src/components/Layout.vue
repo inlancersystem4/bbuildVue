@@ -26,6 +26,12 @@ export default {
         this.$router.afterEach(() => {
             this.loading = false;
         });
+
+        // this.$notify({
+        //     group: "foo",
+        //     title: "Success",
+        //     text: "welcome"
+        // }, 2000)
     },
     methods: {
         checkUser() {
