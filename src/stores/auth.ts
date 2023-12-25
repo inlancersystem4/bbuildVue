@@ -36,7 +36,7 @@ export const useAuthStore = defineStore({
                     notify({
                         group: "foo",
                         title: "Success",
-                        text: user.message
+                        text: "Welcome"
                     }, 2000)
                 }
                 else {

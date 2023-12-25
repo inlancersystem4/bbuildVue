@@ -88,7 +88,7 @@ export default {
                     this.$notify({
                         group: "foo",
                         title: "Success",
-                        text: loginUser.data.success
+                        text: "OTP send successfully"
                     }, 2000)
 
                     setTimeout(() => {
