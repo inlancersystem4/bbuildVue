@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { notify } from "notiwind"
 
 export const useAlertStore = defineStore({
     id: 'alert',
@@ -9,20 +10,14 @@ export const useAlertStore = defineStore({
         success(message) {
             alert(message);
             this.alert = { message, type: 'alert-success' };
-            // this.$notify({
-            //     group: "foo",
-            //     title: "Success",
-            //     text: message
-            // }, 2000)
         },
         error(message) {
-            alert(message);
             this.alert = { message, type: 'alert-danger' };
-            // this.$notify({
-            //     group: "foo",
-            //     title: "error",
-            //     text: message
-            // }, 2000)
+            notify({
+                group: "error",
+                title: "Error",
+                text: message
+            }, 2000)
         },
         clear() {
             this.alert = null;

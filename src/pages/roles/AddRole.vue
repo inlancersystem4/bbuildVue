@@ -38,7 +38,8 @@ export default {
                 this.permissionsList = response.data;
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         },
 
@@ -70,7 +71,8 @@ export default {
 
             }
             catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         }

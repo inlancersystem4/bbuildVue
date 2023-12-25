@@ -1,6 +1,6 @@
 <script>
 
-// import { useAuthStore, useAlertStore } from '../../stores'
+import { useAuthStore, useAlertStore } from '../../stores'
 import { fetchWrapper } from '../../helpers/fetch-wrapper'
 
 //  import axios from 'axios';
@@ -69,7 +69,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         }
     }
@@ -142,7 +143,8 @@ export default {
 
                     <div class="user_pic">
 
-                        <img :src="this.selectedImg" class="pic">
+                        <img :src="this.selectedImg" class="pic" v-if="selectedImg">
+                        <img src="../../assets/img/noimg.jpg" v-if="!selectedImg" class="pic" />
 
                         <label class="add_pic" for="customer-pic">
                             <input type="file" id="customer-pic" @change="selectedPic">

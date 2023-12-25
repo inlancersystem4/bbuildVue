@@ -29,7 +29,8 @@ export default {
             sendotp: false,
             otp: "",
             verifyOTPloader: false,
-            resendOTP: false,
+            resendOTP: true,
+            remainingTime: 30,
         }
     },
     created() {
@@ -41,13 +42,23 @@ export default {
         },
         // otpBtn() {
         //     return this.otp.trim().length !== 5
-        // }
+        // },
+        maskedNumber() {
+            if (this.number.length < 8) return this.number;
+            const visibleDigits = 4;
+            const maskedLength = this.number.length - (visibleDigits * 2);
+            const maskedPart = '*'.repeat(maskedLength);
+            const visiblePartStart = this.number.substring(0, visibleDigits);
+            const visiblePartEnd = this.number.substring(this.number.length - visibleDigits);
+            return `${visiblePartStart}${maskedPart}${visiblePartEnd}`;
+        },
     },
     methods: {
         async onSubmit() {
 
             this.fromSubmited = true
             this.verifyOTPloader = true
+            this.errorMesgShow = false
 
             const authStore = useAuthStore();
             const user_number = this.number;
@@ -68,9 +79,11 @@ export default {
         async login() {
 
             this.fromSubmited = true
+            this.errorMesgShow = false
 
             var login_data = new FormData();
             login_data.append("user_mobile", this.number);
+            this.resendOTP = true;
 
             try {
 
@@ -91,21 +104,26 @@ export default {
                         text: "OTP send successfully"
                     }, 2000)
 
+                    this.remainingTime = 30;
                     setTimeout(() => {
-                        this.resendOTP = true;
+                        this.resendOTP = false;
                     }, 30000);
+                    this.updateTimer();
 
                 }
                 else {
 
-                    this.errorMesgShow = true
+                    this.errorMesgShow = false
                     this.errorMsg = loginUser.data.message
+                    this.sendotp = false
+                    this.getotp = true
+                    this.number = "",
 
-                    this.$notify({
-                        group: "error",
-                        title: "Error",
-                        text: loginUser.data.message
-                    }, 2000)
+                        this.$notify({
+                            group: "error",
+                            title: "Error",
+                            text: loginUser.data.message
+                        }, 2000)
                 }
 
 
@@ -115,6 +133,14 @@ export default {
 
         },
 
+        updateTimer() {
+            const interval = setInterval(() => {
+                this.remainingTime--;
+                if (this.remainingTime <= 0) {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        },
     },
 }
 
@@ -168,13 +194,13 @@ export default {
 
                     <div class="space-y-4px auth-title">
 
-                        <h1 class="color-Grey_90 text-2xl_semibold">Enter OTP</h1>
-                        <h6 class="color-Grey_50 text-base_regular">enetr your OTP and login !!</h6>
+                        <h1 class="color-Grey_90 text-2xl_semibold">OTP Verification</h1>
+                        <h6 class="color-Grey_50 text-base_regular">Enter OTP code senet to {{ maskedNumber }} </h6>
 
                     </div>
 
                     <div class="input-group">
-                        <label for="">Enter otp.</label>
+                        <!-- <label for="">Enter otp.</label> -->
                         <input name="otp" class="input-1" type="number" placeholder="Enter otp"
                             @input="event => otp = event.target.value" :value="otp" />
                         <!-- <ErrorMessage msg="Plz Enter Valid number" v-if="this.otp.trim().length !== 5 && this.otp.trim()" /> -->
@@ -190,9 +216,12 @@ export default {
                             &
                             Proceed</button>
 
-                        <div class="text-right" v-if="resendOTP">
-                            <p class="color-Grey_50 text-base_regular">I Resive OTP
-                                <button @click="login" type="button" class="color_violet">Resend OTP !</button>
+                        <div class="text-right mt-4">
+                            <p class="color-Grey_50 text-base_regular">Didn't receive OTP ?
+                                <button @click="login" type="button" class="color_violet resentBtn"
+                                    :disabled="resendOTP">Resend OTP !
+                                </button>
+                                <span v-if="remainingTime > 0">in {{ remainingTime }}</span>
                             </p>
                         </div>
 
@@ -226,6 +255,11 @@ export default {
     display: grid;
     align-items: center;
     justify-content: center;
+}
+
+.resentBtn:disabled {
+    color: var(--Grey-50) !important;
+    font-weight: bold;
 }
 
 .auth-page_center .auth-from-section .from {

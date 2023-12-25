@@ -4,13 +4,6 @@ import Layout from '../components/Layout.vue'
 
 export default {
     components: { Layout },
-    created() {
-        this.$notify({
-            group: "foo",
-            title: "Success",
-            text: "Setting page fetched successfully!"
-        }, 2000)
-    },
     data() {
         return {
             options: [

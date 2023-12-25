@@ -4,6 +4,8 @@ import Layout from '../../components/Layout.vue'
 import Select from '../../subcomponents/common/Select.vue'
 import InventeryBox from './subcomponents/InventeryBox.vue'
 import InventeryBoxStatus from './subcomponents/InventeryBoxStatus.vue'
+import { useAuthStore, useAlertStore } from '../../stores'
+
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -34,7 +36,8 @@ export default {
                 this.projectarray = response.data;
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         },
@@ -63,7 +66,8 @@ export default {
                 this.structureList = response.data
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         },

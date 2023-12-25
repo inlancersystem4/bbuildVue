@@ -1,5 +1,6 @@
 <script>
 import { fetchWrapper } from '../../helpers/fetch-wrapper'
+import { useAuthStore, useAlertStore } from '../../stores'
 
 
 import Layout from '../../components/Layout.vue';
@@ -69,7 +70,8 @@ export default {
                 // this.selectedImg =
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         },
         onOptionSelected(data) {
@@ -93,7 +95,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         }
     }

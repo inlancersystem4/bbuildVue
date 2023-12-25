@@ -7,6 +7,7 @@ import ProjectStructure from './subcomponents/ProjectStructure.vue';
 import ProjectPreview from './subcomponents/ProjectPreview.vue';
 import SettingPage from '@/subcomponents/SettingPage.vue';
 
+
 export default {
     components: { Layout, Setps, ContentSection2, ProjectDetails, ProjectStructure, SettingPage, ProjectPreview },
     data() {

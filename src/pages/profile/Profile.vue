@@ -5,6 +5,7 @@ import { fetchWrapper } from '../../helpers/fetch-wrapper'
 import Label from '../../subcomponents/common/Label.vue';
 import Input from '../../subcomponents/common/Input.vue';
 import ErrorMessage from '../../subcomponents/common/ErrorMessage.vue';
+import { useAuthStore, useAlertStore } from '../../stores'
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -77,7 +78,8 @@ export default {
                 localStorage.setItem('profilePic', response.data.profile_pic);
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         },
         selectedPic(event) {
@@ -109,7 +111,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         },
@@ -133,7 +136,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         },

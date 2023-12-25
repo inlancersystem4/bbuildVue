@@ -1,6 +1,8 @@
 <script>
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
 import ProjectPreviewBox from './ProjectPreviewBox.vue';
+import { useAuthStore, useAlertStore } from '../../../stores'
+
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -30,7 +32,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         },
     },

@@ -1,5 +1,6 @@
 <script>
 import { fetchWrapper } from '@/helpers/fetch-wrapper';
+import { useAuthStore, useAlertStore } from '../../../stores'
 import DropDown from './DropDown.vue';
 import Label from '@/subcomponents/common/Label.vue'
 import Input from '@/subcomponents/common/Input.vue'
@@ -39,7 +40,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         },
         selectedStructure(data) {
@@ -85,7 +87,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         },
@@ -100,7 +103,8 @@ export default {
                 const data = await fetchWrapper.post(`${baseUrl}/structure-add`, project_data);
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         }

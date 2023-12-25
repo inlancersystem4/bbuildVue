@@ -1,4 +1,5 @@
 <script>
+import { useAuthStore, useAlertStore } from '../../../stores'
 import Input from '@/subcomponents/common/Input.vue';
 import Label from '@/subcomponents/common/Label.vue';
 import ErrorMessage from '@/subcomponents/common/ErrorMessage.vue';
@@ -68,7 +69,8 @@ export default {
                 }
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
         },
         async getProjectData() {
@@ -92,7 +94,8 @@ export default {
                     }
 
                 } catch (error) {
-                    console.log(error);
+                    const alertStore = useAlertStore()
+                alertStore.error(error)
                 }
             }
         }

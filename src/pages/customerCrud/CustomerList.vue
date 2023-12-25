@@ -64,7 +64,8 @@ export default {
 
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         },
