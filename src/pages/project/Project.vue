@@ -1,5 +1,5 @@
 <script>
-import Layout from '../../components/layout.vue';
+import Layout from '../../components/Layout.vue';
 import Setps from './subcomponents/Setps.vue';
 import ProjectDetails from './subcomponents/ProjectDetails.vue';
 import ContentSection2 from '../../subcomponents/ContentSection2.vue';

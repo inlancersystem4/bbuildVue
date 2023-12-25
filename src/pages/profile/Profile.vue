@@ -1,5 +1,5 @@
 <script>
-import Layout from '../../components/layout.vue';
+import Layout from '../../components/Layout.vue';
 import { useAuthStore, useAlertStore } from '../../stores'
 import { fetchWrapper } from '../../helpers/fetch-wrapper'
 import Label from '../../subcomponents/common/Label.vue';
