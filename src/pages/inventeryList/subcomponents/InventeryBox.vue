@@ -34,10 +34,12 @@ export default {
 
         <div class="padding-x_24px padding-y_16px">
 
-            <div>
+            <!-- <div>
 
                 <div v-for="(inventeryitem, inventeryitemindex) in item.inventery" :key="inventeryitemindex"
                     class="w-full display-flex align-center display-flex-wrap gap-16px">
+
+                    {{ inventeryitem.inv_status }}
 
                     <div v-for="(inventeryiteminventery, inventeryitemindex) in inventeryitem.inventery"
                         :key="inventeryitemindex">
@@ -53,6 +55,26 @@ export default {
                         </div>
 
                     </div>
+
+                </div>
+
+            </div> -->
+
+            <div class="w-full display-flex align-center display-flex-wrap gap-16px">
+
+                <div v-for="(inventeryitem, inventeryitemindex) in item.inventery" :key="inventeryitemindex">
+
+
+                    <div class="btn-regular display-flex align-center gap-8px bg-white">
+
+                        <div class="ellipse-dot"
+                            :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 4, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 6 }">
+                        </div>
+
+                        <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitem.inv_name }}</p>
+
+                    </div>
+
 
                 </div>
 
@@ -78,6 +100,10 @@ li {
 }
 
 .list span:nth-child(1)::after {
+    display: none;
+}
+
+.list span:nth-last-child(1)::after {
     display: none;
 }
 

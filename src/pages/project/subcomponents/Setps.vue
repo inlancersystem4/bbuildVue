@@ -59,12 +59,20 @@ export default {
     position: relative;
 }
 
-.option-details.active {
-    background-color: var(--Grey-10);
+.option-details.active:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 4px;
+    z-index: 9;
+    background-color: var(--Grey-20);
 }
 
 .option-details.active .option-name {
     font-weight: bold;
+    color: var(--Grey-90);
 }
 
 .option-details.active .counter {
@@ -93,9 +101,6 @@ export default {
     display: none;
 }
 
-.option-details.success {
-    background-color: var(--Grey-20);
-}
 
 .option-details.success .counter {
     display: none;

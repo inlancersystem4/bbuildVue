@@ -13,7 +13,6 @@ export default {
     components: { Layout, InventeryBox, InventeryBoxStatus, Select },
     data() {
         return {
-            selectProject: false,
             projectarray: [],
             projectId: "",
             currentproject: "",
@@ -53,10 +52,6 @@ export default {
             this.currentprojectName = localStorage.getItem('currentprojectName');
 
 
-            if (!this.currentproject) {
-                this.selectProject = true
-            }
-
             var project_data = new FormData();
             project_data.append("project_id", this.currentproject);
 
@@ -81,8 +76,12 @@ export default {
 
         <div class="display-flex align-center justify-end w-100 margin-bottom_12px gap-8px" v-if="this.currentproject">
 
-            <button class="btn-regular bg-white" @click="this.selectProject = !this.selectProject">Add New
-                Project</button>
+
+            <div class="dropdown">
+
+                <Select :options="projectarray" @option-selected="onOptionSelected" />
+
+            </div>
 
             <span class="btn-regular bg-white">{{ currentprojectName }}</span>
 
@@ -110,42 +109,22 @@ export default {
 
         </div>
 
-        <div class="dropdown" v-if="selectProject">
 
-            <Select :options="projectarray" @option-selected="onOptionSelected" />
-
-            <button class="btn-regular bg-white btn-w-full" @click="this.selectProject = !this.selectProject"
-                v-if="this.projectId">Add
-                New
-                Project</button>
-
-        </div>
 
     </Layout>
 </template>
 
 <style scoped>
 .dropdown {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 99;
-    background-color: #1118274a;
-    backdrop-filter: blur(5px);
-    gap: 12px;
+    background-color: white;
+    min-width: 240px;
 }
 
 .dropdown .select {
-    max-width: 420px;
-    background-color: white;
+    padding: 6px 12px !important;
 }
 
-.dropdown .btn-w-full {
-    max-width: 420px;
+.dropdown .select .display-flex .cursor-pointer p {
+    font-size: 12px !important;
 }
 </style>

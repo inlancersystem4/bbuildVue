@@ -58,8 +58,8 @@ export default {
                     }
 
 
+                    this.$emit('getprojectAdd', this.projectLevel)
                     this.getProjectData();
-                    this.$emit('getprojectAdd', data)
 
                     this.projectName = ""
                     this.projectAddress = ""
@@ -95,7 +95,7 @@ export default {
 
                 } catch (error) {
                     const alertStore = useAlertStore()
-                alertStore.error(error)
+                    alertStore.error(error)
                 }
             }
         }

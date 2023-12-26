@@ -19,7 +19,7 @@ export default {
 
 
 <template>
-    <div v-for="(item, index) in items" :key="index" class="bg-white rounded-regualr border border-Grey_20 border-solid">
+    <!-- <div v-for="(item, index) in items" :key="index" class="bg-white rounded-regualr border border-Grey_20 border-solid">
 
 
         <div
@@ -54,8 +54,11 @@ export default {
             </div>
         </div>
 
+        <p class="no-conetnt-show-section py-10" v-if="!item.inventery || item.inventery.length === 0">no data in this
+            module
+        </p>
 
-        <div class="w-full  padding-top_24px ">
+        <div class="w-full  padding-top_24px " v-if="item.inventery.length > 0">
 
             <p class="text-small_semibold color-Grey_50 padding-x_32px  Sm_padding-x_28px  Mobile_padding-x_24px">
                 Shipping to</p>
@@ -63,6 +66,8 @@ export default {
             <div class="all-border-t">
 
                 <div v-for="(inventeryitem, inventeryIndex) in item.inventery" :key="inventeryIndex">
+
+                    {{ inventeryitem }}
 
                     <div
                         class="display-flex align-center justify-between w-100 margin-top_8px padding-x_32px  Sm_padding-x_28px  Mobile_padding-x_24px   padding-bottom_24px">
@@ -76,7 +81,7 @@ export default {
                             </div>
                             <div>
                                 <div class="display-flex align-center gap-8px">
-                                    <h6 class="color-Grey_90 text-base_semibold">{{ inventeryitem.str_name }}
+                                    <h6 class="color-Grey_90 text-base_semibold">{{ inventeryitem.inv_name }}
                                     </h6>
                                 </div>
                                 <p class="color-Grey_50 text-small_regular text-capitalize">str number <b>
@@ -155,6 +160,52 @@ export default {
 
         </div>
 
+
+    </div> -->
+
+
+    <div class="w-full rounded-regualr border border-solid border-Grey_20 overflow-hidden" v-for="(item, index) in items"
+        :key="index">
+
+        <div class="bg-white padding-x_24px padding-y_16px  border-b border-solid border-Grey_20">
+
+            <div class="w-full display-flex align-center justify-between">
+
+                <p class="text-base_semibold color-Grey_90 display-flex align-center  list">
+                    <span>{{ item.str_name }}</span>
+                    <span v-for="(inventeryitem, inventeryitemindex) in item.inventery" :key="inventeryitemindex">{{
+                        inventeryitem.str_name }}</span>
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="padding-x_24px padding-y_16px">
+
+            <p v-if="item.inventery.length === 0" class="capitalize color-Grey_90 text-base_semibold text-center py-10">no
+                have any
+                modules</p>
+
+            <div class="w-full display-flex align-center display-flex-wrap gap-16px" v-if="item.inventery.length > 0">
+
+                <div v-for="(inventeryitem, inventeryitemindex) in item.inventery" :key="inventeryitemindex">
+
+                    <div class="btn-regular display-flex align-center gap-8px bg-white">
+
+                        <div class="ellipse-dot"
+                            :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 4, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 6 }">
+                        </div>
+
+                        <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitem.inv_name }}</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
     </div>
 </template>

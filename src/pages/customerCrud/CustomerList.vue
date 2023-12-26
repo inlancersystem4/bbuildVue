@@ -187,7 +187,7 @@ export default {
                                 <p class="text-sm_regular color-Grey_50">User staus</p>
                             </td>
                             <td class="dropdown">
-
+                                <div class="icon-btn icon-btn_32px  custom-dropdown"></div>
                             </td>
                         </tr>
                         <Customers :list="list" @delete_item="getItemId" @edit_item="editItem"
@@ -221,6 +221,13 @@ tr {
     display: flex;
     gap: 24px;
     align-items: center;
+}
+
+tr:nth-last-child(1) .custom-dropdown-list,
+tr:nth-last-child(2) .custom-dropdown-list,
+tr:nth-last-child(3) .custom-dropdown-list {
+    top: auto;
+    bottom: 90%;
 }
 
 .count {
@@ -261,8 +268,8 @@ tr {
 }
 
 .blank {
-    min-width: 10%;
-    max-width: 10%;
+    min-width: 14%;
+    max-width: 14%;
     display: block;
 }
 

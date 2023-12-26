@@ -6,10 +6,11 @@ import ContentSection2 from '../../subcomponents/ContentSection2.vue';
 import ProjectStructure from './subcomponents/ProjectStructure.vue';
 import ProjectPreview from './subcomponents/ProjectPreview.vue';
 import SettingPage from '@/subcomponents/SettingPage.vue';
+import InventeryBoxStatus from '../inventeryList/subcomponents/InventeryBoxStatus.vue'
 
 
 export default {
-    components: { Layout, Setps, ContentSection2, ProjectDetails, ProjectStructure, SettingPage, ProjectPreview },
+    components: { Layout, Setps, ContentSection2, ProjectDetails, ProjectStructure, SettingPage, ProjectPreview, InventeryBoxStatus },
     data() {
         return {
             setps: [
@@ -52,7 +53,7 @@ export default {
     },
     computed: {
         addProjectbtn() {
-            return this.projectLimit === this.projects || this.projectLimit === this.projectsitems;
+            return this.projectLimit === this.projectsitems || this.projectLimit == this.projects;
         }
     },
     methods: {
@@ -65,9 +66,10 @@ export default {
         projectData(data) {
 
             this.structureParentLevel = data.level
-
+            console.log("This is Level", data.level)
 
             this.projectLimit = data.project_no_of_level
+            console.log("This is project Limit", data.project_no_of_level)
 
             if (data.is_complete === 1) {
 
@@ -88,7 +90,8 @@ export default {
 
         structureCompelte(data) {
 
-            this.projectsitems = data.data.structure.length
+            this.projects = data.data.structure.length
+            console.log("This is project list", data.data.structure.length)
 
             if (data.data.is_complete === 1) {
 
@@ -106,6 +109,10 @@ export default {
         },
 
         projectAdd(data) {
+
+            this.projectLimit = data
+            console.log("this is project limit", data)
+
             const step1 = this.setps.find(step => step.id === 1);
             const step2 = this.setps.find(step => step.id === 2);
 
@@ -119,14 +126,42 @@ export default {
             this.activeSetp = "Project_Structure"
         },
 
+        structureSave() {
+
+            const step1 = this.setps.find(step => step.id === 2);
+            const step2 = this.setps.find(step => step.id === 3);
+
+            if (step1) {
+                step1.success = 1;
+            }
+            if (step2) {
+                step2.Status = 1;
+            }
+
+            this.activeSetp = "Project_Preview"
+
+        },
+
+        structurePreviewSucees() {
+            const step1 = this.setps.find(step => step.id === 3);
+
+            if (step1) {
+                step1.success = 1;
+            }
+        },
+
         getSetpData(data) {
             this.activeSetp = data.Setp_category
-            this.projects = ""
+            this.projectsitems = ""
         },
 
         structureItems(data) {
             this.selectProject = false
-            this.projects = data
+            this.projectsitems = String(data)
+        },
+
+        editStructure() {
+            this.activeSetp = "Project_Structure"
         }
     },
 }
@@ -137,6 +172,8 @@ export default {
     <Layout>
 
         <div class="space-y-16px">
+
+            <h4 class="text-base_medium color-Grey_90 capitalize">Create New Project</h4>
 
             <Setps :items="setps" @setpClick="getSetpData" :activeOption="this.activeSetp" />
 
@@ -163,27 +200,41 @@ export default {
                 <div class="main-content">
 
                     <ProjectStructure :dropDownOpen="selectProject" :structureParentLevel="structureParentLevel"
-                        @dropdownClose="structureItems" @structureCompelte="structureCompelte" />
+                        @dropdownClose="structureItems" @structureCompelte="structureCompelte"
+                        @structureSave="structureSave" />
 
                 </div>
 
             </SettingPage>
 
+
             <SettingPage title="Preview" v-if="activeSetp === 'Project_Preview'">
 
-                <div class="details-content sticky">
 
-                    <h6 class="color-Grey_90 text-xl_semibold">Edit Project Structure</h6>
-                    <p class="color-Grey_50 text-base_regular margin-top_4px">Manage the Project Structure that you
-                        will
-                        operate within.</p>
-                    <button class="btn-regular btn-w-full margin-top_16px">Edit Project Structure</button>
+                <div
+                    class="space-y-8px Lg_w-100 Lg_display-grid Lg_grid-cols-2 Lg_gap-12px Lg_align-stretch Sm_grid-cols-1 Sm_gap-0 Lg_space-y-0 Sm_space-y-8px sticky">
+
+
+                    <div class="details-content">
+
+                        <h6 class="color-Grey_90 text-xl_semibold">Edit Project Structure</h6>
+                        <p class="color-Grey_50 text-base_regular margin-top_4px">Manage the Project Structure that you
+                            will
+                            operate within.</p>
+                        <button class="btn-regular btn-w-full margin-top_16px" @click="editStructure">Edit Project
+                            Structure</button>
+
+                    </div>
+
+                    <InventeryBoxStatus />
 
                 </div>
 
+
+
                 <div class="main-content">
 
-                    <ProjectPreview />
+                    <ProjectPreview @structurePreviewSucees="structurePreviewSucees" />
 
                 </div>
 

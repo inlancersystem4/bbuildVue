@@ -49,6 +49,8 @@ export default {
                 this.items = [];
             }
 
+            this.projectId = this.$route.params.projectId;
+
             this.items.push({
                 "structure_name": data,
                 "structure_parent": this.structureParentLevel,
@@ -74,25 +76,28 @@ export default {
             this.items[index]['structure_number'] = value
         },
         async structureDetails() {
-            var project_data = new FormData();
-            project_data.append("project_id", this.projectId)
+            if (this.projectId !== "0") {
+                var project_data = new FormData();
+                project_data.append("project_id", this.projectId)
 
-            try {
-                const response = await fetchWrapper.post(`${baseUrl}/structure-details`, project_data);
+                try {
+                    const response = await fetchWrapper.post(`${baseUrl}/structure-details`, project_data);
 
-                this.items = response.data.structure
+                    this.items = response.data.structure
 
-                if (response.success === 1) {
-                    this.$emit('structureCompelte', response)
+                    if (response.success === 1) {
+                        this.$emit('structureCompelte', response)
+                    }
+
+                } catch (error) {
+                    const alertStore = useAlertStore()
+                    alertStore.error(error)
                 }
-
-            } catch (error) {
-                const alertStore = useAlertStore()
-                alertStore.error(error)
             }
-
         },
         async structureSave() {
+
+
             var projectStructure = JSON.stringify(this.items)
 
             var project_data = new FormData();
@@ -101,6 +106,10 @@ export default {
 
             try {
                 const data = await fetchWrapper.post(`${baseUrl}/structure-add`, project_data);
+
+                if (data.success === 1) {
+                    this.$emit('structureSave')
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()

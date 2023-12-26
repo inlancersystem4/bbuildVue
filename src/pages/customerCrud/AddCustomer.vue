@@ -28,17 +28,26 @@ export default {
             selectedImg: "",
             formSubmitted: false,
             isvalidEmail: true,
+            customerMiddleName: "",
+            customerDob: "",
+            customerNote: "",
+            customerReference: "",
         }
     },
     computed: {
         btnDisabled() {
-            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerEmail.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim();
+            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim();
         }
     },
     methods: {
         validateEmail() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(this.customerEmail);
+            if (this.customerEmail.trim()) {
+                return emailRegex.test(this.customerEmail);
+            }
+            else {
+                this.isvalidEmail = true
+            }
         },
         selectedPic(event) {
             const selectedFile = event.target.files[0]
@@ -60,12 +69,16 @@ export default {
             customer_data.append("cus_phone_no", this.customerNumber);
             customer_data.append("cus_profile", this.profilePic);
             customer_data.append("cus_address", this.customerAddress);
+            customer_data.append("cus_middle_name", this.customerMiddleName);
+            customer_data.append("cus_dob", this.customerDob);
+            customer_data.append("cus_notes", this.customerNote);
+            customer_data.append("cus_ref", this.customerReference);
 
             try {
-                const data = await fetchWrapper.post(`${baseUrl}/add-customer`, customer_data);
+                const data = await fetchWrapper.post(`${baseUrl}/add-or-edit-customer`, customer_data);
 
                 if (data.success === 1) {
-                    this.$router.push({ name: 'UserList' });
+                    this.$router.push({ name: 'CustomerList' });
                 }
 
             } catch (error) {
@@ -99,6 +112,12 @@ export default {
                         </div>
 
                         <div class="space-y-8px">
+                            <Label label="Middle Name (optional)" />
+                            <Input placeholder="Enter customer Middle Name" id="Middle Name (optional)"
+                                :value="customerMiddleName" @input="event => customerMiddleName = event.target.value" />
+                        </div>
+
+                        <div class="space-y-8px">
                             <Label label="Last Name" />
                             <Input placeholder="Enter customer Last Name" id="Last Name" :value="customerLastName"
                                 @input="event => customerLastName = event.target.value" />
@@ -106,8 +125,8 @@ export default {
                         </div>
 
                         <div class="space-y-8px">
-                            <Label label="Email" />
-                            <Input placeholder="Enter customer Email" id="Email" :value="customerEmail"
+                            <Label label="Email (optional)" />
+                            <Input placeholder="Enter customer Email" id="Email (optional)" :value="customerEmail"
                                 @input="customerEmail = $event.target.value; isvalidEmail = validateEmail()"
                                 :class="{ 'input_error': !isvalidEmail }" />
                             <ErrorMessage msg="Invalid email" v-if="!isvalidEmail" />
@@ -123,11 +142,30 @@ export default {
                             <ErrorMessage msg="Only 10 number valid" v-if="customerNumber.length > 10" />
                         </div>
 
+                        <div class="space-y-8px">
+                            <Label label="Date Of Birth (optional)" />
+                            <Input id="Date Of Birth (optional)" :value="customerDob"
+                                @input="event => customerDob = event.target.value" type="date" />
+                        </div>
+
+                        <div class="space-y-8px">
+                            <Label label="Reference (optional)" />
+                            <Input id="Reference (optional)" placeholder="Enter customer Reference"
+                                :value="customerReference" @input="event => customerReference = event.target.value"
+                                type="text" />
+                        </div>
+
                         <div class="space-y-8px col-span-2">
                             <Label label="Address" />
-                            <TextArea placeholder="Enter customer Address" id="Address" :value="customerAddress"
-                                @input="event => customerAddress = event.target.value" />
+                            <Input id="Address" placeholder="Enter customer Address" :value="customerAddress"
+                                @input="event => customerAddress = event.target.value" type="text" />
                             <ErrorMessage msg="" v-if="!customerAddress && formSubmitted" />
+                        </div>
+
+                        <div class="space-y-8px col-span-2">
+                            <Label label="Note (optional)" />
+                            <TextArea placeholder="Enter customer Note" id="Note (optional)" :value="customerNote"
+                                @input="event => customerNote = event.target.value" />
                         </div>
 
 

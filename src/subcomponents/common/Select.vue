@@ -43,7 +43,7 @@ export default {
 
     <div class="select">
 
-        <div class=" display-flex align-center justify-between w-100" @click="toggleDropdown">
+        <div class=" display-flex align-center justify-between w-100 gap-4" @click="toggleDropdown">
 
             <div class="cursor-pointer">
 

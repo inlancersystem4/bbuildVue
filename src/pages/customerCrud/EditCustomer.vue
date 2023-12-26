@@ -23,18 +23,22 @@ export default {
             profilePic: "",
             customerAddress: "",
             selectedImg: "",
-            userId: "",
+            customerId: "",
             formSubmitted: false,
             isvalidEmail: true,
+            customerMiddleName: "",
+            customerDob: "",
+            customerNote: "",
+            customerReference: "",
         }
     },
     created() {
-        this.userId = this.$route.params.id;
+        this.customerId = this.$route.params.id;
         this.customerData();
     },
     computed: {
         btnDisabled() {
-            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerEmail.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim();
+            return !this.customerFirstName.trim() || !this.customerLastName.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim();
         }
     },
     methods: {
@@ -55,19 +59,21 @@ export default {
 
         },
         async customerData() {
-            var user_data = new FormData();
-            user_data.append("cus_id", this.userId);
+            var customer_data = new FormData();
+            customer_data.append("cus_id", this.customerId);
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/customer-list`, user_data);
+                const response = await fetchWrapper.post(`${baseUrl}/customer-list`, customer_data);
 
                 this.customerFirstName = response.data.cus_first_name
                 this.customerLastName = response.data.cus_last_name
                 this.customerEmail = response.data.cus_email
                 this.customerNumber = response.data.cus_phone_no
                 this.customerAddress = response.data.cus_address
-                // this.profilePic =
-                // this.selectedImg =
+                this.customerMiddleName = response.data.cus_middle_name
+                this.customerDob = response.data.cus_dob
+                this.customerNote = response.data.cus_notes
+                this.customerReference = response.data.cus_ref
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -78,20 +84,25 @@ export default {
             this.selectedRole = data.role_name
             this.selectedRoleId = data.role_id
         },
-        async EditUser() {
+        async addcustomer() {
             var customer_data = new FormData();
+            customer_data.append("cus_id", this.customerId);
             customer_data.append("cus_first_name", this.customerFirstName);
             customer_data.append("cus_last_name", this.customerLastName);
             customer_data.append("cus_email", this.customerEmail);
             customer_data.append("cus_phone_no", this.customerNumber);
             customer_data.append("cus_profile", this.profilePic);
             customer_data.append("cus_address", this.customerAddress);
+            customer_data.append("cus_middle_name", this.customerMiddleName);
+            customer_data.append("cus_dob", this.customerDob);
+            customer_data.append("cus_notes", this.customerNote);
+            customer_data.append("cus_ref", this.customerReference);
 
             try {
-                const data = await fetchWrapper.post(`${baseUrl}/add-user`, customer_data);
+                const data = await fetchWrapper.post(`${baseUrl}/add-or-edit-customer`, customer_data);
 
                 if (data.success === 1) {
-                    this.$router.push({ name: 'UserList' });
+                    this.$router.push({ name: 'CustomerList' });
                 }
 
             } catch (error) {
@@ -116,9 +127,15 @@ export default {
 
                         <div class="space-y-8px">
                             <Label label="First Name" />
-                            <Input placeholder="Enter customer First Name" id="First Name"
-                                :value="customerFirstName" @input="event => customerFirstName = event.target.value" />
+                            <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
+                                @input="event => customerFirstName = event.target.value" />
                             <ErrorMessage msg="" v-if="!customerFirstName && formSubmitted" />
+                        </div>
+
+                        <div class="space-y-8px">
+                            <Label label="Middle Name (optional)" />
+                            <Input placeholder="Enter customer Middle Name" id="Middle Name (optional)"
+                                :value="customerMiddleName" @input="event => customerMiddleName = event.target.value" />
                         </div>
 
                         <div class="space-y-8px">
@@ -129,8 +146,8 @@ export default {
                         </div>
 
                         <div class="space-y-8px">
-                            <Label label="Email" />
-                            <Input placeholder="Enter customer Email" id="Email" :value="customerEmail"
+                            <Label label="Email (optional)" />
+                            <Input placeholder="Enter customer Email" id="Email (optional)" :value="customerEmail"
                                 @input="customerEmail = $event.target.value; isvalidEmail = validateEmail()"
                                 :class="{ 'input_error': !isvalidEmail }" />
                             <ErrorMessage msg="Invalid email" v-if="!isvalidEmail" />
@@ -146,16 +163,35 @@ export default {
                             <ErrorMessage msg="Only 10 number valid" v-if="customerNumber.length > 10" />
                         </div>
 
+                        <div class="space-y-8px">
+                            <Label label="Date Of Birth (optional)" />
+                            <Input id="Date Of Birth (optional)" :value="customerDob"
+                                @input="event => customerDob = event.target.value" type="date" />
+                        </div>
+
+                        <div class="space-y-8px">
+                            <Label label="Reference (optional)" />
+                            <Input id="Reference (optional)" placeholder="Enter customer Reference"
+                                :value="customerReference" @input="event => customerReference = event.target.value"
+                                type="text" />
+                        </div>
+
                         <div class="space-y-8px col-span-2">
                             <Label label="Address" />
-                            <TextArea placeholder="Enter customer Address" id="Address" :value="customerAddress"
-                                @input="event => customerAddress = event.target.value" />
+                            <Input id="Address" placeholder="Enter customer Address" :value="customerAddress"
+                                @input="event => customerAddress = event.target.value" type="text" />
                             <ErrorMessage msg="" v-if="!customerAddress && formSubmitted" />
+                        </div>
+
+                        <div class="space-y-8px col-span-2">
+                            <Label label="Note (optional)" />
+                            <TextArea placeholder="Enter customer Note" id="Note (optional)" :value="customerNote"
+                                @input="event => customerNote = event.target.value" />
                         </div>
 
 
                         <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled"
-                            @click="addcustomer()">Add customer</button>
+                            @click="addcustomer()">Save Changes</button>
 
                     </div>
 
@@ -166,7 +202,8 @@ export default {
 
                     <div class="user_pic">
 
-                        <img :src="this.selectedImg" class="pic">
+                        <img :src="this.selectedImg" class="pic" v-if="selectedImg">
+                        <img src="../../assets/img/noimg.jpg" v-if="!selectedImg" class="pic" />
 
                         <label class="add_pic" for="customer-pic">
                             <input type="file" id="customer-pic" @change="selectedPic">

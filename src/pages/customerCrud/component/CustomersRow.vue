@@ -42,11 +42,11 @@ export default {
         </td>
         <td class="blank"></td>
         <td class="user-status">
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.cus_status === true">
+            <button class="btn-regular display-flex align-center gap-8px" v-if="items.cus_status === 1">
                 <div class="ellipse-dot bg-emerald"></div>
                 <p class="text-sm_medium color-Grey_60">Enable</p>
             </button>
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.cus_status === false">
+            <button class="btn-regular display-flex align-center gap-8px" v-if="items.cus_status === 0">
                 <div class="ellipse-dot bg-rose"></div>
                 <p class="text-sm_medium color-Grey_60">Disable</p>
             </button>
@@ -67,13 +67,13 @@ export default {
                             <p class="dropdown-link-title required"> Delete Customer </p>
                         </div>
                     </li>
-                    <li class="dropdown-item" @click="editStatus(items.cus_id)" v-if="items.cus_status === false">
+                    <li class="dropdown-item" @click="editStatus(items.cus_id)" v-if="items.cus_status === 0">
                         <div class="dropdown-link">
                             <p class="w20"></p>
                             <p class="dropdown-link-title"> Enable </p>
                         </div>
                     </li>
-                    <li class="dropdown-item" @click="editStatus(items.cus_id)" v-if="items.cus_status === true">
+                    <li class="dropdown-item" @click="editStatus(items.cus_id)" v-if="items.cus_status === 1">
                         <div class="dropdown-link">
                             <p class="w20"></p>
                             <p class="dropdown-link-title"> Disable </p>

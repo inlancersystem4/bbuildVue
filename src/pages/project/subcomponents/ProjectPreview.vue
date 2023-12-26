@@ -29,6 +29,7 @@ export default {
 
                 if (response.success === 1) {
                     this.projectPreviewList = response.data
+                    this.$emit('structurePreviewSucees')
                 }
 
             } catch (error) {
