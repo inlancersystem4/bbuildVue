@@ -74,7 +74,7 @@ export default {
 <template>
     <Layout>
 
-        <div class="display-flex align-center justify-end w-100 margin-bottom_12px gap-8px" v-if="this.currentproject">
+        <div class="display-flex align-center justify-end w-100 margin-bottom_12px gap-8px">
 
 
             <div class="dropdown">
