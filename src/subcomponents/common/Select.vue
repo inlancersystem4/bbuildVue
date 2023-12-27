@@ -23,7 +23,7 @@ export default {
             this.selectDropdownOpen = !this.selectDropdownOpen;
         },
         selectOption(option) {
-            this.selectedOption = option.role_name || option.project_name;
+            this.selectedOption = option.role_name || option.project_name || option.inv_status_name;
             this.selectedOptionVal = option;
             this.selectDropdownOpen = false;
             this.$emit('option-selected', this.selectedOptionVal);
@@ -96,6 +96,9 @@ export default {
                     </p>
                     <p v-if="option.project_name">
                         {{ option.project_name }}
+                    </p>
+                    <p v-if="option.inv_status_id">
+                        {{ option.inv_status_name }}
                     </p>
                 </li>
             </ul>

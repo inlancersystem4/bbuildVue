@@ -10,16 +10,16 @@ export default {
     <div class="btn-regular display-flex align-center gap-8px bg-white" v-for="(item, index) in items" :key="index">
 
         <div class="ellipse-dot"
-            :class="{ 'bg-emerald': item.status === 1, 'bg-rose': item.status === 2, 'bg-orange': item.status === 3, 'bg-blue': item.status === 4, 'bg-Grey_40': item.status === 5, 'bg-purple': item.status === 6 }">
+            :class="{ 'bg-emerald': item.inv_status_id === 1, 'bg-rose': item.inv_status_id === 2, 'bg-orange': item.inv_status_id === 3, 'bg-blue': item.inv_status_id === 4, 'bg-Grey_40': item.inv_status_id === 5, 'bg-purple': item.inv_status_id === 6 }">
         </div>
 
         <p class="text-sm_medium color-Grey_60 text-uppercase">
-            <span v-if="item.status === 1">unsold</span>
-            <span v-if="item.status === 2">sold</span>
-            <span v-if="item.status === 3">booked</span>
-            <span v-if="item.status === 4">freeze</span>
-            <span v-if="item.status === 5">hold</span>
-            <span v-if="item.status === 6">rent</span>
+            <span v-if="item.inv_status_id === 1">{{ item.inv_status_name }}</span>
+            <span v-if="item.inv_status_id === 2">{{ item.inv_status_name }}</span>
+            <span v-if="item.inv_status_id === 3">{{ item.inv_status_name }}</span>
+            <span v-if="item.inv_status_id === 4">{{ item.inv_status_name }}</span>
+            <span v-if="item.inv_status_id === 5">{{ item.inv_status_name }}</span>
+            <span v-if="item.inv_status_id === 6">{{ item.inv_status_name }}</span>
         </p>
 
     </div>

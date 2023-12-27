@@ -1,30 +1,34 @@
 <script>
+import { fetchWrapper } from '../../../helpers/fetch-wrapper'
 import StatusBox from '../../../subcomponents/StatusBox.vue'
+import { useAuthStore, useAlertStore } from '../../../stores'
+
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
+
 
 export default {
     components: { StatusBox },
     data() {
         return {
-            statusList: [
-                {
-                    status: 1
-                },
-                {
-                    status: 2
-                },
-                {
-                    status: 3
-                },
-                {
-                    status: 4
-                },
-                {
-                    status: 5
-                },
-                {
-                    status: 6
-                }
-            ]
+            statusList: []
+        }
+    },
+    created() {
+        this.statusData();
+    },
+    methods: {
+        async statusData() {
+            var customer_data = new FormData();
+
+            try {
+                const response = await fetchWrapper.post(`${baseUrl}/inventory-status`, customer_data);
+                this.statusList = response.data;
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+
         }
     },
 }

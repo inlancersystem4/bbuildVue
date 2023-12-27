@@ -1,14 +1,16 @@
 <script>
-import StatusBox from '../../../subcomponents/StatusBox.vue'
-
 export default {
     props: {
         items: Array
     },
-    components: { StatusBox },
     data() {
         return {
 
+        }
+    },
+    methods: {
+        selectInven(data) {
+            this.$emit('selectInventery', data)
         }
     },
 }
@@ -65,15 +67,16 @@ export default {
                 <div v-for="(inventeryitem, inventeryitemindex) in item.inventery" :key="inventeryitemindex">
 
 
-                    <div class="btn-regular display-flex align-center gap-8px bg-white">
+                    <buttton @click="selectInven(inventeryitem)"
+                        class="btn-regular display-flex align-center gap-8px bg-white">
 
                         <div class="ellipse-dot"
-                            :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 4, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 6 }">
+                            :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 6, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 4 }">
                         </div>
 
                         <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitem.inv_name }}</p>
 
-                    </div>
+                    </buttton>
 
 
                 </div>
