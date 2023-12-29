@@ -29,6 +29,7 @@ export default {
             statusNote: "",
             statusList: [],
             selectedStatus: "",
+            structureListLoader: false
         }
     },
     created() {
@@ -107,10 +108,16 @@ export default {
             var project_data = new FormData();
             project_data.append("project_id", this.currentproject);
 
+            this.structureListLoader = true
+
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/structure-preview`, project_data);
 
                 this.structureList = response.data
+
+                if (response.success === 1) {
+                    this.structureListLoader = false
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -127,6 +134,9 @@ export default {
         },
         statusSelect(data) {
             this.selectedStatus = data.inv_status_id
+            if (this.selectedStatus === 6) {
+                console.log()
+            }
         },
         async statusChnageIt() {
             var status_data = new FormData();
@@ -181,6 +191,12 @@ export default {
             </div>
 
             <div class="w-100">
+
+                <div class="w-full h-96 flex items-center justify-center" v-if="structureListLoader">
+
+                    <img src="../../assets/img/loader3.gif">
+
+                </div>
 
                 <ul class="space-y-8px" v-if="this.currentproject">
 

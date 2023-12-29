@@ -34,7 +34,22 @@ export default {
         next();
     },
     methods: {
+
+        isStringValid(inputString) {
+            const stringPattern = /^[A-Za-z\s]+$/;
+            return stringPattern.test(inputString);
+        },
+
         async addproject() {
+
+            if (!this.isStringValid(this.projectName)) {
+                this.$notify({
+                    group: "error",
+                    title: "Error",
+                    text: "Please enter a valid project name (only letters and spaces)."
+                }, 2000)
+                return;
+            }
 
             var project_data = new FormData();
             if (this.projectId === '0') {

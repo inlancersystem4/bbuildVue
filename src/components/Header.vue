@@ -21,7 +21,7 @@ export default {
     },
     mounted() {
         document.body.addEventListener('click', this.handleClickOutside);
-        this.profilePic = localStorage.getItem('profilePic');
+        this.profilePic = localStorage.getItem('user_details.user_profile_pic');
     },
     methods: {
         goToPreviousPage() {
@@ -64,7 +64,9 @@ export default {
         <div class="header-btn-group">
             <div class="user-avtar" @click="toggleDropdown()" ref="dropdownContainer">
                 <div class="avtar">
-                    <img :src="this.profilePic">
+                    <img :src="this.profilePic" v-if="this.profilePic">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+                        v-if="!this.profilePic">
                 </div>
                 <ul class="user-personal-option" v-show="personal_optionDrop">
                     <li>

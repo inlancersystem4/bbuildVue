@@ -18,43 +18,44 @@ export const useAuthStore = defineStore({
             var form_data = new FormData();
             form_data.append('user_mobile', number);
             form_data.append('user_otp', otp);
+
             try {
                 const user = await fetchWrapper.post(`${baseUrl}/login`, form_data);
 
-                var new_user = {
-                    token: user.data.session_token
-                }
-
-                this.user = new_user;
-
-                localStorage.setItem('user', JSON.stringify(new_user));
-
-                // const alertStore = useAlertStore();
-                // alertStore.success('Login successfully !!');
 
                 if (user.success === 1) {
-                    notify({
-                        group: "foo",
-                        title: "Success",
-                        text: "Welcome"
-                    }, 2000)
-                }
-                else {
-                    notify({
-                        group: "error",
-                        title: "Error",
-                        text: user.message
-                    }, 2000)
+
+                    var new_user = {
+                        token: user.data.session_token
+                    }
+
+                    this.user = new_user;
+
+                    const user_data = user.data.user_details
+
+                    const alertStore = useAlertStore()
+                    alertStore.success("Welcome")
+
+                    localStorage.setItem('user', JSON.stringify(new_user));
+                    localStorage.setItem('user_details', JSON.stringify(user_data));
+
+                    const projectId = 0
+
+                    if (user.data.project_complete === 0) {
+                        router.push({ name: 'Project', params: { projectId } });
+                    }
+
+                    else {
+                        router.push(this.returnUrl || { name: 'home' });
+                    }
+
                 }
 
-                const projectId = 0
-
-                if (user.data.project_complete === 0) {
-                    router.push({ name: 'Project', params: { projectId } });
-                }
                 else {
-                    router.push(this.returnUrl || { name: 'home' });
+                    const alertStore = useAlertStore()
+                    alertStore.error(user.message)
                 }
+
 
             } catch (error) {
                 const alertStore = useAlertStore();

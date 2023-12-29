@@ -1,7 +1,7 @@
 <script  >
 import { Field, Form } from "vee-validate";
 import axios from 'axios';
-import { useAuthStore } from "../stores";
+import { useAuthStore, useAlertStore } from "../stores";
 
 import OverLaye from '../subcomponents/common/OverLaye.vue';
 import ErrorMessage from '../subcomponents/common/ErrorMessage.vue';
@@ -16,7 +16,6 @@ export default {
         Field,
         Form,
         ErrorMessage,
-        useAuthStore,
     },
     data() {
         return {
@@ -40,9 +39,9 @@ export default {
         loginBtn() {
             return this.number.trim().length !== 10
         },
-        // otpBtn() {
-        //     return this.otp.trim().length !== 5
-        // },
+        otpBtn() {
+            return this.otp.trim().length !== 5
+        },
         maskedNumber() {
             if (this.number.length < 8) return this.number;
             const visibleDigits = 4;
@@ -68,6 +67,7 @@ export default {
         },
 
         checkUser() {
+
             const User = localStorage.getItem('userToken')
 
             if (User) {
@@ -95,14 +95,10 @@ export default {
                     this.getotp = false
 
                     this.fromSubmited = false
+                    this.otp = String(loginUser.data.data)
 
-                    this.otp = loginUser.data.data
-
-                    this.$notify({
-                        group: "foo",
-                        title: "Success",
-                        text: "OTP send successfully"
-                    }, 2000)
+                    const alertStore = useAlertStore()
+                    alertStore.success("OTP send successfully")
 
                     this.remainingTime = 30;
                     setTimeout(() => {
@@ -111,24 +107,22 @@ export default {
                     this.updateTimer();
 
                 }
+
                 else {
 
-                    this.errorMesgShow = false
+                    this.errorMesgShow = true
                     this.errorMsg = loginUser.data.message
                     this.sendotp = false
                     this.getotp = true
                     this.number = "",
 
-                        this.$notify({
-                            group: "error",
-                            title: "Error",
-                            text: loginUser.data.message
-                        }, 2000)
+                        useAlertStore().error(loginUser.data.message)
                 }
 
 
             } catch (error) {
-                console.log(error);
+                const alertStore = useAlertStore()
+                alertStore.error(error)
             }
 
         },
@@ -174,8 +168,7 @@ export default {
                             @input="event => number = event.target.value" :value="number" />
                         <ErrorMessage msg="Plz Enter Valid number"
                             v-if="this.number.trim().length !== 10 && this.number.trim()" />
-                        <ErrorMessage msg="number Is reqired" v-if="!this.number && fromSubmited" />
-                        <ErrorMessage :msg="errorMsg" v-if="errorMesgShow" />
+                        <ErrorMessage :msg="this.errorMsg" v-if="this.errorMesgShow" />
                     </div>
 
 

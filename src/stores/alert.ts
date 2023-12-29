@@ -8,8 +8,12 @@ export const useAlertStore = defineStore({
     }),
     actions: {
         success(message) {
-            alert(message);
             this.alert = { message, type: 'alert-success' };
+            notify({
+                group: "foo",
+                title: "Success",
+                text: message
+            }, 2000)
         },
         error(message) {
             this.alert = { message, type: 'alert-danger' };
