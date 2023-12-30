@@ -64,6 +64,9 @@ export default {
                 this.companyAddress = response.data.company_address
                 this.companyPhoneNo = response.data.company_phone_no
 
+                localStorage.setItem('user_details', JSON.stringify(response.data));
+
+
             } catch (error) {
                 const alertStore = useAlertStore()
                 alertStore.error(error)

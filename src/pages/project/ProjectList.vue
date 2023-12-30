@@ -141,9 +141,9 @@ export default {
                     <img src="../../assets/img/no-data.png">
                 </div>
 
-                <table class="w-100 user-table" v-if="list">
+                <table class="w-100 user-table" v-if="list || list.length > 0">
                     <tbody>
-                        <tr v-for="(items, index) in list" :key="index">
+                        <tr>
                             <td class="count">
                                 <p class="text-sm_regular color-Grey_50">No.</p>
                             </td>

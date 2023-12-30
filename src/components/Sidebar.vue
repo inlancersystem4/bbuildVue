@@ -17,9 +17,6 @@ export default {
         iscustomerCrudActive() {
             return this.$route.matched.some(route => route.path === '/customerlist' || route.name === 'EditCustomer' || route.path === '/add-customer');
         },
-        isASettingCrudActive() {
-            return this.$route.matched.some(route => route.path === '/settings');
-        },
         isInventoryCrudActive() {
             return this.$route.matched.some(route => route.name === 'InventeryList');
         }

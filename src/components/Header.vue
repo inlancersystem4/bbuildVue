@@ -21,7 +21,11 @@ export default {
     },
     mounted() {
         document.body.addEventListener('click', this.handleClickOutside);
-        this.profilePic = localStorage.getItem('user_details.user_profile_pic');
+        const userDetails = localStorage.getItem('user_details');
+        if (userDetails) {
+            const userDetailsObj = JSON.parse(userDetails);
+            this.profilePic = userDetailsObj.user_profile_pic;
+        }
     },
     methods: {
         goToPreviousPage() {
@@ -58,7 +62,6 @@ export default {
                 <img src="../assets/img/icons/arrow-right.svg" class="img-not-selected">
             </button>
         </div>
-
 
 
         <div class="header-btn-group">
