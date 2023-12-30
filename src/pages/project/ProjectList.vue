@@ -137,10 +137,6 @@ export default {
 
             <template v-slot:main-table>
 
-                <div v-if="!list || list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
-                    <img src="../../assets/img/no-data.png">
-                </div>
-
                 <table class="w-100 user-table" v-if="list || list.length > 0">
                     <tbody>
                         <tr>
@@ -166,6 +162,10 @@ export default {
 
                     </tbody>
                 </table>
+
+                <div v-if="!list || list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
+                    <img src="../../assets/img/no-data.png">
+                </div>
 
             </template>
 

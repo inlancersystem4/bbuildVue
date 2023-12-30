@@ -42,6 +42,10 @@ export default {
         },
         logout() {
             const aa = useAuthStore();
+
+            localStorage.removeItem('currentprojectId');
+            localStorage.removeItem('currentprojectName');
+
             aa.logout();
         },
         responsiveMenu() {

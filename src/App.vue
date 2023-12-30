@@ -2,7 +2,7 @@
 import { RouterView } from 'vue-router'
 </script> 
 
-<template> 
+<template>
   <NotificationGroup group="foo">
     <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none">
       <div class="w-full max-w-sm">
@@ -25,7 +25,7 @@ import { RouterView } from 'vue-router'
                 <p class="text-sm text-gray-600">{{ notification.text }}</p>
               </div>
             </div>
- 
+
           </div>
         </Notification>
       </div>
@@ -58,9 +58,9 @@ import { RouterView } from 'vue-router'
           </div>
         </Notification>
       </div>
-    </div> 
+    </div>
   </NotificationGroup>
 
-  <RouterView /> 
+  <RouterView />
 </template>
 

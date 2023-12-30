@@ -32,6 +32,7 @@ export default {
             structureListLoader: false,
             searchProject: "",
             structureListerror: "",
+            notneedcustomer: false
         }
     },
     created() {
@@ -59,16 +60,21 @@ export default {
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/project-list`, project_data);
 
-                this.projectarray = response.data;
 
-                const currentprojectId = localStorage.getItem('currentprojectId');
-                const currentprojectName = localStorage.getItem('currentprojectName');
+                if (Array.isArray(response.data) && response.data.length > 0) {
+                    this.projectarray = response.data;
 
-                if (!currentprojectId && !currentprojectName && this.projectarray.length > 0) {
-                    const firstProject = this.projectarray[0];
-                    localStorage.setItem('currentprojectId', firstProject.project_id);
-                    localStorage.setItem('currentprojectName', firstProject.project_name);
-                    this.project();
+                    const currentprojectId = localStorage.getItem('currentprojectId');
+                    const currentprojectName = localStorage.getItem('currentprojectName');
+
+                    if (!currentprojectId && !currentprojectName) {
+                        const firstProject = this.projectarray[0];
+                        if (firstProject) {
+                            localStorage.setItem('currentprojectId', firstProject.project_id);
+                            localStorage.setItem('currentprojectName', firstProject.project_name);
+                            this.project();
+                        }
+                    }
                 }
 
             } catch (error) {
@@ -157,7 +163,11 @@ export default {
         statusSelect(data) {
             this.selectedStatus = data.inv_status_id
             if (this.selectedStatus == 6 || this.selectedStatus == 2 || this.selectedStatus == 1) {
+                this.notneedcustomer = true
                 this.customerId = ""
+            }
+            else {
+                this.notneedcustomer = false
             }
         },
         async statusChnageIt() {
@@ -225,7 +235,7 @@ export default {
 
 
                     <div class="h-40 w-full text-center flex items-center justify-center"
-                        v-if="!this.structureList || this.structureList > 0">
+                        v-if="!this.structureList || this.structureList > 0 || this.structureList.length === 0">
 
                         <p>{{ structureListerror }}</p>
 
@@ -246,9 +256,9 @@ export default {
             </template>
 
             <template v-slot:customer>
-                <h6 class="text-lg">This status not need customer</h6>
+                <h6 class="text-base color-Grey_50" v-if="notneedcustomer">This status not need customer</h6>
                 <SelectCustomer :list="customerList" @input="searchTextFun" placeholder="Enter Customer" :value="searchText"
-                    @selectitem="selectoption" />
+                    @selectitem="selectoption" v-if="!notneedcustomer" />
             </template>
 
             <template v-slot:note>

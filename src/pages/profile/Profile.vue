@@ -159,7 +159,7 @@ export default {
                     <div class="space-y-8px">
                         <Label label="Phone no." />
                         <Input placeholder="Enter Phone no." id="Phone no." :value="profileNo" type="number"
-                            @input="event => profileNo = event.target.value" />
+                            @input="event => profileNo = event.target.value" disabled />
                         <ErrorMessage msg="" v-if="!profileNo && formSubmitted" />
                         <ErrorMessage msg="Only 10 number valid" v-if="profileNo.length > 10" />
                     </div>

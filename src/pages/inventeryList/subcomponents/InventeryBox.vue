@@ -152,10 +152,6 @@ export default {
                                         <h6 class="color-Grey_90 text-base_semibold"> {{ structure.str_name }}
                                         </h6>
                                     </div>
-                                    <!-- <p class="color-Grey_50 text-small_regular text-capitalize">str number <b>
-                                        {{ inventeryitem.str_number }} </b> , str parent id
-                                    <b> {{ inventeryitem.str_parent_id }} </b>
-                                </p> -->
                                 </div>
                             </div>
 
@@ -232,6 +228,67 @@ export default {
                         </div>
 
                     </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </li>
+
+    <!-- <li v-for="(item, index) in items" :key="index" class="space-y-16px">
+
+        {{ item.str_name }}
+
+
+        <div v-for="(projectStructure, projectStructureIndex) in item.structure" :key="projectStructureIndex">
+
+            <div class="flex items-center w-full flex-wrap">
+
+                {{ projectStructure.str_name }}
+
+                <div v-for="(structure, structureindex) in projectStructure.structure" :key="structureindex"
+                    class="w-full flex items-center gap-4 flex-col">
+
+                    {{ structure.str_name }}
+
+                    <div class="flex items-center">
+
+                        <div class="" v-for="(structureInventery, structureInventeryindex) in structure.inventery"
+                            :key="structureInventeryindex">
+
+                            {{ structureInventery.inv_name }}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </li> -->
+
+
+    <li v-for="(item, index) in items" :key="index" class="flex gap-6 flex-wrap  w-full">
+
+        {{ item.str_name }}
+
+        <div v-for="(projectStructure, projectStructureIndex) in item.structure" :key="projectStructureIndex"
+            class="flex items-center flex-col">
+
+            <p> {{ projectStructure.str_name }} </p>
+
+            <div class="flex gap-2">
+
+                <div v-for="(structure, structureindex) in projectStructure.structure" :key="structureindex" class="">
+
+                    {{ structure.str_name }}
 
                 </div>
 
