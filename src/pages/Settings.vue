@@ -7,24 +7,24 @@ export default {
     data() {
         return {
             options: [
-                {
-                    title: "User",
-                    sub_title: "Manage your user details",
-                    icon: "/src/assets/img/icons/users.svg",
-                    link: "/userlist"
-                },
-                {
-                    title: "Projects",
-                    sub_title: "Manage your Projects details",
-                    icon: "/src/assets/img/icons/taxes.svg",
-                    link: "/project/0"
-                },
-                {
-                    title: "Customers",
-                    sub_title: "Manage your Customers details",
-                    icon: "/src/assets/img/icons/users.svg",
-                    link: "/customerlist"
-                },
+                // {
+                //     title: "User",
+                //     sub_title: "Manage your user details",
+                //     icon: "/src/assets/img/icons/users.svg",
+                //     link: "/userlist"
+                // },
+                // {
+                //     title: "Projects",
+                //     sub_title: "Manage your Projects details",
+                //     icon: "/src/assets/img/icons/taxes.svg",
+                //     link: "/project/0"
+                // },
+                // {
+                //     title: "Customers",
+                //     sub_title: "Manage your Customers details",
+                //     icon: "/src/assets/img/icons/users.svg",
+                //     link: "/customerlist"
+                // },
                 {
                     title: "inventery list",
                     sub_title: "Manage your inventery list details",

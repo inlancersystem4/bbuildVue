@@ -6,7 +6,7 @@ export default {
             return this.$route.matched.some(route => route.path === '/');
         },
         isprojectCrudActive() {
-            return this.$route.matched.some(route => route.name === 'Project');
+            return this.$route.matched.some(route => route.path === '/project-list' || route.name === 'Project');
         },
         // isUserCrudActive() {
         //     return this.$route.matched.some(route => route.path === '/userlist' || route.path === '/add-user' || route.name === 'EditUser' || route.path === '/roles' || route.path === '/add-role' || route.name === 'EditRole');
@@ -14,6 +14,9 @@ export default {
         // isRoleCrudActive() {
         //     return this.$route.matched.some(route => route.path === '/roles' || route.path === '/add-role' || route.name === 'EditRole');
         // }
+        iscustomerCrudActive() {
+            return this.$route.matched.some(route => route.path === '/customerlist' || route.name === 'EditCustomer' || route.path === '/add-customer');
+        },
         isASettingCrudActive() {
             return this.$route.matched.some(route => route.path === '/settings');
         }
@@ -109,7 +112,33 @@ export default {
                     </li>
 
                     <li class="list-items">
-                        <router-link to="/project/0" class="list-link" :class="{ link_active: isprojectCrudActive }">
+                        <router-link to="/customerlist" class="list-link" :class="{ link_active: iscustomerCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path
+                                        d="M8.25 15C10.9424 15 13.125 12.8174 13.125 10.125C13.125 7.43261 10.9424 5.25 8.25 5.25C5.55761 5.25 3.375 7.43261 3.375 10.125C3.375 12.8174 5.55761 15 8.25 15Z"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-miterlimit="10" />
+                                    <path
+                                        d="M14.5684 5.42813C14.9993 5.31124 15.4437 5.25136 15.8902 5.25C17.1832 5.25 18.4231 5.76361 19.3374 6.67785C20.2516 7.59209 20.7652 8.83207 20.7652 10.125C20.7652 11.4179 20.2516 12.6579 19.3374 13.5721C18.4231 14.4864 17.1832 15 15.8902 15"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M1.5 18.5066C2.2612 17.4234 3.27191 16.5393 4.44676 15.9289C5.6216 15.3186 6.92608 15 8.25 15C9.57392 15 10.8784 15.3186 12.0532 15.9289C13.2281 16.5393 14.2388 17.4234 15 18.5066"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M15.8906 15C17.2147 14.9992 18.5194 15.3174 19.6944 15.9277C20.8693 16.5381 21.8799 17.4225 22.6406 18.5063"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <p class="link-title">Customer</p>
+                            </div>
+                        </router-link>
+                    </li>
+
+                    <li class="list-items">
+                        <router-link to="/project-list" class="list-link" :class="{ link_active: isprojectCrudActive }">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
@@ -210,7 +239,32 @@ export default {
                     </li>
 
                     <li class="list-items">
-                        <router-link to="/project/0" class="list-link" :class="{ link_active: isprojectCrudActive }">
+                        <router-link to="/customerlist" class="list-link" :class="{ link_active: iscustomerCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path
+                                        d="M8.25 15C10.9424 15 13.125 12.8174 13.125 10.125C13.125 7.43261 10.9424 5.25 8.25 5.25C5.55761 5.25 3.375 7.43261 3.375 10.125C3.375 12.8174 5.55761 15 8.25 15Z"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-miterlimit="10" />
+                                    <path
+                                        d="M14.5684 5.42813C14.9993 5.31124 15.4437 5.25136 15.8902 5.25C17.1832 5.25 18.4231 5.76361 19.3374 6.67785C20.2516 7.59209 20.7652 8.83207 20.7652 10.125C20.7652 11.4179 20.2516 12.6579 19.3374 13.5721C18.4231 14.4864 17.1832 15 15.8902 15"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M1.5 18.5066C2.2612 17.4234 3.27191 16.5393 4.44676 15.9289C5.6216 15.3186 6.92608 15 8.25 15C9.57392 15 10.8784 15.3186 12.0532 15.9289C13.2281 16.5393 14.2388 17.4234 15 18.5066"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M15.8906 15C17.2147 14.9992 18.5194 15.3174 19.6944 15.9277C20.8693 16.5381 21.8799 17.4225 22.6406 18.5063"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </router-link>
+                    </li>
+
+                    <li class="list-items">
+                        <router-link to="/project-list" class="list-link" :class="{ link_active: isprojectCrudActive }">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">

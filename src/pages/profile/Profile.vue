@@ -31,7 +31,14 @@ export default {
     },
     computed: {
         profileBtnDis() {
-            return !this.profileFirstName.trim() || !this.profileLastName.trim() || !this.profileEmail.trim() || this.profileNo.trim().length !== 10 || !this.isvalidEmail
+            return !this.profileFirstName || !this.profileFirstName.trim() ||
+                !this.profileLastName || !this.profileLastName.trim() ||
+                !this.profileEmail || !this.profileEmail.trim() ||
+                !this.profileNo || this.profileNo.trim().length !== 10 ||
+                !this.isvalidEmail ||
+                !this.companyPhoneNo || this.companyPhoneNo.trim().length !== 10 ||
+                !this.companyName || !this.companyName.trim() ||
+                !this.companyAddress || !this.companyAddress.trim()
         },
     },
     created() {
@@ -75,12 +82,15 @@ export default {
 
         },
         async profileDataUpdate() {
+
+            this.formSubmitted = true
+
             var profile = new FormData();
-            profile.append("user_name", this.profileFirstName)
-            profile.append("user_lname", this.profileLastName)
+            profile.append("user_first_name", this.profileFirstName)
+            profile.append("user_last_name", this.profileLastName)
             profile.append("user_email", this.profileEmail)
             profile.append("user_profile", this.profilePic)
-            profile.append("user_phone_number", this.profileNo)
+            profile.append("mobile_no", this.profileNo)
             profile.append("company_name", this.companyName)
             profile.append("company_address", this.companyAddress)
             profile.append("company_phone_no", this.companyPhoneNo)
@@ -107,7 +117,7 @@ export default {
 
         <ContentSection2 title="profile">
 
-            <from class="flex items-start w-full flex-wrap" @submit.prevent="profileDataUpdate()">
+            <from class="flex items-start w-full flex-wrap">
 
                 <div class="address-form w-3/4">
 
@@ -154,7 +164,9 @@ export default {
                         <Input placeholder="Enter Company phone no." id="Company phone no." :value="companyPhoneNo"
                             @input="event => companyPhoneNo = event.target.value" type="number" />
                         <ErrorMessage msg="" v-if="!companyPhoneNo && formSubmitted" />
+                        <ErrorMessage msg="Only 10 numbers valid" v-if="companyPhoneNo && companyPhoneNo.length > 10" />
                     </div>
+
 
                     <div class="space-y-8px col-span-2">
                         <Label label="Company Address" />
@@ -167,14 +179,13 @@ export default {
 
                 <div class="w-1/4">
                     <div class="edit_profile_pic">
-
                         <img :src="this.selectedImg" v-if="this.selectedImg" />
-                        <img :src="this.profilepic" v-if="!this.selectedImg" />
-                        <img src="../../assets/img/noimg.jpg" v-if="this.selectedImg" />
+                        <img :src="this.profilePic" v-if="this.profilePic" />
+                        <img src="../../assets/img/noimg.jpg" v-if="!this.selectedImg && !this.profilePic" />
 
                         <div class="upload_pic">
                             <img src="../../assets/img/icons/plus.svg" />
-                            <input type="file" />
+                            <input type="file" @change="selectedPic" />
                         </div>
 
                     </div>
@@ -182,7 +193,8 @@ export default {
 
                 <div class="w-full mt-4">
 
-                    <button class="btn-regular" type="submit">Save Profile</button>
+                    <button class="btn-regular" type="submit" @click="profileDataUpdate" :disabled="profileBtnDis">Save
+                        Profile</button>
 
                 </div>
 

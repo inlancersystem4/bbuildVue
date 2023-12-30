@@ -134,8 +134,8 @@ export default {
         },
         statusSelect(data) {
             this.selectedStatus = data.inv_status_id
-            if (this.selectedStatus === 6) {
-                console.log()
+            if (this.selectedStatus == 6 || this.selectedStatus == 2 || this.selectedStatus == 1) {
+                this.customerId = ""
             }
         },
         async statusChnageIt() {

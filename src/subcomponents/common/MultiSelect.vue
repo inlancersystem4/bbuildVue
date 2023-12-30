@@ -56,8 +56,6 @@ export default {
             this.selectDropdownOpen = false;
             // this.$emit('option-selected', this.selectedOptions, data);
             this.$emit('selected-option_Del', data, id);
-            // console.log("data", data)
-            // console.log("selectedOptions", this.selectedOptions)
         },
         isSelected(option) {
 

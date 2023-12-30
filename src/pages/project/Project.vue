@@ -66,10 +66,8 @@ export default {
         projectData(data) {
 
             this.structureParentLevel = data.level
-            console.log("This is Level", data.level)
 
             this.projectLimit = data.project_no_of_level
-            console.log("This is project Limit", data.project_no_of_level)
 
             if (data.is_complete === 1) {
 
@@ -91,7 +89,6 @@ export default {
         structureCompelte(data) {
 
             this.projects = data.data.structure.length
-            console.log("This is project list", data.data.structure.length)
 
             if (data.data.is_complete === 1) {
 
@@ -111,7 +108,6 @@ export default {
         projectAdd(data) {
 
             this.projectLimit = data
-            console.log("this is project limit", data)
 
             const step1 = this.setps.find(step => step.id === 1);
             const step2 = this.setps.find(step => step.id === 2);

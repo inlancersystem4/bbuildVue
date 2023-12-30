@@ -34,7 +34,7 @@ export const useAuthStore = defineStore({
                     const user_data = user.data.user_details
 
                     const alertStore = useAlertStore()
-                    alertStore.success("Welcome")
+                    alertStore.success(user.message)
 
                     localStorage.setItem('user', JSON.stringify(new_user));
                     localStorage.setItem('user_details', JSON.stringify(user_data));

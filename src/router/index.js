@@ -61,6 +61,11 @@ const router = createRouter({
       component: () => import('../pages/profile/Profile.vue')
     },
     {
+      path: '/project-list',
+      name: 'ProjectList',
+      component: () => import('../pages/project/ProjectList.vue')
+    },
+    {
       path: '/project/:projectId',
       name: 'Project',
       component: () => import('../pages/project/Project.vue')

@@ -98,7 +98,7 @@ export default {
                     this.otp = String(loginUser.data.data)
 
                     const alertStore = useAlertStore()
-                    alertStore.success("OTP send successfully")
+                    alertStore.success(loginUser.data.message)
 
                     this.remainingTime = 30;
                     setTimeout(() => {
