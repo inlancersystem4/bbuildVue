@@ -29,7 +29,7 @@ export default {
                     title: "inventery list",
                     sub_title: "Manage your inventery list details",
                     icon: "/src/assets/img/icons/users.svg",
-                    link: "/inventery-list"
+                    link: "/inventory-list"
                 },
             ]
         }

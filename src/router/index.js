@@ -66,7 +66,7 @@ const router = createRouter({
       component: () => import('../pages/project/Project.vue')
     },
     {
-      path: '/inventery-list',
+      path: '/inventory-list',
       name: 'InventeryList',
       component: () => import('../pages/inventeryList/List.vue')
     },
