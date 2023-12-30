@@ -27,6 +27,9 @@ export default {
             companyName: "",
             companyPhoneNo: "",
             companyAddress: "",
+            profilesaveLoader: false,
+            profilenotsaved: true,
+            profilesaved: false,
         }
     },
     computed: {
@@ -66,7 +69,6 @@ export default {
 
                 localStorage.setItem('user_details', JSON.stringify(response.data));
 
-
             } catch (error) {
                 const alertStore = useAlertStore()
                 alertStore.error(error)
@@ -87,12 +89,16 @@ export default {
         async profileDataUpdate() {
 
             this.formSubmitted = true
+            this.profilesaveLoader = true
 
             var profile = new FormData();
             profile.append("user_first_name", this.profileFirstName)
             profile.append("user_last_name", this.profileLastName)
             profile.append("user_email", this.profileEmail)
-            profile.append("user_profile", this.profilePic)
+            if (this.selectedImg) {
+                profile.append("user_profile", this.profilePic)
+            }
+            profile.append("user_profile", "")
             profile.append("mobile_no", this.profileNo)
             profile.append("company_name", this.companyName)
             profile.append("company_address", this.companyAddress)
@@ -103,6 +109,9 @@ export default {
 
                 if (data.success === 1) {
                     this.getprofileData();
+                    this.profilesaveLoader = false
+                    this.profilenotsaved = false
+                    this.profilesaved = true
                 }
 
             } catch (error) {
@@ -196,8 +205,16 @@ export default {
 
                 <div class="w-full mt-4">
 
-                    <button class="btn-regular" type="submit" @click="profileDataUpdate" :disabled="profileBtnDis">Save
-                        Profile</button>
+                    <button class="btn-regular" :class="{ 'is-loading': profilesaveLoader }" type="submit"
+                        @click="profileDataUpdate" :disabled="profileBtnDis">
+                        <span v-if="profilenotsaved"> Save Profile </span>
+                        <span v-if="profilesaved" class="flex items-center gap-1"> Saved <svg
+                                xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M20.25 6.75L9.75 17.25L4.5 12" class=" stroke-green-500" stroke-width="1.5"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </span>
+                    </button>
 
                 </div>
 

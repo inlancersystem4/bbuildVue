@@ -53,7 +53,7 @@ export default {
         overLayeClick() {
             this.responsiveSidebarActive = false
             this.overLaye = false
-        }
+        },
     },
 }
 </script>

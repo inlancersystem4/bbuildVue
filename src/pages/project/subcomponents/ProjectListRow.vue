@@ -39,13 +39,13 @@ export default {
                     <li class="dropdown-item" @click="editItem(items.project_id)">
                         <div class="dropdown-link">
                             <img src="../../../assets/img/icons/edit.svg">
-                            <p class="dropdown-link-title"> Edit Customer </p>
+                            <p class="dropdown-link-title"> Edit Project </p>
                         </div>
                     </li>
                     <li class="dropdown-item" @click="deleteItem(items.project_id)">
                         <div class="dropdown-link">
                             <img src="../../../assets/img/icons/trash.svg">
-                            <p class="dropdown-link-title required"> Delete Customer </p>
+                            <p class="dropdown-link-title required"> Delete Project </p>
                         </div>
                     </li>
                 </ul>

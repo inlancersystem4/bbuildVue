@@ -29,7 +29,9 @@ export default {
             statusNote: "",
             statusList: [],
             selectedStatus: "",
-            structureListLoader: false
+            structureListLoader: false,
+            searchProject: "",
+            structureListerror: "",
         }
     },
     created() {
@@ -44,14 +46,30 @@ export default {
         }
     },
     methods: {
+        searchProjectFun(event) {
+            this.searchProject = event.target.value.trim();
+            this.projectData();
+        },
         async projectData() {
             var project_data = new FormData();
-            project_data.append("project_id", "");
+            project_data.append("sort", "asc");
+            project_data.append("search", this.searchProject);
+            project_data.append("page_no", "1");
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/project-list`, project_data);
 
                 this.projectarray = response.data;
+
+                const currentprojectId = localStorage.getItem('currentprojectId');
+                const currentprojectName = localStorage.getItem('currentprojectName');
+
+                if (!currentprojectId && !currentprojectName && this.projectarray.length > 0) {
+                    const firstProject = this.projectarray[0];
+                    localStorage.setItem('currentprojectId', firstProject.project_id);
+                    localStorage.setItem('currentprojectName', firstProject.project_name);
+                    this.project();
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -118,6 +136,10 @@ export default {
                 if (response.success === 1) {
                     this.structureListLoader = false
                 }
+                else {
+                    this.structureListLoader = false
+                    this.structureListerror = response.message
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -174,7 +196,8 @@ export default {
 
             <div class="dropdown">
 
-                <Select :options="projectarray" @option-selected="onOptionSelected" />
+                <Select :options="projectarray" @option-selected="onOptionSelected" :value="searchProject"
+                    @input="searchProjectFun" />
 
             </div>
 
@@ -200,6 +223,14 @@ export default {
 
                 <ul class="space-y-8px" v-if="this.currentproject">
 
+
+                    <div class="h-40 w-full text-center flex items-center justify-center"
+                        v-if="!this.structureList || this.structureList > 0">
+
+                        <p>{{ structureListerror }}</p>
+
+                    </div>
+
                     <InventeryBox :items="structureList" @selectInventery="selectedInventery" />
 
                 </ul>
@@ -210,13 +241,14 @@ export default {
 
         <StatusChnage v-if="chnageStatus" @closeModal="this.chnageStatus = !this.chnageStatus">
 
-            <template v-slot:customer>
-                <SelectCustomer :list="customerList" @input="searchTextFun" placeholder="Enter Customer" :value="searchText"
-                    @selectitem="selectoption" />
-            </template>
-
             <template v-slot:status>
                 <Select :options="statusList" @option-selected="statusSelect" />
+            </template>
+
+            <template v-slot:customer>
+                <h6 class="text-lg">This status not need customer</h6>
+                <SelectCustomer :list="customerList" @input="searchTextFun" placeholder="Enter Customer" :value="searchText"
+                    @selectitem="selectoption" />
             </template>
 
             <template v-slot:note>

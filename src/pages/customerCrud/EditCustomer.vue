@@ -74,6 +74,7 @@ export default {
                 this.customerDob = response.data.cus_dob
                 this.customerNote = response.data.cus_notes
                 this.customerReference = response.data.cus_ref
+                this.profilePic = response.data.cus_profile
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -91,7 +92,10 @@ export default {
             customer_data.append("cus_last_name", this.customerLastName);
             customer_data.append("cus_email", this.customerEmail);
             customer_data.append("cus_phone_no", this.customerNumber);
-            customer_data.append("cus_profile", this.profilePic);
+            if (this.selectedImg) {
+                customer_data.append("cus_profile", this.profilePic);
+            }
+            customer_data.append("cus_profile", "");
             customer_data.append("cus_address", this.customerAddress);
             customer_data.append("cus_middle_name", this.customerMiddleName);
             customer_data.append("cus_dob", this.customerDob);
@@ -202,8 +206,9 @@ export default {
 
                     <div class="user_pic">
 
-                        <img :src="this.selectedImg" class="pic" v-if="selectedImg">
-                        <img src="../../assets/img/noimg.jpg" v-if="!selectedImg" class="pic" />
+                        <img :src="this.selectedImg" v-if="this.selectedImg" class="pic" />
+                        <img :src="this.profilePic" v-if="this.profilePic" class="pic" />
+                        <img src="../../assets/img/noimg.jpg" v-if="!this.selectedImg && !this.profilePic" class="pic" />
 
                         <label class="add_pic" for="customer-pic">
                             <input type="file" id="customer-pic" @change="selectedPic">
@@ -269,6 +274,8 @@ export default {
     margin-right: 22px;
     position: relative;
 }
+
+
 
 .pic {
     position: absolute;

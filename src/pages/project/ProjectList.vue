@@ -126,12 +126,12 @@ export default {
 
                     <SearchBox placeholder="Search Account" :value="searchText" @input="searchTextFun" />
 
-                    <button class="btn-regular display-flex align-center  gap-8px text-no-wrap" @click="addProjectFun()">
+                    <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap"
+                        @click="addProjectFun()">
                         <img src="../../assets/img/icons/plus-3.svg">
                         Add New Project</button>
 
                 </div>
-
 
             </template>
 

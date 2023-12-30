@@ -239,7 +239,7 @@
 
 .main-table {
     width: 100%;
-    overflow-x: auto;
+    overflow: visible;
 }
 
 .main-table tr {

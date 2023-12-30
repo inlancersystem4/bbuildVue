@@ -1,7 +1,7 @@
 <script>
 export default {
     methods: {
-        closeModal(){
+        closeModal() {
             this.$emit('closeModal')
         }
     },
@@ -24,18 +24,6 @@ export default {
 
             </div>
 
-            <div class="flex items-stretch">
-
-                <div class="padding-y_8px padding-x_16px w-1/3 border-r border-solid border-Grey_20">
-                    <p class="color-Grey_90 text-base_semibold capitalize">Select Customer</p>
-                </div>
-
-                <div class="padding-y_8px padding-x_16px  w-2/3 relative">
-                    <slot name="customer"></slot>
-
-                </div>
-
-            </div>
 
             <div class="flex items-stretch">
 
@@ -45,6 +33,19 @@ export default {
 
                 <div class="padding-y_8px padding-x_16px  w-2/3 relative">
                     <slot name="status"></slot>
+
+                </div>
+
+            </div>
+
+            <div class="flex items-stretch">
+
+                <div class="padding-y_8px padding-x_16px w-1/3 border-r border-solid border-Grey_20">
+                    <p class="color-Grey_90 text-base_semibold capitalize">Select Customer</p>
+                </div>
+
+                <div class="padding-y_8px padding-x_16px  w-2/3 relative">
+                    <slot name="customer"></slot>
 
                 </div>
 

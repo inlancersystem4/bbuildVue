@@ -8,6 +8,7 @@ export default {
             required: true,
         },
         responseData: Object,
+        value: String
     },
 
     data() {
@@ -16,6 +17,12 @@ export default {
             selectedOption: null,
             selectedOptionVal: null,
             responseOption: "",
+            inputValue: this.value || ''
+        }
+    },
+    watch: {
+        value(newValue) {
+            this.inputValue = newValue;
         }
     },
     methods: {
@@ -32,6 +39,9 @@ export default {
             this.selectedOption = null;
             this.selectDropdownOpen = false;
         },
+        clearInput() {
+            this.inputValue = ""
+        }
     },
 }
 
@@ -83,6 +93,18 @@ export default {
         </div>
 
         <div v-if="selectDropdownOpen" class="select-option">
+
+            <div class="padding-x_24px padding-y_12px">
+                <div class="search-wrraper w-100">
+                    <button class="icon">
+                        <img src="../../assets/img/icons/search.svg" class="img-not-selected">
+                    </button>
+                    <input type="text" class=" w-100" placeholder="Search Something" v-model="inputValue">
+                    <button class="icon val_clear" style="cursor: pointer;" v-if="inputValue" @click="clearInput">
+                        <img src="../../assets/img/icons/close-icon.svg" class="img-not-selected">
+                    </button>
+                </div>
+            </div>
 
             <ul class="w-100">
 
