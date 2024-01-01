@@ -18,7 +18,62 @@ export default {
 
 
 <template>
-    <div v-for="(item, index) in items" :key="index" class="space-y-16px">
+    <ul v-for="(item, index) in items" :key="index" class="space-y-12">
+
+        <li v-for="(projectStructure, projectStructureIndex) in item.structure" :key="projectStructureIndex"
+            class="space-y-4">
+
+            <div v-for="(projectStructureinventery, projectStructureinventeryIndex) in projectStructure.structure"
+                :key="projectStructureinventeryIndex" class="space-y-2">
+
+                <div class="w-full border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+                    <div class="bg-white  padding-x_28px padding-y_12px border-b  border-solid border-Grey_20">
+
+                        <p class="text-base_regular color-Grey_90 capitalize list">
+                            {{ item.str_name }}
+                            <span>
+                                {{ projectStructure.str_name }}
+                            </span>
+                            <span>
+                                {{ projectStructureinventery.str_name }}
+                            </span>
+                        </p>
+
+                    </div>
+
+                    <div class="bg-transparent padding-x_28px padding-y_24px">
+
+                        <div class="flex flex-wrap items-center gap-2">
+
+                            <div v-for="(inventerydata, inventerydataIndex) in projectStructureinventery.inventery"
+                                :key="inventerydataIndex">
+
+                                <buttton class="btn-regular display-flex align-center gap-8px bg-white">
+
+                                    <div class="ellipse-dot"
+                                        :class="{ 'bg-emerald': inventerydata.inv_status === 1, 'bg-rose': inventerydata.inv_status === 2, 'bg-orange': inventerydata.inv_status === 3, 'bg-blue': inventerydata.inv_status === 4, 'bg-Grey_40': inventerydata.inv_status === 5, 'bg-purple': inventerydata.inv_status === 6 }">
+                                    </div>
+
+                                    <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventerydata.inv_name }} </p>
+
+                                </buttton>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </li>
+
+    </ul>
+
+    <!-- <div v-for="(item, index) in items" :key="index" class="space-y-16px">
 
         <div
             class=" bg-white border border-solid border-Grey_20 rounded-regualr w-full padding-x_32px  Sm_padding-x_28px  Mobile_padding-x_24px  padding-top_24px padding-bottom_24px">
@@ -80,88 +135,73 @@ export default {
                                         <h6 class="color-Grey_90 text-base_semibold"> {{ structure.str_name }}
                                         </h6>
                                     </div>
-                                    <!-- <p class="color-Grey_50 text-small_regular text-capitalize">str number <b>
+                                  <p class="color-Grey_50 text-small_regular text-capitalize">str number <b>
                                         {{ inventeryitem.str_number }} </b> , str parent id
                                     <b> {{ inventeryitem.str_parent_id }} </b>
-                                </p> -->
-                                </div>
-                            </div>
+                                </p>
+    </div>
+    </div>
 
 
-                            <div class="display-flex gap-8px">
+    <div class="display-flex gap-8px">
 
-                                <button class="icon-btn icon-btn_32px toggle_shipping_details"
-                                    @click="toggleinventery(structureindex)">
-                                    <img src="../../../assets/img/icons/chevron-down.svg"
-                                        class="img-not-selected w_20px h_20px">
-                                </button>
+        <button class="icon-btn icon-btn_32px toggle_shipping_details" @click="toggleinventery(structureindex)">
+            <img src="../../../assets/img/icons/chevron-down.svg" class="img-not-selected w_20px h_20px">
+        </button>
 
-                            </div>
+    </div>
 
-                        </div>
+    </div>
 
-                        <div class="shipping_details padding-top_16px display-block"
-                            v-if="inventoryItemVisible[structureindex]">
+    <div class="shipping_details padding-top_16px display-block" v-if="inventoryItemVisible[structureindex]">
 
-                            <div class="w-full padding-x_32px Sm_padding-x_28px Mobile_padding-x_24px
+        <div class="w-full padding-x_32px Sm_padding-x_28px Mobile_padding-x_24px
                                 padding-bottom_32px space-y-8px">
 
-                                <div v-for="(structureInventery, structureInventeryindex) in structure.inventery"
-                                    :key="structureInventeryindex"
-                                    class="padding-y_12px padding-x_16px Mobile_padding-x_12px Mobile_padding-y_8px Mobile_padding-x_12px Mobile_padding-y_8px rounded-regualr border border-Grey_20 border-solid">
+            <div v-for="(structureInventery, structureInventeryindex) in structure.inventery" :key="structureInventeryindex"
+                class="padding-y_12px padding-x_16px Mobile_padding-x_12px Mobile_padding-y_8px Mobile_padding-x_12px Mobile_padding-y_8px rounded-regualr border border-Grey_20 border-solid">
 
-                                    <div
-                                        class="display-flex align-center justify-between w-100 Sm_flex-column Sm_align-start Sm_gap-6px">
+                <div class="display-flex align-center justify-between w-100 Sm_flex-column Sm_align-start Sm_gap-6px">
 
-                                        <div>
-                                            <h6 class="color-Grey_90 text-sm_medium">{{ structureInventery.inv_name }}</h6>
-                                        </div>
-
-                                        <div class="display-flex align-center gap-16px Sm_w-100 Sm_justify-between">
-                                            <div
-                                                class="display-flex align-center gap-6px border border-solid border-Grey_20 rounded-regualr padding-x_8px padding-y_2px store-shipping">
-
-                                                <div class="ellipse-dot"
-                                                    :class="{ 'bg-emerald': structureInventery.inv_status === 1, 'bg-rose': structureInventery.inv_status === 2, 'bg-orange': structureInventery.inv_status === 3, 'bg-blue': structureInventery.inv_status === 4, 'bg-Grey_40': structureInventery.inv_status === 5, 'bg-purple': structureInventery.inv_status === 6 }">
-                                                </div>
-
-                                                <p class="text-sm_medium color-Grey_60 text-uppercase"
-                                                    v-if="structureInventery.inv_status === 1">
-                                                    AVAILABLE
-                                                </p>
-                                                <p class="text-sm_medium color-Grey_60 text-uppercase"
-                                                    v-if="structureInventery.inv_status === 2">
-                                                    NOT AVAILABLE
-                                                </p>
-                                                <p class="text-sm_medium color-Grey_60 text-uppercase"
-                                                    v-if="structureInventery.inv_status === 3">
-                                                    HOLD
-                                                </p>
-                                                <p class="text-sm_medium color-Grey_60 text-uppercase"
-                                                    v-if="structureInventery.inv_status === 4">
-                                                    BOOKED
-                                                </p>
-                                                <p class="text-sm_medium color-Grey_60 text-uppercase"
-                                                    v-if="structureInventery.inv_status === 5">\
-                                                    SOLD
-                                                </p>
-                                                <p class="text-sm_medium color-Grey_60 text-uppercase"
-                                                    v-if="structureInventery.inv_status === 6">
-                                                    CANCELLED
-                                                </p>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
+                    <div>
+                        <h6 class="color-Grey_90 text-sm_medium">{{ structureInventery.inv_name }}</h6>
                     </div>
 
+                    <div class="display-flex align-center gap-16px Sm_w-100 Sm_justify-between">
+                        <div
+                            class="display-flex align-center gap-6px border border-solid border-Grey_20 rounded-regualr padding-x_8px padding-y_2px store-shipping">
+
+                            <div class="ellipse-dot"
+                                :class="{ 'bg-emerald': structureInventery.inv_status === 1, 'bg-rose': structureInventery.inv_status === 2, 'bg-orange': structureInventery.inv_status === 3, 'bg-blue': structureInventery.inv_status === 4, 'bg-Grey_40': structureInventery.inv_status === 5, 'bg-purple': structureInventery.inv_status === 6 }">
+                            </div>
+
+                            <p class="text-sm_medium color-Grey_60 text-uppercase"
+                                v-if="structureInventery.inv_status === 1">
+                                AVAILABLE
+                            </p>
+                            <p class="text-sm_medium color-Grey_60 text-uppercase"
+                                v-if="structureInventery.inv_status === 2">
+                                NOT AVAILABLE
+                            </p>
+                            <p class="text-sm_medium color-Grey_60 text-uppercase"
+                                v-if="structureInventery.inv_status === 3">
+                                HOLD
+                            </p>
+                            <p class="text-sm_medium color-Grey_60 text-uppercase"
+                                v-if="structureInventery.inv_status === 4">
+                                BOOKED
+                            </p>
+                            <p class="text-sm_medium color-Grey_60 text-uppercase"
+                                v-if="structureInventery.inv_status === 5">\
+                                SOLD
+                            </p>
+                            <p class="text-sm_medium color-Grey_60 text-uppercase"
+                                v-if="structureInventery.inv_status === 6">
+                                CANCELLED
+                            </p>
+
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -169,6 +209,16 @@ export default {
         </div>
 
     </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    </div>
+
+    </div> -->
 
 
     <!-- <div
@@ -419,19 +469,15 @@ export default {
  
 
 <style scoped>
-.list span,
-.list p span {
+.list span {
     position: relative;
     margin-left: 20px;
-    display: block;
 }
 
-.list p span:nth-child(1)::after {
-    display: none;
-}
 
-.list span:after,
-.list p span::after {
+
+
+.list span:after {
     content: "";
     position: absolute;
     left: -12px;

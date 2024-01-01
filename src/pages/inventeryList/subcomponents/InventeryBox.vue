@@ -90,7 +90,8 @@ export default {
 
     </li> -->
 
-    <li v-for="(item, index) in items" :key="index" class="space-y-16px">
+
+    <!-- <li v-for="(item, index) in items" :key="index" class="space-y-16px">
 
         <div
             class=" bg-white border border-solid border-Grey_20 rounded-regualr w-full padding-x_32px  Sm_padding-x_28px  Mobile_padding-x_24px  padding-top_24px padding-bottom_24px">
@@ -235,7 +236,7 @@ export default {
 
         </div>
 
-    </li>
+    </li> -->
 
     <!-- <li v-for="(item, index) in items" :key="index" class="space-y-16px">
 
@@ -275,7 +276,7 @@ export default {
     </li> -->
 
 
-    <li v-for="(item, index) in items" :key="index" class="flex gap-6 flex-wrap  w-full">
+    <!-- <li v-for="(item, index) in items" :key="index" class="flex gap-6 flex-wrap  w-full">
 
         {{ item.str_name }}
 
@@ -296,7 +297,64 @@ export default {
 
         </div>
 
-    </li>
+    </li> -->
+
+
+    <ul v-for="(item, index) in items" :key="index" class="space-y-12">
+
+        <li v-for="(projectStructure, projectStructureIndex) in item.structure" :key="projectStructureIndex"
+            class="space-y-4">
+
+            <div v-for="(projectStructureinventery, projectStructureinventeryIndex) in projectStructure.structure"
+                :key="projectStructureinventeryIndex" class="space-y-2">
+
+                <div class="w-full border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+                    <div class="bg-white  padding-x_28px padding-y_12px border-b  border-solid border-Grey_20">
+
+                        <p class="text-base_regular color-Grey_90 capitalize list">
+                            {{ item.str_name }}
+                            <span>
+                                {{ projectStructure.str_name }}
+                            </span>
+                            <span>
+                                {{ projectStructureinventery.str_name }}
+                            </span>
+                        </p>
+
+                    </div>
+
+                    <div class="bg-transparent padding-x_28px padding-y_24px">
+
+                        <div class="flex flex-wrap items-center gap-2">
+
+                            <div v-for="(inventerydata, inventerydataIndex) in projectStructureinventery.inventery"
+                                :key="inventerydataIndex">
+
+                                <buttton @click="selectInven(inventerydata)"
+                                    class="btn-regular display-flex align-center gap-8px bg-white">
+
+                                    <div class="ellipse-dot"
+                                        :class="{ 'bg-emerald': inventerydata.inv_status === 1, 'bg-rose': inventerydata.inv_status === 2, 'bg-orange': inventerydata.inv_status === 3, 'bg-blue': inventerydata.inv_status === 4, 'bg-Grey_40': inventerydata.inv_status === 5, 'bg-purple': inventerydata.inv_status === 6 }">
+                                    </div>
+
+                                    <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventerydata.inv_name }} </p>
+
+                                </buttton>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </li>
+
+    </ul>
 </template>
 
 <style scoped>
@@ -309,17 +367,8 @@ li {
     margin-left: 20px;
 }
 
-.list span:nth-child(1) {
-    margin-left: 0 !important;
-}
 
-.list span:nth-child(1)::after {
-    display: none;
-}
 
-.list span:nth-last-child(1)::after {
-    display: none;
-}
 
 .list span:after {
     content: "";

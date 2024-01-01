@@ -227,7 +227,6 @@ export default {
                 </div>
 
 
-
                 <div class="main-content">
 
                     <ProjectPreview @structurePreviewSucees="structurePreviewSucees" />

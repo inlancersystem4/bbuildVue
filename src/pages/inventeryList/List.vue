@@ -43,7 +43,11 @@ export default {
     },
     computed: {
         statusChnageBtn() {
-            return !this.statusNote.trim() || !this.customerId || !this.inventeryId || !this.selectedStatus
+            if (this.selectedStatus == 6 || this.selectedStatus == 2 || this.selectedStatus == 1) {
+                return !this.statusNote.trim() || !this.inventeryId || !this.selectedStatus;
+            } else {
+                return !this.statusNote.trim() || !this.customerId || !this.inventeryId || !this.selectedStatus;
+            }
         }
     },
     methods: {
@@ -133,6 +137,7 @@ export default {
             project_data.append("project_id", this.currentproject);
 
             this.structureListLoader = true
+            this.structureList = []
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/structure-preview`, project_data);
@@ -215,15 +220,15 @@ export default {
 
         </div>
 
-        <div class="display-flex align-start gap-12px w-100">
+        <div class="display-flex align-start gap-12px w-full">
 
-            <div class="space-y-8px sticky">
+            <div class="space-y-8px sticky w-1/4">
 
                 <InventeryBoxStatus />
 
             </div>
 
-            <div class="w-100">
+            <div class="w-3/4">
 
                 <div class="w-full h-96 flex items-center justify-center" v-if="structureListLoader">
 
@@ -231,7 +236,7 @@ export default {
 
                 </div>
 
-                <ul class="space-y-8px" v-if="this.currentproject">
+                <div class="space-y-8px w-full" v-if="this.currentproject">
 
 
                     <div class="h-40 w-full text-center flex items-center justify-center"
@@ -243,7 +248,8 @@ export default {
 
                     <InventeryBox :items="structureList" @selectInventery="selectedInventery" />
 
-                </ul>
+                </div>
+
 
             </div>
 
