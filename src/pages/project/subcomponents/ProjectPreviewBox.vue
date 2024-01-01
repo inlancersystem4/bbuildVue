@@ -5,13 +5,87 @@ export default {
     },
     data() {
         return {
-            inventoryItemVisible: []
+            foundInventory: null,
+            show: [],
         }
     },
     methods: {
-        toggleinventery(index) {
-            this.inventoryItemVisible[index] = !this.inventoryItemVisible[index]
+        // sum_numbers(arr, n) {
+        //     if (n <= 0) {
+        //         return 0;
+        //     }
+        //     if (arr.length > 0) {
+        //         return arr[0];
+        //     } else {
+        //         return this.sum_numbers(arr, n - 1) + arr[n - 1];
+        //     }
+        // }
+
+        sum_numbers(arr, n) {
+            const modifiedArray = arr.map(item => item);
+            const modifiedArray2 = modifiedArray.map(item => item.structure);
+            modifiedArray2.forEach(item => {
+                item.structure
+            });
+            const modifiedArray3 = modifiedArray2.map(item => item);
+            modifiedArray3.forEach(structure => {
+                structure.forEach(item => {
+                    if (item.inventery && item.inventery.length > 0) {
+                        console.log(item.inventery);
+                    }
+                });
+            });
+
+            if (n <= 0) {
+                // console.log("this is  index", n)
+                return 0;
+            }
+            if (arr.inventory && arr.inventory.length > 0) {
+                // console.log("this is array", arr)
+                return arr.inventory.length;
+            } else {
+                // console.log("new function", this.sum_numbers(arr, n - 1) + arr[n - 1])
+                return this.sum_numbers(arr, n - 1) + arr[n - 1];
+            }
         }
+        // sum_numbers(arr) {
+        //     if (!arr || arr.length === 0) {
+        //         return 0;
+        //     } else {
+        //         return this.calculateSum(arr, 0);
+        //     }
+        // },
+        // calculateSum(arr, index) {
+        //     if (index >= arr.length) {
+        //         return 0;
+        //     } else {
+        //         const currentValue = parseFloat(arr[index]);
+        //         const recursiveSum = this.calculateSum(arr, index + 1);
+        //         return isNaN(currentValue) ? recursiveSum : recursiveSum + currentValue;
+        //     }
+        // }
+        // findInventory(structure) {
+        //     const foundItems = [];
+
+        //     const searchInventory = (currentStructure) => {
+        //         for (let i = 0; i < currentStructure.length; i++) {
+        //             const currentItem = currentStructure[i];
+        //             if (Array.isArray(currentItem)) {
+        //                 console.log('Nested Array found');
+        //                 searchInventory(currentItem); // Recursively search nested arrays
+        //             } else if (currentItem && currentItem.inventory === 'inventory') {
+        //                 console.log('Inventory found:', currentItem); // Log found inventory
+        //                 foundItems.push(currentItem); // Found inventory, add it to the array
+        //             }
+        //         }
+        //     };
+
+        //     searchInventory(structure); // Start searching from the main structure
+
+        //     console.log('Found items:', foundItems); // Log all found items
+
+        //     return foundItems; // Return the array of found inventory items
+        // }
     },
 }
 </script>
@@ -20,12 +94,50 @@ export default {
 <template>
     <ul v-for="(item, index) in items" :key="index" class="space-y-12">
 
-        <li v-for="(projectStructure, projectStructureIndex) in item.structure" :key="projectStructureIndex"
+        {{ sum_numbers(item.structure, index) }}
+
+        <!-- <div v-for="(projectStructure, projectStructureIndex) in "
+            :key="projectStructureIndex">
+            {{ projectStructure }}
+        </div> -->
+
+        <!-- <div v-if="findInventory(item.structure).length > 0">
+            <p>Found inventories:</p>
+            <ul>
+                <li v-for="(foundItem, foundIndex) in findInventory(item.structure)" :key="foundIndex">
+                    {{ foundItem.name }}
+                </li>
+            </ul>
+        </div>
+        <div v-else>
+            <p>No inventory found.</p>
+        </div> -->
+
+        <!-- <li v-for="(projectStructure, projectStructureIndex1) in item.structure" :key="projectStructureIndex1"
             class="space-y-4">
 
-            <div v-for="(projectStructureinventery, projectStructureinventeryIndex) in projectStructure.structure"
-                :key="projectStructureinventeryIndex" class="space-y-2">
+            <div v-if="findInventory(projectStructure.structure, 0)">
+                <p>Found inventory: {{ foundInventory.name }}</p>
+            </div>
+            <div v-else>
+                <p>Inventory not found.</p>
+            </div> -->
 
+        <!-- <div v-for="(projectStructure2, projectStructureIndex2) in projectStructureIndex1.structure"
+                    :key="projectStructureIndex2">
+
+                    <div v-for="(projectStructure3, projectStructureIndex3) in projectStructureIndex3.structure"
+                        :key="projectStructureIndex3">
+
+                        <div v-for="(inventerydata, inventerydataIndex) in projectStructure3.inventery"
+                            :key="inventerydataIndex"></div>
+
+                    </div>
+
+                </div> -->
+
+        <!-- <div v-for="(projectStructureinventery, projectStructureinventeryIndex) in projectStructure.structure"
+                :key="projectStructureinventeryIndex" class="space-y-2">
                 <div class="w-full border border-solid border-Grey_20 rounded-regualr overflow-hidden">
 
                     <div class="bg-white  padding-x_28px padding-y_12px border-b  border-solid border-Grey_20">
@@ -67,9 +179,9 @@ export default {
 
                 </div>
 
-            </div>
+            </div> -->
 
-        </li>
+        <!-- </li> -->
 
     </ul>
 

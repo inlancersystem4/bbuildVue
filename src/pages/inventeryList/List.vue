@@ -207,7 +207,7 @@ export default {
 <template>
     <Layout>
 
-        <div class="display-flex align-center justify-end w-100 margin-bottom_12px gap-8px">
+        <!-- <div class="display-flex align-center justify-end w-100 margin-bottom_12px gap-8px">
 
             <div class="dropdown">
 
@@ -218,17 +218,29 @@ export default {
 
             <span class="btn-regular bg-white">{{ currentprojectName }}</span>
 
+        </div> -->
+
+        <div class="display-flex items-center justify-between w-full margin-bottom_12px gap-8px">
+
+            <div class="flex items-center gap-2">
+
+                <div class="icon-border icon-border-20 icon-border_40px">
+                    <div class="icon-bg icon-bg_32px bg-Grey_20">
+                        <img src="../../assets/img/icons/taxes.svg" class="img-not-selected">
+                    </div>
+                </div>
+
+                <div>
+                    <h6 class="color-Grey_90  text-large_semibold capitalize">{{ currentprojectName }}</h6>
+                </div>
+
+            </div>
+
         </div>
 
         <div class="display-flex align-start gap-12px w-full">
 
-            <div class="space-y-8px sticky w-1/4">
-
-                <InventeryBoxStatus />
-
-            </div>
-
-            <div class="w-3/4">
+            <div class="w-full overflow-x-auto">
 
                 <div class="w-full h-96 flex items-center justify-center" v-if="structureListLoader">
 

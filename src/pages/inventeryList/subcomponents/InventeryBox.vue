@@ -20,6 +20,16 @@ export default {
 </script>
 
 <template>
+
+
+
+    <div class="">
+
+        1214
+
+    </div>
+
+
     <!-- <li class="w-full rounded-regualr border border-solid border-Grey_20 overflow-hidden" v-for="(item, index) in items"
         :key="index">
 
@@ -300,7 +310,7 @@ export default {
     </li> -->
 
 
-    <ul v-for="(item, index) in items" :key="index" class="space-y-12">
+    <!-- <ul v-for="(item, index) in items" :key="index" class="space-y-12">
 
         <li v-for="(projectStructure, projectStructureIndex) in item.structure" :key="projectStructureIndex"
             class="space-y-4">
@@ -354,7 +364,7 @@ export default {
 
         </li>
 
-    </ul>
+    </ul> -->
 </template>
 
 <style scoped>
