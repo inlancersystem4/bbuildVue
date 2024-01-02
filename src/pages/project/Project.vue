@@ -206,28 +206,7 @@ export default {
 
             <SettingPage title="Preview" v-if="activeSetp === 'Project_Preview'">
 
-
-                <div
-                    class="space-y-8px Lg_w-100 Lg_display-grid Lg_grid-cols-2 Lg_gap-12px Lg_align-stretch Sm_grid-cols-1 Sm_gap-0 Lg_space-y-0 Sm_space-y-8px sticky">
-
-
-                    <div class="details-content">
-
-                        <h6 class="color-Grey_90 text-xl_semibold">Edit Project Structure</h6>
-                        <p class="color-Grey_50 text-base_regular margin-top_4px">Manage the Project Structure that you
-                            will
-                            operate within.</p>
-                        <button class="btn-regular btn-w-full margin-top_16px" @click="editStructure">Edit Project
-                            Structure</button>
-
-                    </div>
-
-                    <InventeryBoxStatus />
-
-                </div>
-
-
-                <div class="main-content">
+                <div class="main-content overflow-x-auto pb-5">
 
                     <ProjectPreview @structurePreviewSucees="structurePreviewSucees" />
 

@@ -29,35 +29,24 @@ export default {
                 alertStore.error(error)
             }
 
+        },
+        getstatusSel(data){
+            this.$emit('getstatusSel', data)
         }
     },
 }
 </script>
 
 <template>
-    <li class="w-full rounded-regualr border border-solid border-Grey_20 overflow-hidden">
+    <div class="padding-x_16px padding-y_12px">
 
-        <div class="bg-white padding-x_24px padding-y_16px  border-b border-solid border-Grey_20">
+        <div class="w-full display-flex align-center display-flex-wrap gap-8px">
 
-            <div class="w-full display-flex align-center justify-between">
-
-                <p class="text-large_semibold text-capitalize color-Grey_90">Project Status</p>
-
-            </div>
+            <StatusBox :items="statusList" @getstatus="getstatusSel" />
 
         </div>
 
-        <div class="padding-x_16px padding-y_12px">
-
-            <div class="w-full display-flex align-center display-flex-wrap gap-8px">
-
-                <StatusBox :items="statusList" />
-
-            </div>
-
-        </div>
-
-    </li>
+    </div>
 </template>
 
 <style scoped>

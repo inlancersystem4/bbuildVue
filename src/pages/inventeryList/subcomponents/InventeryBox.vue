@@ -1,31 +1,90 @@
 <script>
+import VueSimpleContextMenu from 'vue-simple-context-menu';
 export default {
+    components: {
+        VueSimpleContextMenu,
+    },
     props: {
         items: Array
     },
     data() {
         return {
-            inventoryItemVisible: []
+            options: [
+                { name: 'Edit', action: 'edit' },
+                { name: 'Status Chnage', action: 'Chnage' },
+            ],
+            selectedItem: null
         }
     },
     methods: {
+        handleContextMenu(event, item) {
+            event.preventDefault();
+            this.selectedItem = item;
+            this.$refs.vueSimpleContextMenu.showMenu(event, item)
+        },
         selectInven(data) {
             this.$emit('selectInventery', data)
         },
-        toggleinventery(index1, index) {
-            this.inventoryItemVisible[index1, index] = !this.inventoryItemVisible[index1, index]
+        optionClicked(option) {
+            if (option.option.action === 'Chnage') {
+                if (this.selectedItem) {
+                    this.selectInven(this.selectedItem);
+                }
+            }
         }
-    },
+    }
 }
 </script>
 
 <template>
+    <vue-simple-context-menu element-id="myUniqueId" :options="options" ref="vueSimpleContextMenu"
+        @option-clicked="optionClicked" />
 
 
+    <div v-for="(item, index) in items" :key="index" class="flex items-stretch gap-4">
 
-    <div class="">
+        <template v-for="(inventeryitem, inventeryitemindex) in item.inventory" :key="inventeryitemindex">
 
-        1214
+            <div v-if="inventeryitem.items"
+                class="w-full  min-w-[320px] max-w-96 bg-white border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+                <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex">
+
+                    <p class=""> {{ inventeryitem.parent }} </p>
+
+                    <span> {{ inventeryitem.title }} </span>
+
+                </div>
+
+                <div class="padding-x_24px padding-y_12px flex flex-wrap gap-2">
+
+                    <div v-for="(inventeryitemdata, inventeryitemdataindex) in inventeryitem.items"
+                        :key="inventeryitemdataindex" class="flex flex-wrap">
+
+                        <buttton @contextmenu.prevent="handleContextMenu($event, inventeryitemdata)"
+                            class="btn-regular display-flex align-center gap-8px bg-white">
+
+                            <div class="ellipse-dot"
+                                :class="{ 'bg-emerald': inventeryitemdata.inv_status === 1, 'bg-rose': inventeryitemdata.inv_status === 2, 'bg-orange': inventeryitemdata.inv_status === 3, 'bg-blue': inventeryitemdata.inv_status === 4, 'bg-Grey_40': inventeryitemdata.inv_status === 5, 'bg-purple': inventeryitemdata.inv_status === 6 }">
+                            </div>
+
+                            <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitemdata.inv_name }}</p>
+
+                        </buttton>
+
+                    </div>
+
+                    <p class="text-center no-conetnt-show-section w-full capitalize"
+                        v-if="!inventeryitem.items || inventeryitem.items.length == 0">no module found</p>
+
+                </div>
+
+            </div>
+
+        </template>
+
+
+        <p v-if="!item.inventory || item.inventory.length > 0" class="  text-center  ">no module Find</p>
 
     </div>
 

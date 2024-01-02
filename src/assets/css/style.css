@@ -3248,3 +3248,27 @@ input[type="color"] {
         transform: rotate(360deg);
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.vue-simple-context-menu {
+    background-color: var(--Grey-5) !important;
+    border: 1px solid var(--Grey-20);
+    border-radius: 8px;
+    border-bottom: 1px solid var(--Grey-20) !important;
+}
+
+.vue-simple-context-menu__item:hover {
+    background-color: var(--Grey-10) !important;
+    color: var(--Grey-90) !important;
+}

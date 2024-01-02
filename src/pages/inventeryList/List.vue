@@ -32,7 +32,10 @@ export default {
             structureListLoader: false,
             searchProject: "",
             structureListerror: "",
-            notneedcustomer: false
+            notneedcustomer: false,
+            fiflterShow: false,
+            selectStatusforFilter: "",
+            invStatusId: "",
         }
     },
     created() {
@@ -127,20 +130,29 @@ export default {
             localStorage.setItem('currentprojectName', option.project_name);
             this.project();
         },
+        statusSelectofFilter(status) {
+            this.invStatusId = status.inv_status_id
+            this.project();
+            this.fiflterShow = false
+        },
+        removeFilter() {
+            this.invStatusId = ""
+            this.project();
+        },
         async project() {
 
             this.currentproject = localStorage.getItem('currentprojectId');
             this.currentprojectName = localStorage.getItem('currentprojectName');
 
-
             var project_data = new FormData();
             project_data.append("project_id", this.currentproject);
+            project_data.append("status_id", this.invStatusId);
 
             this.structureListLoader = true
             this.structureList = []
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/structure-preview`, project_data);
+                const response = await fetchWrapper.post(`${baseUrl}/inventory-list`, project_data);
 
                 this.structureList = response.data
 
@@ -236,11 +248,60 @@ export default {
 
             </div>
 
+            <div class="flex items-center gap-3">
+
+                <div class="dropdown">
+
+                    <Select :options="projectarray" @option-selected="onOptionSelected" :value="searchProject"
+                        @input="searchProjectFun" />
+
+                </div>
+
+                <div class="relative">
+
+                    <button class="btn-regular flex items-center gap-1.5 bg-white"
+                        @click="this.fiflterShow = !this.fiflterShow">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M12.75 16.125H3.75" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M20.25 16.125H15.75" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M6.75 7.875H3.75" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M20.25 7.875H9.75" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M9.75 5.625V10.125" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M15.75 18.375V13.875" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+
+                        Filter
+
+                    </button>
+
+                    <div v-if="fiflterShow"
+                        class="absolute right-0  top-[110%] bg-white  z-20 min-w-[350px] shadow-lg  border border-solid border-Grey_20 rounded-md">
+
+                        <InventeryBoxStatus @getstatusSel="statusSelectofFilter" />
+
+                    </div>
+
+
+                </div>
+
+                <button class="btn-regular bg-white" v-if="this.invStatusId" @click="removeFilter">
+                    Remove Filter
+                </button>
+
+            </div>
+
         </div>
 
         <div class="display-flex align-start gap-12px w-full">
 
-            <div class="w-full overflow-x-auto">
+            <div class="w-full overflow-x-auto pb-4">
 
                 <div class="w-full h-96 flex items-center justify-center" v-if="structureListLoader">
 
@@ -261,7 +322,6 @@ export default {
                     <InventeryBox :items="structureList" @selectInventery="selectedInventery" />
 
                 </div>
-
 
             </div>
 
