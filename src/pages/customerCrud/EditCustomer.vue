@@ -35,6 +35,11 @@ export default {
     created() {
         this.customerId = this.$route.params.id;
         this.customerData();
+        const authStore = useAuthStore();
+        const title = "Edit Customer |  Billion Build"
+        const description = "this is description for Edit Customer"
+
+        authStore.chnageTitle(title, description)
     },
     computed: {
         btnDisabled() {

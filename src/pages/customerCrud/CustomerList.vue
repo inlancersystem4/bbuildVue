@@ -27,6 +27,11 @@ export default {
     },
     created() {
         this.customerData();
+        const authStore = useAuthStore();
+        const title = "Customer List |  Billion Build"
+        const description = "this is description for Customer List"
+
+        authStore.chnageTitle(title, description)
     },
     methods: {
 

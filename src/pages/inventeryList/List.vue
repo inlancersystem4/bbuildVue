@@ -3,17 +3,21 @@ import { fetchWrapper } from '../../helpers/fetch-wrapper'
 import Layout from '../../components/Layout.vue'
 import Select from '../../subcomponents/common/Select.vue'
 import TextArea from '../../subcomponents/common/TextArea.vue'
+import Input from '../../subcomponents/common/Input.vue'
+import Label from '../../subcomponents/common/Label.vue'
 import InventeryBox from './subcomponents/InventeryBox.vue'
 import InventeryBoxStatus from './subcomponents/InventeryBoxStatus.vue'
 import StatusChnage from './subcomponents/StatusChnage.vue'
 import SelectCustomer from './subcomponents/SelectCustomer.vue';
+import Modal from './subcomponents/Modal.vue';
+import InventeryDetailsModal from './subcomponents/InventeryDetailsModal.vue';
 import { useAuthStore, useAlertStore } from '../../stores'
 
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea },
+    components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label, InventeryDetailsModal },
     data() {
         return {
             projectarray: [],
@@ -36,6 +40,22 @@ export default {
             fiflterShow: false,
             selectStatusforFilter: "",
             invStatusId: "",
+            updateDetailsModal: false,
+            invUpArea: "",
+            invUpPrice: "",
+            inventerydetaiId: "",
+            updateInvDetaiType: [
+                {
+                    "name": "2bhk",
+                    "value": "2bhk",
+                },
+                {
+                    "name": "3bhk",
+                    "value": "3bhk",
+                }
+            ],
+            invDetailsModal: false,
+            invViewData: "",
         }
     },
     created() {
@@ -43,6 +63,11 @@ export default {
         this.project();
         this.customerData();
         this.statusData();
+        const authStore = useAuthStore();
+        const title = "Inventory List |  Billion Build"
+        const description = "this is description for Inventory List"
+
+        authStore.chnageTitle(title, description)
     },
     computed: {
         statusChnageBtn() {
@@ -51,6 +76,9 @@ export default {
             } else {
                 return !this.statusNote.trim() || !this.customerId || !this.inventeryId || !this.selectedStatus;
             }
+        },
+        updateDetailsMBtn() {
+            return !this.invUpArea.trim() || !this.invUpPrice.trim();
         }
     },
     methods: {
@@ -211,6 +239,64 @@ export default {
             }
 
         },
+        updatedDetails(data) {
+            this.inventeryId = String(data.inv_id)
+            this.inventerydetaiId = String(data.inv_details)
+            this.updateDetailsModal = true
+        },
+        handleCheck(data) {
+            this.selectinvUpType = data
+        },
+        async invUpdated() {
+            var status_data = new FormData();
+            if (this.inventerydetaiId === 0) {
+                status_data.append("detail_id", "");
+            }
+            status_data.append("detail_id", this.inventerydetaiId);
+            status_data.append("inv_id", this.inventeryId);
+            status_data.append("inv_area", this.invUpArea);
+            status_data.append("inv_price", this.invUpPrice);
+            status_data.append("inv_type", this.selectinvUpType);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/update-details`, status_data);
+
+                if (data.success === 1) {
+                    this.project();
+                    this.inventeryId = ""
+                    this.invUpArea = ""
+                    this.invUpPrice = ""
+                    this.inventerydetaiId = ""
+                    this.selectinvUpType = ""
+                    this.updateDetailsModal = false
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+
+        },
+        async viewInvData(data) {
+            const id = String(data.inv_id)
+            if (id) {
+                var status_data = new FormData();
+                status_data.append("inv_id", id);
+
+                try {
+                    const response = await fetchWrapper.post(`${baseUrl}/inventory-details`, status_data);
+
+                    if (response.success === 1) {
+                        this.invDetailsModal = true
+                        this.invViewData = response.data
+                    }
+
+                } catch (error) {
+                    const alertStore = useAlertStore()
+                    alertStore.error(error)
+                }
+            }
+        },
     },
 }
 </script>
@@ -309,8 +395,7 @@ export default {
 
                 </div>
 
-                <div class="space-y-8px w-full" v-if="this.currentproject">
-
+                <div class="space-y-8px w-full " v-if="this.currentproject">
 
                     <div class="h-40 w-full text-center flex items-center justify-center"
                         v-if="!this.structureList || this.structureList > 0 || this.structureList.length === 0">
@@ -319,13 +404,16 @@ export default {
 
                     </div>
 
-                    <InventeryBox :items="structureList" @selectInventery="selectedInventery" />
+                    <InventeryBox :items="structureList" @selectInventery="selectedInventery"
+                        @updateDetails="updatedDetails" @viewInvDetails="viewInvData" />
 
                 </div>
 
             </div>
 
         </div>
+
+
 
         <StatusChnage v-if="chnageStatus" @closeModal="this.chnageStatus = !this.chnageStatus">
 
@@ -352,6 +440,68 @@ export default {
             </template>
 
         </StatusChnage>
+
+        <Modal v-if="updateDetailsModal" @closeModal="this.updateDetailsModal = !this.updateDetailsModal">
+
+            <template v-slot:header>
+                <h4>Update Details</h4>
+            </template>
+
+            <div class="padding-y_12px padding-x_16px">
+
+                <div class="space-y-4">
+
+                    <div class="space-y-4px">
+                        <Label label="Area" />
+                        <Input placeholder="Enter Area" id="Area" :value="invUpArea"
+                            @input="event => invUpArea = event.target.value" />
+                    </div>
+
+                    <div class="space-y-4px">
+                        <Label label="Price" />
+                        <Input placeholder="Enter Price" id="Price" :value="invUpPrice" type="number"
+                            @input="event => invUpPrice = event.target.value" />
+                    </div>
+
+                    <div class="space-y-8px">
+
+                        <Label label="Select Type" />
+
+                        <div class="display-flex align-center gap-24px">
+
+                            <div class="display-flex align-center gap-12px custom-toogle-btn"
+                                v-for="(updateInvDetaiTypeitems, updateInvDetaiTypeindex) in updateInvDetaiType"
+                                :key="updateInvDetaiTypeindex">
+
+                                <input type="radio" class="form-toogle-btn"
+                                    @change="handleCheck(updateInvDetaiTypeitems.value)" :name="radio + '_' + index"
+                                    :id="updateInvDetaiTypeitems.name + _ + updateInvDetaiTypeindex" />
+
+                                <label class="text-capitalize text-large_semibold color-Grey_90"
+                                    :for="updateInvDetaiTypeitems.name + _ + updateInvDetaiTypeindex">
+                                    {{ updateInvDetaiTypeitems.name }}
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <template v-slot:footer>
+                <button class="btn-regular" @click="this.updateDetailsModal = !this.updateDetailsModal">Cancel</button>
+                <button class="btn-regular bg-purple color-white" :disabled="updateDetailsMBtn"
+                    @click="invUpdated">Updated</button>
+            </template>
+
+        </Modal>
+
+        <InventeryDetailsModal :data="invViewData" v-if="invDetailsModal"
+            @closeModal="this.invDetailsModal = !this.invDetailsModal" />
 
     </Layout>
 </template>

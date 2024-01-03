@@ -27,6 +27,7 @@ export default {
     },
     created() {
         this.userData();
+        document.title = 'Users | Billion Build'
     },
     methods: {
 

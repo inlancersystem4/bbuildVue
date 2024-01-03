@@ -39,6 +39,13 @@ export default {
             return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim();
         }
     },
+    created() {
+        const authStore = useAuthStore();
+        const title = "Add Customer |  Billion Build"
+        const description = "this is description for Add Customer"
+
+        authStore.chnageTitle(title, description)
+    },
     methods: {
         validateEmail() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

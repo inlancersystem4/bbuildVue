@@ -46,6 +46,11 @@ export default {
     },
     created() {
         this.getprofileData();
+        const authStore = useAuthStore();
+        const title = "Profile |  Billion Build"
+        const description = "this is description for Profile"
+
+        authStore.chnageTitle(title, description)
     },
     methods: {
         validateEmail() {
@@ -88,36 +93,40 @@ export default {
         },
         async profileDataUpdate() {
 
-            this.formSubmitted = true
-            this.profilesaveLoader = true
+            const authStore = useAuthStore();
 
-            var profile = new FormData();
-            profile.append("user_first_name", this.profileFirstName)
-            profile.append("user_last_name", this.profileLastName)
-            profile.append("user_email", this.profileEmail)
-            if (this.selectedImg) {
-                profile.append("user_profile", this.profilePic)
-            }
-            profile.append("user_profile", "")
-            profile.append("mobile_no", this.profileNo)
-            profile.append("company_name", this.companyName)
-            profile.append("company_address", this.companyAddress)
-            profile.append("company_phone_no", this.companyPhoneNo)
+            await authStore.Updated(this.profileFirstName, this.profileLastName, this.profileEmail, this.profilePic, this.profileNo, this.companyName, this.companyAddress, this.companyPhoneNo);
 
-            try {
-                const data = await fetchWrapper.post(`${baseUrl}/update-profile`, profile);
+            // this.formSubmitted = true
+            // this.profilesaveLoader = true
 
-                if (data.success === 1) {
-                    this.getprofileData();
-                    this.profilesaveLoader = false
-                    this.profilenotsaved = false
-                    this.profilesaved = true
-                }
+            // var profile = new FormData();
+            // profile.append("user_first_name", this.profileFirstName)
+            // profile.append("user_last_name", this.profileLastName)
+            // profile.append("user_email", this.profileEmail)
+            // if (this.selectedImg) {
+            //     profile.append("user_profile", this.profilePic)
+            // }
+            // profile.append("user_profile", "")
+            // profile.append("mobile_no", this.profileNo)
+            // profile.append("company_name", this.companyName)
+            // profile.append("company_address", this.companyAddress)
+            // profile.append("company_phone_no", this.companyPhoneNo)
 
-            } catch (error) {
-                const alertStore = useAlertStore()
-                alertStore.error(error)
-            }
+            // try {
+            //     const data = await fetchWrapper.post(`${baseUrl}/update-profile`, profile);
+
+            //     if (data.success === 1) {
+            //         this.getprofileData();
+            //         this.profilesaveLoader = false
+            //         this.profilenotsaved = false
+            //         this.profilesaved = true
+            //     }
+
+            // } catch (error) {
+            //     const alertStore = useAlertStore()
+            //     alertStore.error(error)
+            // }
 
         },
     },

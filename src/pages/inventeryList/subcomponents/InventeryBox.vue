@@ -11,6 +11,7 @@ export default {
         return {
             options: [
                 { name: 'Edit', action: 'edit' },
+                { name: 'View', action: 'view' },
                 { name: 'Status Chnage', action: 'Chnage' },
             ],
             selectedItem: null
@@ -25,10 +26,26 @@ export default {
         selectInven(data) {
             this.$emit('selectInventery', data)
         },
+        updateDetail(data) {
+            this.$emit('updateDetails', data)
+        },
+        viewdateDetail(data){
+            this.$emit('viewInvDetails', data)
+        },
         optionClicked(option) {
             if (option.option.action === 'Chnage') {
                 if (this.selectedItem) {
                     this.selectInven(this.selectedItem);
+                }
+            }
+            if (option.option.action === 'edit') {
+                if (this.selectedItem) {
+                    this.updateDetail(this.selectedItem);
+                }
+            }
+            if (option.option.action === 'view') {
+                if (this.selectedItem) {
+                    this.viewdateDetail(this.selectedItem);
                 }
             }
         }
@@ -41,18 +58,76 @@ export default {
         @option-clicked="optionClicked" />
 
 
-    <div v-for="(item, index) in items" :key="index" class="flex items-stretch gap-4">
+    <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
 
-        <template v-for="(inventeryitem, inventeryitemindex) in item.inventory" :key="inventeryitemindex">
+        <div v-for="(itemArrays, itemArraysindex) in item" :key="itemArraysindex"
+            class="w-full  min-w-[320px] max-w-96 bg-Grey_10  border border-solid border-Grey_20 rounded-regualr overflow-hidden">
 
-            <div v-if="inventeryitem.items"
-                class="w-full  min-w-[320px] max-w-96 bg-white border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+            <div v-for="(inventeryitem, inventeryitemindex) in itemArrays" :key="inventeryitemindex">
 
-                <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex">
+                <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white">
 
-                    <p class=""> {{ inventeryitem.parent }} </p>
+                    <p> {{ inventeryitem.title }} </p>
 
-                    <span> {{ inventeryitem.title }} </span>
+                </div>
+
+                <div class="p-2 space-y-2">
+
+                    <p v-if="!inventeryitem.data || inventeryitem.data.length === 0"
+                        class="h-12 flex items-center justify-center text-center">no module Find
+                    </p>
+
+
+                    <div v-for="(inventerydata, inventerydataindex) in inventeryitem.data" :key="inventerydataindex"
+                        class="bg-white border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+                        <div class="py-2 px-4 border-b border-solid border-Grey_20">
+                            <p> {{ inventerydata.title }} </p>
+                        </div>
+
+                        <div class="py-2 px-4 flex items-center flex-wrap">
+
+                            <div v-for="(inventeryitemdata, inventeryitemdataindex) in inventerydata.items"
+                                :key="inventeryitemdataindex" class="flex flex-wrap p-0.5">
+
+                                <buttton @contextmenu.prevent="handleContextMenu($event, inventeryitemdata)"
+                                    class="btn-regular display-flex align-center gap-8px bg-white">
+
+                                    <div class="ellipse-dot"
+                                        :class="{ 'bg-emerald': inventeryitemdata.inv_status === 1, 'bg-rose': inventeryitemdata.inv_status === 2, 'bg-orange': inventeryitemdata.inv_status === 3, 'bg-blue': inventeryitemdata.inv_status === 4, 'bg-Grey_40': inventeryitemdata.inv_status === 5, 'bg-purple': inventeryitemdata.inv_status === 6 }">
+                                    </div>
+
+                                    <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitemdata.inv_name }}
+                                    </p>
+
+                                </buttton>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- <div v-for="(item, index) in items" :key="index"
+        class="w-full  min-w-[320px] max-w-96 bg-Grey_10  border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+        <div v-for="(inventeryitem, inventeryitemindex) in item" :key="inventeryitemindex">
+            <div class="">
+
+                <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white">
+
+                    <p> {{ inventeryitem.title }} </p>
 
                 </div>
 
@@ -81,12 +156,11 @@ export default {
 
             </div>
 
-        </template>
+        </div>
 
+        <p v-if="!item.inventory || item.inventory.length > 0" class="  text-center  ">no module Find</p> 
 
-        <p v-if="!item.inventory || item.inventory.length > 0" class="  text-center  ">no module Find</p>
-
-    </div>
+    </div> -->
 
 
     <!-- <li class="w-full rounded-regualr border border-solid border-Grey_20 overflow-hidden" v-for="(item, index) in items"

@@ -235,7 +235,78 @@ export default {
 
 
 <template>
-    <div v-for="(item, index) in items" :key="index" class="flex items-stretch gap-4">
+    <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
+
+        <div v-for="(itemArrays, itemArraysindex) in item" :key="itemArraysindex"
+            class="w-full  min-w-[320px] max-w-96 bg-Grey_10  border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+            <div v-for="(inventeryitem, inventeryitemindex) in itemArrays" :key="inventeryitemindex">
+
+                <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white">
+
+                    <p> {{ inventeryitem.title }} </p>
+
+                </div>
+
+                <div class="p-2 space-y-2">
+
+                    <p v-if="!inventeryitem.data || inventeryitem.data.length === 0"
+                        class="h-12 flex items-center justify-center text-center">no module Find
+                    </p>
+
+
+                    <div v-for="(inventerydata, inventerydataindex) in inventeryitem.data" :key="inventerydataindex"
+                        class="bg-white border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+                        <div class="py-2 px-4 border-b border-solid border-Grey_20">
+                            <p> {{ inventerydata.title }} </p>
+                        </div>
+
+                        <div class="py-2 px-4 flex items-center flex-wrap">
+
+                            <div v-for="(inventeryitemdata, inventeryitemdataindex) in inventerydata.items"
+                                :key="inventeryitemdataindex" class="flex flex-wrap p-0.5">
+
+                                <buttton 
+                                    class="btn-regular display-flex align-center gap-8px bg-white">
+
+                                    <div class="ellipse-dot"
+                                        :class="{ 'bg-emerald': inventeryitemdata.inv_status === 1, 'bg-rose': inventeryitemdata.inv_status === 2, 'bg-orange': inventeryitemdata.inv_status === 3, 'bg-blue': inventeryitemdata.inv_status === 4, 'bg-Grey_40': inventeryitemdata.inv_status === 5, 'bg-purple': inventeryitemdata.inv_status === 6 }">
+                                    </div>
+
+                                    <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitemdata.inv_name }}
+                                    </p>
+
+                                </buttton>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- <div v-for="(item, index) in items" :key="index" class="flex items-stretch gap-4">
 
         <template v-for="(inventeryitem, inventeryitemindex) in item.inventory" :key="inventeryitemindex">
 
@@ -276,7 +347,7 @@ export default {
 
         </template>
 
-    </div>
+    </div> -->
 
 
     <!-- <div v-for="(item, index) in items" :key="index" class="flex items-stretch gap-4">

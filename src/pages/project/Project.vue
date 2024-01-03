@@ -7,6 +7,7 @@ import ProjectStructure from './subcomponents/ProjectStructure.vue';
 import ProjectPreview from './subcomponents/ProjectPreview.vue';
 import SettingPage from '@/subcomponents/SettingPage.vue';
 import InventeryBoxStatus from '../inventeryList/subcomponents/InventeryBoxStatus.vue'
+import { useAuthStore } from '@/stores';
 
 
 export default {
@@ -50,6 +51,12 @@ export default {
     },
     created() {
         this.projectId = this.$route.params.projectId;
+        document.title = 'Projects | Billion Build'
+        const authStore = useAuthStore();
+        const title = "Projects |  Billion Build"
+        const description = "this is description for Projects"
+
+        authStore.chnageTitle(title, description)
     },
     computed: {
         addProjectbtn() {

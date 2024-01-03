@@ -25,6 +25,11 @@ export default {
     },
     created() {
         this.projectData();
+        const authStore = useAuthStore();
+        const title = "Project List |  Billion Build"
+        const description = "this is description for Project List"
+
+        authStore.chnageTitle(title, description)
     },
     methods: {
 

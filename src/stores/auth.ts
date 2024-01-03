@@ -9,7 +9,6 @@ const baseUrl = `${import.meta.env.VITE_API_URL}`;
 export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
-        // initialize state from local storage to enable user to stay logged in
         user: JSON.parse(localStorage.getItem('user')),
         returnUrl: null
     }),
@@ -66,6 +65,19 @@ export const useAuthStore = defineStore({
             this.user = null;
             localStorage.removeItem('user');
             router.push('home');
+        },
+        chnageTitle(title, description) {
+            document.title = title
+            const metaTag = document.createElement('meta');
+            metaTag.setAttribute('name', 'description');
+            metaTag.setAttribute('content', description);
+            const ifdescription = document.querySelector('meta[name="description"]');
+
+            if (ifdescription) {
+                ifdescription.parentNode.replaceChild(metaTag, ifdescription);
+            } else {
+                document.head.appendChild(metaTag);
+            }
         },
         async mailcheck(email) {
             var form_data = new FormData();

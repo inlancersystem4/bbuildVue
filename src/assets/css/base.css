@@ -35,11 +35,6 @@ body {
 
 
 
-
-
-
-
-
 /* main layout style  */
 
 
@@ -965,8 +960,6 @@ body {
 
 /* tabs  */
 
-
-
 .tab-pane {
     display: none;
     width: 100%;
@@ -975,8 +968,6 @@ body {
 .active-tab-content {
     display: block;
 }
-
-
 
 /* Close tabs  */
 
@@ -1003,6 +994,15 @@ body {
 
 .btn-regular:hover {
     background-color: var(--Grey-5);
+}
+
+.btn-regular:focus {
+    background-color: var(--Grey-5);
+}
+
+button:focus {
+    background-color: var(--Grey-5);
+    border-color: var(--Grey-90);
 }
 
 .btn-regular:disabled {

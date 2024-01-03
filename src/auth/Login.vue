@@ -34,6 +34,11 @@ export default {
     },
     created() {
         // this.checkUser()
+        const authStore = useAuthStore();
+        const title = "Sign In |  Billion Build"
+        const description = "this is description for Sign In"
+
+        authStore.chnageTitle(title, description)
     },
     computed: {
         loginBtn() {
