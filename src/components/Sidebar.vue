@@ -19,6 +19,9 @@ export default {
         },
         isInventoryCrudActive() {
             return this.$route.matched.some(route => route.name === 'InventeryList');
+        },
+        isReminderCrudActive() {
+            return this.$route.matched.some(route => route.name === 'ReminderList' || route.name === 'AddReminder');
         }
     },
     props: {
@@ -180,6 +183,33 @@ export default {
                         </router-link>
                     </li>
 
+                    <li class="list-items">
+                        <router-link to="/reminder-list" class="list-link" :class="{ link_active: isReminderCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path
+                                        d="M19.5 3.75H4.5C4.08579 3.75 3.75 4.08579 3.75 4.5V19.5C3.75 19.9142 4.08579 20.25 4.5 20.25H19.5C19.9142 20.25 20.25 19.9142 20.25 19.5V4.5C20.25 4.08579 19.9142 3.75 19.5 3.75Z"
+                                        stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M16.5 2.25V5.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M7.5 2.25V5.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M3.75 8.25H20.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M8.625 12H11.25L9.75 13.875C9.99686 13.8746 10.24 13.9351 10.4579 14.0512C10.6757 14.1672 10.8616 14.3353 10.999 14.5404C11.1363 14.7455 11.2209 14.9814 11.2453 15.2271C11.2696 15.4727 11.2329 15.7206 11.1385 15.9487C11.0441 16.1768 10.8949 16.378 10.704 16.5346C10.5132 16.6912 10.2866 16.7983 10.0445 16.8463C9.80236 16.8944 9.5521 16.8819 9.31593 16.81C9.07976 16.7382 8.86497 16.6091 8.69062 16.4344"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M13.5 13.125L15 12V16.875" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <p class="link-title">Reminder List</p>
+                            </div>
+                        </router-link>
+                    </li>
+
                 </ul>
 
             </div>
@@ -285,6 +315,32 @@ export default {
                                     <path d="M12 12V3" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                     <path d="M19.7907 7.5L4.20947 16.5" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </router-link>
+                    </li>
+
+                    <li class="list-items">
+                        <router-link to="/reminder-list" class="list-link" :class="{ link_active: isReminderCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path
+                                        d="M19.5 3.75H4.5C4.08579 3.75 3.75 4.08579 3.75 4.5V19.5C3.75 19.9142 4.08579 20.25 4.5 20.25H19.5C19.9142 20.25 20.25 19.9142 20.25 19.5V4.5C20.25 4.08579 19.9142 3.75 19.5 3.75Z"
+                                        stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M16.5 2.25V5.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M7.5 2.25V5.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M3.75 8.25H20.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M8.625 12H11.25L9.75 13.875C9.99686 13.8746 10.24 13.9351 10.4579 14.0512C10.6757 14.1672 10.8616 14.3353 10.999 14.5404C11.1363 14.7455 11.2209 14.9814 11.2453 15.2271C11.2696 15.4727 11.2329 15.7206 11.1385 15.9487C11.0441 16.1768 10.8949 16.378 10.704 16.5346C10.5132 16.6912 10.2866 16.7983 10.0445 16.8463C9.80236 16.8944 9.5521 16.8819 9.31593 16.81C9.07976 16.7382 8.86497 16.6091 8.69062 16.4344"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M13.5 13.125L15 12V16.875" stroke="#6B7280" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>

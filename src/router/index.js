@@ -76,9 +76,24 @@ const router = createRouter({
       component: () => import('../pages/inventeryList/List.vue')
     },
     {
+      path: '/inventory-details/:inventoryId',
+      name: 'InventeryDetails',
+      component: () => import('../pages/inventeryList/subcomponents/InventeryDetails.vue')
+    },
+    {
       path: '/settings',
       name: 'Settings',
       component: () => import('../pages/Settings.vue')
+    },
+    {
+      path: '/reminder-list',
+      name: 'ReminderList',
+      component: () => import('../pages/reminder/ReminderList.vue')
+    },
+    {
+      path: '/reminder/:reminderId',
+      name: 'AddReminder',
+      component: () => import('../pages/reminder/AddReminder.vue')
     },
     {
       path: '/log-in',

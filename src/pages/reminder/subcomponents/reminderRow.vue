@@ -3,6 +3,11 @@ export default {
     props: {
         list: Array,
     },
+    data() {
+        return {
+            showStatus: []
+        }
+    },
     methods: {
         deleteItem(id) {
             this.$emit('delete_item', id)
@@ -10,11 +15,15 @@ export default {
         editItem(id) {
             this.$emit('edit_item', id)
         },
-        editStatus(id) {
-            this.$emit('edit_status', id)
+        editStatus(id, s_id) {
+            this.$emit('edit_status', id, s_id)
         },
-        editReminder(id) {
-            this.$router.push({ name: 'AddReminder', params: { reminderId: id } })
+        statusShow(index) {
+            this.showStatus = []
+            this.showStatus[index] = !this.showStatus[index]
+        },
+        closeStatus() {
+            this.showStatus = [];
         }
     },
 }
@@ -28,64 +37,56 @@ export default {
         </td>
         <td class="user_name">
             <div class="display-flex align-center gap-14px">
-                <img :src="items.cus_profile" class="user-img" v-if="items.cus_profile">
-                <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" class="user-img"
-                    v-if="!items.cus_profile">
-                <p class="text-base_semibold color-Grey_90">{{ items.cus_first_name }} {{ items.cus_last_name }}</p>
+                <p class="text-base_semibold color-Grey_90">{{ items.rem_cus }} </p>
             </div>
         </td>
-        <td class="user_email">
-            <p class="text-base_semibold color-Grey_90">{{ items.cus_email }}</p>
-        </td>
         <td class="user_number">
-            <p class="text-base_semibold color-Grey_90">{{ items.cus_phone_no }}</p>
+            <p class="text-base_semibold color-Grey_90">{{ items.rem_date }}</p>
         </td>
         <td class="user_address">
-            <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.cus_address }}</p>
+            <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.rem_notes }}</p>
         </td>
         <td class="blank"></td>
-        <td class="user-status">
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.cus_status === 1">
-                <div class="ellipse-dot bg-emerald"></div>
-                <p class="text-sm_medium color-Grey_60">Enable</p>
+        <td class="user-status relative">
+            <button class="btn-regular display-flex align-center gap-8px" @click="statusShow(index)">
+                <div class="ellipse-dot"
+                    :class="{ 'bg-emerald': items.rem_status_id === 3, 'bg-orange': items.rem_status_id === 2, 'bg-Grey_40': items.rem_status_id === 1 }">
+                </div>
+                <p class="text-sm_medium color-Grey_60 capitalize">{{ items.rem_status }}</p>
             </button>
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.cus_status === 0">
-                <div class="ellipse-dot bg-rose"></div>
-                <p class="text-sm_medium color-Grey_60">Disable</p>
-            </button>
+            <ul class="custom-dropdown-list" v-if="showStatus[index] && !items.rem_status_id === 3"
+                @click.self="closeStatus">
+                <li class="dropdown-item" @click="editStatus(items.rem_id, 1)">
+                    <div class="dropdown-link">
+                        <p class="dropdown-link-title capitalize"> pending </p>
+                    </div>
+                </li>
+                <li class="dropdown-item" @click="editStatus(items.rem_id, 2)">
+                    <div class="dropdown-link">
+                        <p class="dropdown-link-title capitalize"> unanswered </p>
+                    </div>
+                </li>
+                <li class="dropdown-item" @click="editStatus(items.rem_id, 3)">
+                    <div class="dropdown-link">
+                        <p class="dropdown-link-title capitalize"> complete </p>
+                    </div>
+                </li>
+            </ul>
         </td>
         <td class="dropdown">
             <div class="icon-btn icon-btn_32px  custom-dropdown">
                 <img src="../../../assets/img/icons/dots-icon.svg">
                 <ul class="custom-dropdown-list leftside icon-dropdown">
-                    <li class="dropdown-item" @click="editItem(items.cus_id)">
+                    <li class="dropdown-item" @click="editItem(items.rem_id)">
                         <div class="dropdown-link">
                             <img src="../../../assets/img/icons/edit.svg">
-                            <p class="dropdown-link-title"> Edit Customer </p>
+                            <p class="dropdown-link-title"> Edit Reminder </p>
                         </div>
                     </li>
-                    <li class="dropdown-item" @click="editReminder(items.cus_id)">
-                        <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/clock.svg">
-                            <p class="dropdown-link-title"> Add Reminder </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="deleteItem(items.cus_id)">
+                    <li class="dropdown-item" @click="deleteItem(items.rem_id)">
                         <div class="dropdown-link">
                             <img src="../../../assets/img/icons/trash.svg">
-                            <p class="dropdown-link-title required"> Delete Customer </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="editStatus(items.cus_id)" v-if="items.cus_status === 0">
-                        <div class="dropdown-link">
-                            <p class="w20"></p>
-                            <p class="dropdown-link-title"> Enable </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="editStatus(items.cus_id)" v-if="items.cus_status === 1">
-                        <div class="dropdown-link">
-                            <p class="w20"></p>
-                            <p class="dropdown-link-title"> Disable </p>
+                            <p class="dropdown-link-title required"> Delete Reminder </p>
                         </div>
                     </li>
                 </ul>
@@ -108,6 +109,10 @@ tr:nth-last-child(3) .custom-dropdown-list {
     bottom: 90%;
 }
 
+.user-status .custom-dropdown-list {
+    display: block;
+}
+
 .count {
     min-width: 3%;
     max-width: 3%;
@@ -126,21 +131,16 @@ tr:nth-last-child(3) .custom-dropdown-list {
     border-radius: 999px;
 }
 
-.user_email {
-    min-width: 15%;
-    max-width: 15%;
-    display: block;
-}
 
 .user_number {
-    min-width: 10%;
-    max-width: 10%;
+    min-width: 20%;
+    max-width: 20%;
     display: block;
 }
 
 .user_address {
-    min-width: 15%;
-    max-width: 15%;
+    min-width: 22%;
+    max-width: 22%;
     display: block;
     overflow: hidden;
 }

@@ -10,14 +10,13 @@ import InventeryBoxStatus from './subcomponents/InventeryBoxStatus.vue'
 import StatusChnage from './subcomponents/StatusChnage.vue'
 import SelectCustomer from './subcomponents/SelectCustomer.vue';
 import Modal from './subcomponents/Modal.vue';
-import InventeryDetailsModal from './subcomponents/InventeryDetailsModal.vue';
 import { useAuthStore, useAlertStore } from '../../stores'
 
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label, InventeryDetailsModal },
+    components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label },
     data() {
         return {
             projectarray: [],
@@ -56,6 +55,12 @@ export default {
             ],
             invDetailsModal: false,
             invViewData: "",
+            invUpdateName: "",
+            invUpdateNote: "",
+            amenitiesList: [],
+            updateInvModal: false,
+            checkedamenities: [],
+            checkedAme: "",
         }
     },
     created() {
@@ -78,7 +83,10 @@ export default {
             }
         },
         updateDetailsMBtn() {
-            return !this.invUpArea.trim() || !this.invUpPrice.trim();
+            const isValidArea = !!(this.invUpArea && typeof this.invUpArea === 'string' && this.invUpArea.trim() !== '');
+            const isValidPrice = !!(this.invUpPrice && typeof this.invUpPrice === 'string' && this.invUpPrice.trim() !== '');
+
+            return !(isValidArea || isValidPrice) || this.selectinvUpType;
         }
     },
     methods: {
@@ -243,16 +251,19 @@ export default {
             this.inventeryId = String(data.inv_id)
             this.inventerydetaiId = String(data.inv_details)
             this.updateDetailsModal = true
+            this.getinvData();
         },
         handleCheck(data) {
             this.selectinvUpType = data
         },
         async invUpdated() {
             var status_data = new FormData();
-            if (this.inventerydetaiId === 0) {
+            if (this.inventerydetaiId === '0') {
                 status_data.append("detail_id", "");
             }
-            status_data.append("detail_id", this.inventerydetaiId);
+            else {
+                status_data.append("detail_id", this.inventerydetaiId);
+            }
             status_data.append("inv_id", this.inventeryId);
             status_data.append("inv_area", this.invUpArea);
             status_data.append("inv_price", this.invUpPrice);
@@ -277,25 +288,88 @@ export default {
             }
 
         },
-        async viewInvData(data) {
-            const id = String(data.inv_id)
-            if (id) {
-                var status_data = new FormData();
-                status_data.append("inv_id", id);
-
-                try {
-                    const response = await fetchWrapper.post(`${baseUrl}/inventory-details`, status_data);
-
-                    if (response.success === 1) {
-                        this.invDetailsModal = true
-                        this.invViewData = response.data
-                    }
-
-                } catch (error) {
-                    const alertStore = useAlertStore()
-                    alertStore.error(error)
+        async getinvData() {
+            var status_data = new FormData();
+            status_data.append("inv_id", this.inventeryId);
+            try {
+                const response = await fetchWrapper.post(`${baseUrl}/inventory-details`, status_data);
+                if (response.success === 1) {
+                    this.invViewData = response.data;
+                    this.invUpArea = response.data.inv_details.inv_area
+                    this.invUpPrice = response.data.inv_details.inv_price
+                    this.selectinvUpType = response.data.inv_details.inv_type
+                    this.invUpdateName = response.data.inv_name
+                    this.invUpdateNote = response.data.inv_notes
+                    // this.checkedamenities = response.data.amenities.map(amenity => amenity.amenities_id).join(', ')
+                    // console.log(this.checkedamenities)
+                    // this.isChecked = this.checkedamenities
                 }
             }
+            catch (error) {
+                const alertStore = useAlertStore();
+                alertStore.error(error);
+            }
+        },
+        updateInventery(data) {
+            this.inventeryId = String(data.inv_id)
+            this.updateInvModal = true
+            this.getinvData();
+            this.getAmenList();
+        },
+        async getAmenList() {
+            var status_data = new FormData();
+            try {
+                const response = await fetchWrapper.post(`${baseUrl}/amenities-list`, status_data);
+
+                if (response.success === 1) {
+                    this.amenitiesList = response.data;
+                }
+            }
+            catch (error) {
+                const alertStore = useAlertStore();
+                alertStore.error(error);
+            }
+        },
+
+        selectAmen(data) {
+            const index = this.checkedamenities.indexOf(data.amenities_id);
+            if (index !== -1) {
+                this.checkedamenities.splice(index, 1);
+            } else {
+                this.checkedamenities.push(data.amenities_id);
+            }
+        },
+        async inventoryUpdated() {
+            var status_data = new FormData();
+
+            const joinedamenities = this.checkedamenities.join(',');
+
+            status_data.append("inv_id", this.inventeryId);
+            status_data.append("inv_name", this.invUpdateName);
+            status_data.append("inv_notes", this.invUpdateNote);
+            status_data.append("inv_amenities", joinedamenities);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/inventory-update`, status_data);
+
+                if (data.success === 1) {
+                    this.project();
+                    this.inventeryId = ""
+                    this.invUpdateName = ""
+                    this.invUpdateNote = ""
+                    this.checkedamenities = []
+                    this.updateInvModal = false
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+
+        },
+        async viewInvData(data) {
+            const id = String(data.inv_id)
+            this.$router.push({ name: 'InventeryDetails', params: { inventoryId: id } })
         },
     },
 }
@@ -405,7 +479,7 @@ export default {
                     </div>
 
                     <InventeryBox :items="structureList" @selectInventery="selectedInventery"
-                        @updateDetails="updatedDetails" @viewInvDetails="viewInvData" />
+                        @updateDetails="updatedDetails" @viewInvDetails="viewInvData" @updateInv="updateInventery" />
 
                 </div>
 
@@ -474,6 +548,7 @@ export default {
                                 :key="updateInvDetaiTypeindex">
 
                                 <input type="radio" class="form-toogle-btn"
+                                    :checked="this.selectinvUpType === updateInvDetaiTypeitems.value"
                                     @change="handleCheck(updateInvDetaiTypeitems.value)" :name="radio + '_' + index"
                                     :id="updateInvDetaiTypeitems.name + _ + updateInvDetaiTypeindex" />
 
@@ -500,8 +575,70 @@ export default {
 
         </Modal>
 
-        <InventeryDetailsModal :data="invViewData" v-if="invDetailsModal"
-            @closeModal="this.invDetailsModal = !this.invDetailsModal" />
+        <Modal v-if="updateInvModal" @closeModal="this.updateInvModal = !this.updateInvModal">
+
+            <template v-slot:header>
+                <h4>Update inventory</h4>
+            </template>
+
+            <div class="padding-y_12px padding-x_16px">
+
+                <div class="space-y-4">
+
+                    <div class="space-y-4px">
+                        <Label label="Name" />
+                        <Input placeholder="Enter Name" id="Name" :value="invUpdateName"
+                            @input="event => invUpdateName = event.target.value" />
+                    </div>
+
+                    <div class="space-y-4px">
+                        <Label label="Note" />
+                        <TextArea placeholder="Enter Note" id="Note" :value="invUpdateNote"
+                            @input="event => invUpdateNote = event.target.value" />
+                    </div>
+
+                    <div class="space-y-8px">
+
+                        <Label label="Select Amenities" />
+
+                        <div class="flex flex-wrap gap-4 flex-col">
+
+                            <div v-for="(updateInvDetaiTypeitems, updateInvDetaiTypeindex) in amenitiesList"
+                                :key="updateInvDetaiTypeindex">
+
+                                <div class="display-flex align-center gap-12px justify-between w-100">
+
+                                    <div>
+                                        <h6 class="color-Grey_90 text-base_semibold"> {{
+                                            updateInvDetaiTypeitems.amenities_name }}</h6>
+                                        <p class="color-Grey_50 text-base_regular margin-top_4px">{{
+                                            updateInvDetaiTypeitems.amenities_details }}</p>
+                                    </div>
+
+                                    <div class="custom-toogle-btn">
+                                        <input type="checkbox" class="form-toogle-btn"
+                                            @input="selectAmen(updateInvDetaiTypeitems)">
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <template v-slot:footer>
+                <button class="btn-regular" @click="this.updateInvModal = !this.updateInvModal">Cancel</button>
+                <button class="btn-regular bg-purple color-white" :disabled="inventoryUpdatedBtn"
+                    @click="inventoryUpdated">Updated</button>
+            </template>
+
+        </Modal>
 
     </Layout>
 </template>

@@ -14,13 +14,28 @@ export default {
                 { name: 'View', action: 'view' },
                 { name: 'Status Chnage', action: 'Chnage' },
             ],
-            selectedItem: null
+            selectedItem: null,
         }
     },
     methods: {
         handleContextMenu(event, item) {
             event.preventDefault();
             this.selectedItem = item;
+            if (item.inv_details == 1) {
+                this.options = [
+                    { name: 'Edit', action: 'edit' },
+                    { name: 'View', action: 'view' },
+                    { name: 'Update', action: 'update' },
+                    { name: 'Status Chnage', action: 'Chnage' },
+                ]
+            }
+            else {
+                this.options = [
+                    { name: 'Edit', action: 'edit' },
+                    { name: 'Update', action: 'update' },
+                    { name: 'Status Chnage', action: 'Chnage' },
+                ]
+            }
             this.$refs.vueSimpleContextMenu.showMenu(event, item)
         },
         selectInven(data) {
@@ -29,8 +44,11 @@ export default {
         updateDetail(data) {
             this.$emit('updateDetails', data)
         },
-        viewdateDetail(data){
+        viewdateDetail(data) {
             this.$emit('viewInvDetails', data)
+        },
+        updateInv(data) {
+            this.$emit('updateInv', data)
         },
         optionClicked(option) {
             if (option.option.action === 'Chnage') {
@@ -48,14 +66,19 @@ export default {
                     this.viewdateDetail(this.selectedItem);
                 }
             }
+            if (option.option.action === 'update') {
+                if (this.selectedItem) {
+                    this.updateInv(this.selectedItem);
+                }
+            }
         }
     }
 }
 </script>
 
 <template>
-    <vue-simple-context-menu element-id="myUniqueId" :options="options" ref="vueSimpleContextMenu"
-        @option-clicked="optionClicked" />
+    <vue-simple-context-menu element-id="1" :options="options" ref="vueSimpleContextMenu" @option-clicked="optionClicked" />
+
 
 
     <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
