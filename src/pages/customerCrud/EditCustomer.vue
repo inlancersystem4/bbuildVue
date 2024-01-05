@@ -30,6 +30,8 @@ export default {
             customerDob: "",
             customerNote: "",
             customerReference: "",
+            attributes: [],
+            cusRemindersArr: [],
         }
     },
     created() {
@@ -80,11 +82,35 @@ export default {
                 this.customerNote = response.data.cus_notes
                 this.customerReference = response.data.cus_ref
                 this.profilePic = response.data.cus_profile
+                this.cusRemindersArr = response.data.cus_reminders
+
+                if (this.cusRemindersArr.length !== 0) {
+
+                    this.cusRemindersArr.forEach((reminder, index) => {
+                        this.attributes.push({
+                            content: 'blue',
+                            highlight: true,
+                            dot: true,
+                            bar: false,
+                            popover: {
+                                title: `Reminder ${index + 1}`,
+                                label: reminder.rem_notes,
+                            },
+                            dates: new Date(reminder.rem_date),
+                            order: index,
+                            time: new Date(reminder.rem_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                        });
+                    });
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
                 alertStore.error(error)
             }
+        },
+        dateTimeFormatter(date) {
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(date).toLocaleString([], options);
         },
         onOptionSelected(data) {
             this.selectedRole = data.role_name
@@ -222,6 +248,11 @@ export default {
 
                     </div>
 
+                    <div class="mt-4" v-if="this.cusRemindersArr.length !== 0">
+                        <VDatePicker v-model="remDate" color="sky-blue" :attributes='attributes' mode="dateTime"
+                            @change="highlightSelectedDate" :formatter="dateTimeFormatter" expanded />
+                    </div>
+
                 </div>
 
             </div>
@@ -236,6 +267,7 @@ export default {
     align-items: flex-start;
     justify-content: space-between;
     width: 100%;
+    gap: 24px;
 }
 
 .col-8 {

@@ -21,7 +21,10 @@ export default {
             return this.$route.matched.some(route => route.name === 'InventeryList');
         },
         isReminderCrudActive() {
-            return this.$route.matched.some(route => route.name === 'ReminderList' || route.name === 'AddReminder');
+            return this.$route.matched.some(route => route.name === 'ReminderList' || route.name === 'AddReminder' || route.name === 'EditReminder');
+        },
+        isOperationCrudActive() {
+            return this.$route.matched.some(route => route.name === 'OperationList');
         }
     },
     props: {
@@ -190,7 +193,7 @@ export default {
                                     fill="none">
                                     <path
                                         d="M19.5 3.75H4.5C4.08579 3.75 3.75 4.08579 3.75 4.5V19.5C3.75 19.9142 4.08579 20.25 4.5 20.25H19.5C19.9142 20.25 20.25 19.9142 20.25 19.5V4.5C20.25 4.08579 19.9142 3.75 19.5 3.75Z"
-                                        stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                     <path d="M16.5 2.25V5.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
@@ -206,6 +209,33 @@ export default {
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                                 <p class="link-title">Reminder List</p>
+                            </div>
+                        </router-link>
+                    </li>
+
+                    <li class="list-items">
+                        <router-link to="/operation-list" class="list-link" :class="{ link_active: isOperationCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path
+                                        d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75Z"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M9.34678 9.34531L5.63428 5.63281" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.6533 9.34531L18.3658 5.63281" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.6533 14.6523L18.3658 18.3648" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M9.34678 14.6523L5.63428 18.3648" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                <p class="link-title">Operation List</p>
                             </div>
                         </router-link>
                     </li>
@@ -328,7 +358,7 @@ export default {
                                     fill="none">
                                     <path
                                         d="M19.5 3.75H4.5C4.08579 3.75 3.75 4.08579 3.75 4.5V19.5C3.75 19.9142 4.08579 20.25 4.5 20.25H19.5C19.9142 20.25 20.25 19.9142 20.25 19.5V4.5C20.25 4.08579 19.9142 3.75 19.5 3.75Z"
-                                        stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                     <path d="M16.5 2.25V5.25" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
@@ -341,6 +371,32 @@ export default {
                                         stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                     <path d="M13.5 13.125L15 12V16.875" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </router-link>
+                    </li>
+
+                    <li class="list-items">
+                        <router-link to="/operation-list" class="list-link" :class="{ link_active: isOperationCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path
+                                        d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M12 15.75C14.0711 15.75 15.75 14.0711 15.75 12C15.75 9.92893 14.0711 8.25 12 8.25C9.92893 8.25 8.25 9.92893 8.25 12C8.25 14.0711 9.92893 15.75 12 15.75Z"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path d="M9.34678 9.34531L5.63428 5.63281" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.6533 9.34531L18.3658 5.63281" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M14.6533 14.6523L18.3658 18.3648" stroke="#6B7280" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M9.34678 14.6523L5.63428 18.3648" stroke="#6B7280" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
                             </div>

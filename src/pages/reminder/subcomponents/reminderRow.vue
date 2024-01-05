@@ -8,15 +8,31 @@ export default {
             showStatus: []
         }
     },
+    mounted() {
+        document.addEventListener('click', this.closeStatusOnClickOutside);
+    },
+    beforeUnmount() {
+        document.removeEventListener('click', this.closeStatusOnClickOutside);
+    },
     methods: {
+        closeStatusOnClickOutside(event) {
+            const isDropdown = event.target.closest('.user-status');
+
+            if (!isDropdown) {
+                this.closeStatus();
+            }
+        },
         deleteItem(id) {
+            this.showStatus = [];
             this.$emit('delete_item', id)
         },
         editItem(id) {
+            this.showStatus = [];
             this.$emit('edit_item', id)
         },
         editStatus(id, s_id) {
             this.$emit('edit_status', id, s_id)
+            this.showStatus = [];
         },
         statusShow(index) {
             this.showStatus = []
@@ -54,7 +70,7 @@ export default {
                 </div>
                 <p class="text-sm_medium color-Grey_60 capitalize">{{ items.rem_status }}</p>
             </button>
-            <ul class="custom-dropdown-list" v-if="showStatus[index] && !items.rem_status_id === 3"
+            <ul class="custom-dropdown-list" v-if="showStatus[index] && items.rem_status_id !== 3"
                 @click.self="closeStatus">
                 <li class="dropdown-item" @click="editStatus(items.rem_id, 1)">
                     <div class="dropdown-link">

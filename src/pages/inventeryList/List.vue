@@ -10,13 +10,14 @@ import InventeryBoxStatus from './subcomponents/InventeryBoxStatus.vue'
 import StatusChnage from './subcomponents/StatusChnage.vue'
 import SelectCustomer from './subcomponents/SelectCustomer.vue';
 import Modal from './subcomponents/Modal.vue';
+import DeleteModel from '@/subcomponents/common/DeleteModel.vue';
 import { useAuthStore, useAlertStore } from '../../stores'
 
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label },
+    components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label, DeleteModel },
     data() {
         return {
             projectarray: [],
@@ -61,6 +62,9 @@ export default {
             updateInvModal: false,
             checkedamenities: [],
             checkedAme: "",
+            deleteItemModal: false,
+            operationNote: "",
+            addoperationModal: false,
         }
     },
     created() {
@@ -87,6 +91,9 @@ export default {
             const isValidPrice = !!(this.invUpPrice && typeof this.invUpPrice === 'string' && this.invUpPrice.trim() !== '');
 
             return !(isValidArea || isValidPrice) || this.selectinvUpType;
+        },
+        addOperationBtn() {
+            return !this.operationNote.trim();
         }
     },
     methods: {
@@ -247,6 +254,28 @@ export default {
             }
 
         },
+        deleteInventery(data) {
+            this.inventeryId = data.inv_id
+            this.deleteItemModal = true
+        },
+        async deleteItem() {
+            var delete_data = new FormData();
+
+            delete_data.append("invent_id", this.inventeryId);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/inventory-delete`, delete_data);
+
+                if (data.success === 1) {
+                    this.project();
+                    this.deleteItemModal = false
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+        },
         updatedDetails(data) {
             this.inventeryId = String(data.inv_id)
             this.inventerydetaiId = String(data.inv_details)
@@ -371,6 +400,34 @@ export default {
             const id = String(data.inv_id)
             this.$router.push({ name: 'InventeryDetails', params: { inventoryId: id } })
         },
+        inventeryAddOper(data) {
+            this.inventeryId = String(data.inv_id)
+            this.addoperationModal = true
+        },
+        async addOperation() {
+            var status_data = new FormData();
+            status_data.append("inventory_id", this.inventeryId);
+            status_data.append("operation_id", "");
+            status_data.append("operation_notes", this.operationNote);
+            status_data.append("operation_type", "2");
+            status_data.append("project_id", "");
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/add-operation`, status_data);
+
+                if (data.success === 1) {
+                    this.project();
+                    this.inventeryId = ""
+                    this.operationNote = ""
+                    this.addoperationModal = false
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+
+        },
     },
 }
 </script>
@@ -478,8 +535,9 @@ export default {
 
                     </div>
 
-                    <InventeryBox :items="structureList" @selectInventery="selectedInventery"
-                        @updateDetails="updatedDetails" @viewInvDetails="viewInvData" @updateInv="updateInventery" />
+                    <InventeryBox :items="structureList" @selectInventery="selectedInventery" @deleteInv="deleteInventery"
+                        @updateDetails="updatedDetails" @viewInvDetails="viewInvData" @updateInv="updateInventery"
+                        @invAddOper="inventeryAddOper" />
 
                 </div>
 
@@ -640,7 +698,34 @@ export default {
 
         </Modal>
 
+        <Modal v-if="addoperationModal" @closeModal="this.addoperationModal = !this.addoperationModal">
+
+            <template v-slot:header>
+                <h4>Add Operation</h4>
+            </template>
+
+            <div class="padding-y_12px padding-x_16px">
+
+                <div class="space-y-4px">
+                    <Label label="Note" />
+                    <TextArea placeholder="Enter Note" id="Note" :value="operationNote"
+                        @input="event => operationNote = event.target.value" />
+                </div>
+
+            </div>
+
+            <template v-slot:footer>
+                <button class="btn-regular" @click="this.addoperationModal = !this.addoperationModal">Cancel</button>
+                <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn" @click="addOperation">Add
+                    Operation</button>
+            </template>
+
+        </Modal>
+
     </Layout>
+
+    <DeleteModel model_title="Delete Inventery" model_subtitle="Are you sure you want to delete this Inventery?"
+        v-if="deleteItemModal" @close_model="deleteItemModal = false" @delete_item="deleteItem()" />
 </template>
 
 <style scoped>

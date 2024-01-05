@@ -96,6 +96,16 @@ const router = createRouter({
       component: () => import('../pages/reminder/AddReminder.vue')
     },
     {
+      path: '/edit-reminder/:reminderId',
+      name: 'EditReminder',
+      component: () => import('../pages/reminder/EditReminder.vue')
+    },
+    {
+      path: '/operation-list',
+      name: 'OperationList',
+      component: () => import('../pages/operation/OperationList.vue')
+    },
+    {
       path: '/log-in',
       name: 'Login',
       component: () => import('../auth/Login.vue')

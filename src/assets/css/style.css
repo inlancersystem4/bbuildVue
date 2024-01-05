@@ -3272,3 +3272,10 @@ input[type="color"] {
     background-color: var(--Grey-10) !important;
     color: var(--Grey-90) !important;
 }
+
+
+
+.vc-highlight-content-solid {
+    background-color: black !important;
+    color: white !important;
+}

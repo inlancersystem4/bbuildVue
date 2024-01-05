@@ -11,6 +11,7 @@ export default {
         return {
             inventoryId: "",
             invViewData: "",
+            operViewData: [],
         };
     },
     created() {
@@ -20,6 +21,7 @@ export default {
         authStore.chnageTitle(title, description);
         this.inventoryId = this.$route.params.inventoryId;
         this.viewInvData();
+        this.viewOpervData();
     },
     methods: {
         async viewInvData() {
@@ -29,6 +31,20 @@ export default {
                 const response = await fetchWrapper.post(`${baseUrl}/inventory-details`, status_data);
                 if (response.success === 1) {
                     this.invViewData = response.data;
+                }
+            }
+            catch (error) {
+                const alertStore = useAlertStore();
+                alertStore.error(error);
+            }
+        },
+        async viewOpervData() {
+            var status_data = new FormData();
+            status_data.append("inv_id", this.inventoryId);
+            try {
+                const response = await fetchWrapper.post(`${baseUrl}/inv-opern-list`, status_data);
+                if (response.success === 1) {
+                    this.operViewData = response.data;
                 }
             }
             catch (error) {
@@ -198,7 +214,8 @@ export default {
 
                         <ul class="grid grid-cols-3 gap-2">
 
-                            <li v-for="(item, index) in invViewData.amenities" :key="index" class="border-r border-solid border-Grey_20 px-2.5">
+                            <li v-for="(item, index) in invViewData.amenities" :key="index"
+                                class="border-r border-solid border-Grey_20 px-2.5">
 
                                 <h6 class="color-Grey_90  text-base_semibold capitalize">
                                     {{ item.amenities_name }}
@@ -275,11 +292,21 @@ export default {
             </div>
 
 
-            <div class="space-y-4px">
+            <ul class="space-y-4px">
 
+                <li v-for="(item, index) in operViewData" :key="index"
+                    class="bg-white border border-solid border-Grey_20 rounded-regualr p-4">
 
+                    <div class="flex items-center justify-between mb-3">
+                        <h6 class="text-large_semibold color-Grey_90">{{ item.opern_inv }}</h6>
+                        <p class="text-sm_semibold color-Grey_50">{{ item.opern_date }}</p>
+                    </div>
 
-            </div>
+                    <p class="text-base color-Grey_50">{{ item.opern_notes }}</p>
+
+                </li>
+
+            </ul>
 
 
         </div>

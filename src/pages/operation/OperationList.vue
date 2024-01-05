@@ -7,17 +7,17 @@ import Layout from '../../components/Layout.vue';
 import ContentSection from '../../subcomponents/ContentSection.vue';
 import SearchBox from '../../subcomponents/common/SearchBox.vue';
 import Pagination from '../../subcomponents/common/Pagination.vue';
+import Operations from './subcomponents/OperationRow.vue';
 import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
-import reminderRow from './subcomponents/reminderRow.vue'
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, ContentSection, SearchBox, Pagination, DeleteModel, reminderRow },
+    components: { Layout, ContentSection, SearchBox, Pagination, Operations, DeleteModel },
     data() {
         return {
             list: [],
-            // searchText: "",
+            searchText: "",
             currentPage: 1,
             totalPages: 1,
             sort: "asc",
@@ -26,42 +26,41 @@ export default {
         }
     },
     created() {
-        this.reminderData();
+        this.operationData();
         const authStore = useAuthStore();
-        const title = "Reminder List |  Billion Build"
-        const description = "this is description for Reminder List"
+        const title = "Operations |  Billion Build"
+        const description = "this is description for Operations"
 
         authStore.chnageTitle(title, description)
     },
     methods: {
 
-        // searchTextFun(event) {
-        //     this.searchText = event.target.value.trim();
-        //     this.reminderData();
-        // },
+        searchTextFun(event) {
+            this.searchText = event.target.value.trim();
+            this.operationData();
+        },
 
         updatePage(Number) {
             this.currentPage = Number;
-            this.reminderData();
+            this.operationData();
         },
 
         chnageSort() {
             this.sort = this.sort === 'desc' ? 'asc' : 'desc';
-            this.reminderData();
+            this.operationData();
         },
 
-        async reminderData() {
+        async operationData() {
             var user_data = new FormData();
-            user_data.append("rem_id", "");
+            user_data.append("operation_id", "");
             user_data.append("sort", this.sort);
-            // user_data.append("search", this.searchText);
+            user_data.append("search", this.searchText);
             user_data.append("page_no", this.currentPage);
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
+                const response = await fetchWrapper.post(`${baseUrl}/operation-list`, user_data);
                 this.list = response.data;
                 this.totalPages = response.total_pages;
-
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -73,14 +72,14 @@ export default {
         async statusUpdate(id, s_id) {
             var status_up = new FormData();
 
-            status_up.append("rem_id", id);
-            status_up.append("rem_status", s_id);
+            status_up.append("operation_id", id);
+            status_up.append("operation_status", s_id);
 
             try {
-                const data = await fetchWrapper.post(`${baseUrl}/reminder-status`, status_up);
+                const data = await fetchWrapper.post(`${baseUrl}/operation-status`, status_up);
 
                 if (data.success === 1) {
-                    this.reminderData();
+                    this.operationData();
                 }
 
             } catch (error) {
@@ -94,20 +93,20 @@ export default {
             this.itemId = id
         },
 
-        editItem(id) {
-            this.$router.push({ name: 'EditReminder', params: { reminderId: id } })
-        },
+        // editItem(id) {
+        //     this.$router.push({ name: 'EditCustomer', params: { id: id } })
+        // },
 
         async deleteItem() {
             var delete_data = new FormData();
 
-            delete_data.append("rem_id", this.itemId);
+            delete_data.append("operation_id", this.itemId);
 
             try {
-                const data = await fetchWrapper.post(`${baseUrl}/reminder-delete`, delete_data);
+                const data = await fetchWrapper.post(`${baseUrl}/remove-operation`, delete_data);
 
                 if (data.success === 1) {
-                    this.reminderData();
+                    this.operationData();
                     this.deleteItemModal = false
                 }
 
@@ -131,22 +130,24 @@ export default {
             <template v-slot:table-header>
 
                 <div class="w-100 margin-bottom_12px">
-                    <h2 class="title">Reminder List</h2>
+                    <h2 class="title">Operation List</h2>
                 </div>
 
 
-                <div class="table-options w-100">
-
-
-                </div>
-
-                <div class="table-options w-100 justify-end">
+                <div class="table-options">
 
                     <button class="btn-regular display-flex align-center gap-8px" @click="chnageSort()">
                         <img src="../../assets/img/icons/adjustments.svg">
                         <span v-if="sort === 'asc'">Newest</span>
                         <span v-if="sort === 'desc'">Oddest</span>
                     </button>
+
+
+                </div>
+
+                <div class="table-options">
+
+                    <SearchBox placeholder="Search Account" :value="searchText" @input="searchTextFun" />
 
                 </div>
 
@@ -163,28 +164,24 @@ export default {
                     <tbody>
                         <tr>
                             <td class="count">
-                                <p class="gap-8px text-base_semibold color-Grey_50">No.</p>
+                                <p class="text-base_semibold color-Grey_50">No.</p>
                             </td>
                             <td class="user_name">
-                                <div class="display-flex align-center gap-14px">
-                                    <p class="text-base_semibold color-Grey_50">Customer Name</p>
-                                </div>
+                                <p class="text-base_semibold color-Grey_50"> Operation Name</p>
                             </td>
-                            <td class="user_number">
-                                <p class="text-base_semibold color-Grey_50">Date & Time</p>
+                            <td class="user_email">
+                                <p class="text-base_semibold color-Grey_50">Operation Date</p>
                             </td>
                             <td class="user_address">
-                                <p class="text-base_semibold color-Grey_50 line-clamp-1">Note</p>
+                                <p class="text-base_semibold color-Grey_50 line-clamp-1">Operation Note</p>
                             </td>
                             <td class="blank"></td>
-                            <td class="user-status relative">
-                            </td>
+                            <td class="user-status"></td>
                             <td class="dropdown">
-                                <div class="icon-btn icon-btn_32px  custom-dropdown">
-                                </div>
+                                <div class="icon-btn icon-btn_32px  custom-dropdown"></div>
                             </td>
                         </tr>
-                        <reminderRow :list="list" @delete_item="getItemId" @edit_item="editItem"
+                        <Operations :list="list" @delete_item="getItemId" @edit_item="editItem"
                             @edit_status="statusUpdate" />
 
                     </tbody>
@@ -206,7 +203,7 @@ export default {
     </Layout>
 
 
-    <DeleteModel model_title="Delete Remider" model_subtitle="Are you sure you want to delete this Remider?"
+    <DeleteModel model_title="Delete Operation" model_subtitle="Are you sure you want to delete this Operation?"
         v-if="deleteItemModal" @close_model="deleteItemModal = false" @delete_item="deleteItem()" />
 </template>
 
@@ -223,10 +220,6 @@ tr:nth-last-child(2) .custom-dropdown-list,
 tr:nth-last-child(3) .custom-dropdown-list {
     top: auto;
     bottom: 90%;
-}
-
-.user-status .custom-dropdown-list {
-    display: block;
 }
 
 .count {
@@ -247,23 +240,28 @@ tr:nth-last-child(3) .custom-dropdown-list {
     border-radius: 999px;
 }
 
+.user_email {
+    min-width: 15%;
+    max-width: 15%;
+    display: block;
+}
 
 .user_number {
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 10%;
+    max-width: 10%;
     display: block;
 }
 
 .user_address {
-    min-width: 22%;
-    max-width: 22%;
+    min-width: 25%;
+    max-width: 25%;
     display: block;
     overflow: hidden;
 }
 
 .blank {
-    min-width: 10%;
-    max-width: 10%;
+    min-width: 12%;
+    max-width: 12%;
     display: block;
 }
 

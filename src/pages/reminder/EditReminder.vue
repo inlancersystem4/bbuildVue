@@ -24,20 +24,6 @@ export default {
             remNote: "",
             customerId: "",
             remDate: "",
-            // attributes: [
-            //     {
-            //         content: 'blue',
-            //         highlight: true,
-            //         dot: true,
-            //         bar: true,
-            //         popover: {
-            //             title: 'Event Title 1',
-            //             body: 'Event details go here 1',
-            //         },
-            //         dates: new Date(),
-            //         order: 0
-            //     },
-            // ]
             attributes: []
         }
     },
@@ -48,6 +34,7 @@ export default {
 
         authStore.chnageTitle(title, description)
         this.customerId = this.$route.params.reminderId;
+        this.reminderData();
     },
     computed: {
         formattedDate() {
@@ -79,13 +66,46 @@ export default {
                     title: 'Selected Date',
                     body: 'This is the selected date',
                 },
-                dates: new Date(this.remDate), // Highlight the selected date
+                dates: new Date(this.remDate),
                 order: 0
             });
         },
+        async reminderData() {
+            var user_data = new FormData();
+            user_data.append("rem_id", this.customerId);
+            user_data.append("sort", this.sort);
+            user_data.append("page_no", this.currentPage);
+
+            try {
+                const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
+                this.totalPages = response.total_pages;
+
+                if (response.success === 1) {
+                    this.remNote = response.data.rem_notes;
+                    this.remDate = response.data.rem_date
+                    this.attributes = {
+                        content: 'black',
+                        highlight: true,
+                        dot: true,
+                        bar: true,
+                        popover: {
+                            title: 'Selected Date',
+                            label: this.remNote,
+                        },
+                        dates: new Date(this.remDate),
+                        order: 0
+                    }
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+
+        },
         async addReminder() {
             var customer_data = new FormData();
-            customer_data.append("rem_id", "");
+            customer_data.append("rem_id", this.customerId);
             customer_data.append("rem_self", "");
             customer_data.append("cus_id", this.customerId);
             customer_data.append("rem_notes", this.remNote);
@@ -114,7 +134,7 @@ export default {
     <Layout>
 
 
-        <ContentSection title="Add Reminder">
+        <ContentSection title="Edit Reminder">
 
 
 

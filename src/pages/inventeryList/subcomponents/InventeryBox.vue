@@ -27,6 +27,8 @@ export default {
                     { name: 'View', action: 'view' },
                     { name: 'Update', action: 'update' },
                     { name: 'Status Chnage', action: 'Chnage' },
+                    { name: 'Delete', action: 'delete' },
+                    { name: 'Operation', action: 'operation' },
                 ]
             }
             else {
@@ -34,6 +36,8 @@ export default {
                     { name: 'Edit', action: 'edit' },
                     { name: 'Update', action: 'update' },
                     { name: 'Status Chnage', action: 'Chnage' },
+                    { name: 'Delete', action: 'delete' },
+                    { name: 'Operation', action: 'operation' },
                 ]
             }
             this.$refs.vueSimpleContextMenu.showMenu(event, item)
@@ -49,6 +53,12 @@ export default {
         },
         updateInv(data) {
             this.$emit('updateInv', data)
+        },
+        deleteInv(data) {
+            this.$emit('deleteInv', data)
+        },
+        invAddOper(data) {
+            this.$emit('invAddOper', data)
         },
         optionClicked(option) {
             if (option.option.action === 'Chnage') {
@@ -69,6 +79,16 @@ export default {
             if (option.option.action === 'update') {
                 if (this.selectedItem) {
                     this.updateInv(this.selectedItem);
+                }
+            }
+            if (option.option.action === 'delete') {
+                if (this.selectedItem) {
+                    this.deleteInv(this.selectedItem);
+                }
+            }
+            if (option.option.action === 'operation') {
+                if (this.selectedItem) {
+                    this.invAddOper(this.selectedItem);
                 }
             }
         }
