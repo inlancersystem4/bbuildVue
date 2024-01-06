@@ -7,14 +7,16 @@ import Layout from '../../components/Layout.vue';
 import ContentSection from '../../subcomponents/ContentSection.vue';
 import SearchBox from '../../subcomponents/common/SearchBox.vue';
 import Pagination from '../../subcomponents/common/Pagination.vue';
-import Operations from './subcomponents/OperationRow.vue';
+import AmenitiesRow from './subcomponents/AmenitiesRow.vue';
 import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
-import TextArea from '../../subcomponents/common/TextArea.vue';
+import Input from '../../subcomponents/common/Input.vue'
+import TextArea from '../../subcomponents/common/TextArea.vue'
+import Label from '../../subcomponents/common/Label.vue'
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, ContentSection, SearchBox, Pagination, Operations, DeleteModel, TextArea },
+    components: { Layout, ContentSection, SearchBox, Pagination, AmenitiesRow, DeleteModel, Input, TextArea, Label },
     data() {
         return {
             list: [],
@@ -24,80 +26,66 @@ export default {
             sort: "asc",
             deleteItemModal: false,
             itemId: "",
-            operationModal: false,
-            operationNote: "",
-            operationId: "",
-            operationInvId: "",
-            operationType: "",
-            operationProId: "",
-        }
-    },
-    computed: {
-        addOperationBtn() {
-            return !this.operationNote.trim()
+            amenitiesName: "",
+            amenitiesNote: "",
+            amenitiesModal: false
         }
     },
     created() {
-        this.operationData();
+        this.amenitieData();
         const authStore = useAuthStore();
-        const title = "Operations |  Billion Build"
-        const description = "this is description for Operations"
+        const title = "Customer List |  Billion Build"
+        const description = "this is description for Customer List"
 
         authStore.chnageTitle(title, description)
     },
+    computed: {
+        addamenitiesBtn() {
+            return !this.amenitiesName.trim() || !this.amenitiesNote.trim()
+        }
+    },
     methods: {
+
+        addUserFun() {
+            this.amenitiesModal = true
+            this.amenitiesName = ""
+            this.amenitiesNote = ""
+            this.itemId = ""
+        },
 
         searchTextFun(event) {
             this.searchText = event.target.value.trim();
-            this.operationData();
+            this.amenitieData();
         },
 
         updatePage(Number) {
             this.currentPage = Number;
-            this.operationData();
+            this.amenitieData();
         },
 
         chnageSort() {
             this.sort = this.sort === 'desc' ? 'asc' : 'desc';
-            this.operationData();
+            this.amenitieData();
         },
 
-        async operationData() {
+        async amenitieData() {
             var user_data = new FormData();
-            user_data.append("operation_id", "");
+            user_data.append("amenities_id", "");
             user_data.append("sort", this.sort);
             user_data.append("search", this.searchText);
             user_data.append("page_no", this.currentPage);
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/operation-list`, user_data);
+                const response = await fetchWrapper.post(`${baseUrl}/amenity-list`, user_data);
                 this.list = response.data;
                 this.totalPages = response.total_pages;
 
-            } catch (error) {
-                const alertStore = useAlertStore()
-                alertStore.error(error)
-            }
-
-        },
-
-        async statusUpdate(id, s_id) {
-            var status_up = new FormData();
-
-            status_up.append("operation_id", id);
-            status_up.append("operation_status", s_id);
-
-            try {
-                const data = await fetchWrapper.post(`${baseUrl}/operation-status`, status_up);
-
-                if (data.success === 1) {
-                    this.operationData();
-                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
                 alertStore.error(error)
             }
+
         },
 
         getItemId(id) {
@@ -106,48 +94,19 @@ export default {
         },
 
         async editItem(id) {
-            this.operationModal = true
-            this.operationId = id
+            this.itemId = id
             var user_data = new FormData();
-            user_data.append("operation_id", this.operationId);
+            user_data.append("amenities_id", id);
+            user_data.append("sort", this.sort);
             user_data.append("search", this.searchText);
             user_data.append("page_no", this.currentPage);
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/operation-list`, user_data);
+                const response = await fetchWrapper.post(`${baseUrl}/amenity-list`, user_data);
 
-                this.operationNote = response.data.opern_notes
-                this.operationInvId = response.data.opern_inv_id
-                this.operationType = response.data.opern_type
-                this.operationProId = response.data.opern_proj
-                this.totalPages = response.total_pages;
-
-            } catch (error) {
-                const alertStore = useAlertStore()
-                alertStore.error(error)
-            }
-        },
-
-        async addOperation() {
-            var status_data = new FormData();
-            status_data.append("inventory_id", this.operationInvId);
-            status_data.append("operation_id", this.operationId);
-            status_data.append("operation_notes", this.operationNote);
-            status_data.append("operation_type", this.operationType);
-            status_data.append("project_id", this.operationProId);
-
-            try {
-                const data = await fetchWrapper.post(`${baseUrl}/add-operation`, status_data);
-
-                if (data.success === 1) {
-                    this.operationModal = false
-                    this.operationId = ""
-                    this.operationNote = ""
-                    this.operationInvId = ""
-                    this.operationType = ""
-                    this.operationProId = ""
-                    this.operationData();
-                }
+                this.amenitiesModal = true
+                this.amenitiesName = response.data.amenities_name
+                this.amenitiesNote = response.data.amenities_details
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -158,14 +117,15 @@ export default {
         async deleteItem() {
             var delete_data = new FormData();
 
-            delete_data.append("operation_id", this.itemId);
+            delete_data.append("amenities_id", this.itemId);
 
             try {
-                const data = await fetchWrapper.post(`${baseUrl}/remove-operation`, delete_data);
+                const data = await fetchWrapper.post(`${baseUrl}/remove-amenities`, delete_data);
 
                 if (data.success === 1) {
-                    this.operationData();
+                    this.amenitieData();
                     this.deleteItemModal = false
+                    this.itemId = ""
                 }
 
             } catch (error) {
@@ -173,6 +133,30 @@ export default {
                 alertStore.error(error)
             }
         },
+
+        async addAmenities() {
+            var amenities_data = new FormData();
+            amenities_data.append("amenities_id", this.itemId || '');
+            amenities_data.append("amenities_name", this.amenitiesName);
+            amenities_data.append("amenities_details", this.amenitiesNote);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/add-amenities`, amenities_data);
+
+                if (data.success === 1) {
+                    this.amenitieData();
+                    this.deleteItemModal = false
+                    this.amenitiesModal = false
+                    this.amenitiesName = ""
+                    this.amenitiesNote = ""
+                    this.itemId = ""
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+        }
     },
 }
 </script>
@@ -188,7 +172,7 @@ export default {
             <template v-slot:table-header>
 
                 <div class="w-100 margin-bottom_12px">
-                    <h2 class="title">Operation List</h2>
+                    <h2 class="title">Amenities List</h2>
                 </div>
 
 
@@ -200,12 +184,15 @@ export default {
                         <span v-if="sort === 'desc'">Oddest</span>
                     </button>
 
-
                 </div>
 
                 <div class="table-options">
 
                     <SearchBox placeholder="Search Account" :value="searchText" @input="searchTextFun" />
+
+                    <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap" @click="addUserFun()">
+                        <img src="../../assets/img/icons/plus-3.svg">
+                        Add New Amenities</button>
 
                 </div>
 
@@ -222,25 +209,22 @@ export default {
                     <tbody>
                         <tr>
                             <td class="count">
-                                <p class="text-base_semibold color-Grey_50">No.</p>
+                                <p class="text-sm_regular color-Grey_50">No.</p>
                             </td>
                             <td class="user_name">
-                                <p class="text-base_semibold color-Grey_50"> Operation Name</p>
+                                <p class="text-sm_regular color-Grey_50">Amenities Name</p>
                             </td>
-                            <td class="user_email">
-                                <p class="text-base_semibold color-Grey_50">Operation Date</p>
-                            </td>
-                            <td class="user_address">
-                                <p class="text-base_semibold color-Grey_50 line-clamp-1">Operation Note</p>
+                            <td class="user_number">
+                                <p class="text-sm_regular color-Grey_50">Amenities Details</p>
                             </td>
                             <td class="blank"></td>
-                            <td class="user-status"></td>
                             <td class="dropdown">
-                                <div class="icon-btn icon-btn_32px  custom-dropdown"></div>
+                                <div class="icon-btn icon-btn_32px  custom-dropdown">
+
+                                </div>
                             </td>
                         </tr>
-                        <Operations :list="list" @delete_item="getItemId" @edit_item="editItem"
-                            @edit_status="statusUpdate" />
+                        <AmenitiesRow :list="list" @delete_item="getItemId" @edit_item="editItem" />
 
                     </tbody>
                 </table>
@@ -258,14 +242,15 @@ export default {
         </ContentSection>
 
 
-        <div class="status-chnageBox" v-if="operationModal">
+        <div class="status-chnageBox" v-if="amenitiesModal">
             <div class="w-full border border-solid border-Grey_20 rounded-regualr bg-white ">
 
                 <div class="w-full border-b border-solid border-Gray_20">
 
                     <div class="padding-y_8px padding-x_16px">
 
-                        <h4>Edit Operation</h4>
+                        <h4 v-if="!this.itemId"> Add Amenities</h4>
+                        <h4 v-if="this.itemId"> Edit Amenities</h4>
 
                     </div>
 
@@ -274,9 +259,15 @@ export default {
                 <div class="padding-y_12px padding-x_16px space-y-4">
 
                     <div class="space-y-4px">
-                        <Label label="operatio Note" />
-                        <TextArea placeholder="Enter operatio Note" id="operatio Note" :value="operationNote"
-                            @input="event => operationNote = event.target.value" />
+                        <Label label="Amenities Name" />
+                        <Input placeholder="Enter Amenities Name" id="Amenities Name" :value="amenitiesName"
+                            @input="event => amenitiesName = event.target.value" />
+                    </div>
+
+                    <div class="space-y-4px">
+                        <Label label="Amenities details" />
+                        <TextArea placeholder="Enter Amenities details" id="Amenities details" :value="amenitiesNote"
+                            @input="event => amenitiesNote = event.target.value" />
                     </div>
 
                 </div>
@@ -285,9 +276,13 @@ export default {
 
                     <div class="padding-y_8px padding-x_16px flex items-center justify-end gap-8px">
 
-                        <button class="btn-regular" @click="this.operationModal = !this.operationModal">Cancel</button>
-                        <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn"
-                            @click="addOperation">Chnage Operation</button>
+                        <button class="btn-regular" @click="this.amenitiesModal = !this.amenitiesModal">Cancel</button>
+                        <button class="btn-regular bg-purple color-white" :disabled="addamenitiesBtn" @click="addAmenities"
+                            v-if="!this.itemId">Add
+                            Operation</button>
+                        <button class="btn-regular bg-purple color-white" :disabled="addamenitiesBtn" @click="addAmenities"
+                            v-if="this.itemId">Chnage
+                            Operation</button>
 
                     </div>
 
@@ -295,39 +290,16 @@ export default {
 
             </div>
         </div>
-        <div class="overlay" @click="this.operationModal = !this.operationModal" v-if="operationModal"></div>
+        <div class="overlay" @click="this.amenitiesModal = !this.amenitiesModal" v-if="amenitiesModal"></div>
 
     </Layout>
 
 
-    <DeleteModel model_title="Delete Operation" model_subtitle="Are you sure you want to delete this Operation?"
+    <DeleteModel model_title="Delete Customer" model_subtitle="Are you sure you want to delete this Customer?"
         v-if="deleteItemModal" @close_model="deleteItemModal = false" @delete_item="deleteItem()" />
 </template>
 
-
-
 <style scoped>
-.status-chnageBox {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 98%;
-    max-width: 550px;
-    z-index: 101;
-}
-
-.overlay {
-    position: fixed;
-    z-index: 99;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0.4;
-    background: #111827;
-    margin-top: 0 !important;
-}
-
 tr {
     display: flex;
     gap: 24px;
@@ -348,8 +320,8 @@ tr:nth-last-child(3) .custom-dropdown-list {
 }
 
 .user_name {
-    min-width: 18%;
-    max-width: 18%;
+    min-width: 24%;
+    max-width: 24%;
     display: block;
 }
 
@@ -366,21 +338,21 @@ tr:nth-last-child(3) .custom-dropdown-list {
 }
 
 .user_number {
-    min-width: 10%;
-    max-width: 10%;
+    min-width: 20%;
+    max-width: 20%;
     display: block;
 }
 
 .user_address {
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 15%;
+    max-width: 15%;
     display: block;
     overflow: hidden;
 }
 
 .blank {
-    min-width: 12%;
-    max-width: 12%;
+    min-width: 30%;
+    max-width: 30%;
     display: block;
 }
 
@@ -392,14 +364,39 @@ tr:nth-last-child(3) .custom-dropdown-list {
 }
 
 .dropdown {
-    min-width: 5%;
-    max-width: 5%;
+    min-width: 15%;
+    max-width: 15%;
     display: flex;
     justify-content: end;
 }
 
 .custom-dropdown:hover .custom-dropdown-list {
     display: block;
+}
+
+.all-border-t>*+* {
+    padding-top: 0 !important;
+}
+
+.status-chnageBox {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 98%;
+    max-width: 550px;
+    z-index: 101;
+}
+
+.overlay {
+    position: fixed;
+    z-index: 99;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    background: #111827;
+    margin-top: 0 !important;
 }
 
 @media (max-width:990px) {

@@ -573,7 +573,7 @@ export default {
 
         </StatusChnage>
 
-        <Modal v-if="updateDetailsModal" @closeModal="this.updateDetailsModal = !this.updateDetailsModal">
+        <Modal v-if="updateDetailsModal" @closeModal="this.updateDetailsModal = !this.updateDetailsModal" height="yes">
 
             <template v-slot:header>
                 <h4>Update Details</h4>
@@ -698,7 +698,7 @@ export default {
 
         </Modal>
 
-        <Modal v-if="addoperationModal" @closeModal="this.addoperationModal = !this.addoperationModal">
+        <Modal v-if="addoperationModal" @closeModal="this.addoperationModal = !this.addoperationModal" height="yes">
 
             <template v-slot:header>
                 <h4>Add Operation</h4>

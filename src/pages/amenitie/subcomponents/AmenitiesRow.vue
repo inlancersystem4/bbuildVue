@@ -10,69 +10,36 @@ export default {
         editItem(id) {
             this.$emit('edit_item', id)
         },
-        editStatus(id, s_id) {
-            this.$emit('edit_status', id, s_id)
-        },
-        editReminder(id) {
-            this.$router.push({ name: 'AddReminder', params: { reminderId: id } })
-        }
     },
 }
 </script>
 
 <template>
     <tr v-for="(items, index) in list" :key="index">
-
         <td class="count">
             <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
         </td>
         <td class="user_name">
-            <p class="text-base_semibold color-Grey_90"> {{ items.opern_inv }}</p>
+            <p class="text-base_semibold color-Grey_90">{{ items.amenities_name }}</p>
         </td>
-        <td class="user_email">
-            <p class="text-base_semibold color-Grey_90">{{ items.opern_date }}</p>
-        </td>
-        <td class="user_address">
-            <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.opern_notes }}</p>
+        <td class="user_number">
+            <p class="text-base_semibold color-Grey_90">{{ items.amenities_details }}</p>
         </td>
         <td class="blank"></td>
-        <td class="user-status">
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.opern_status_id === 1">
-                <div class="ellipse-dot bg-rose"></div>
-                <p class="text-sm_medium color-Grey_60 capitalize">{{ items.opern_status }}</p>
-            </button>
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.opern_status_id === 2">
-                <div class="ellipse-dot bg-emerald"></div>
-                <p class="text-sm_medium color-Grey_60 capitalize">{{ items.opern_status }}</p>
-            </button>
-        </td>
         <td class="dropdown">
             <div class="icon-btn icon-btn_32px  custom-dropdown">
                 <img src="../../../assets/img/icons/dots-icon.svg">
                 <ul class="custom-dropdown-list leftside icon-dropdown">
-                    <li class="dropdown-item" @click="editItem(items.opern_id)">
+                    <li class="dropdown-item" @click="editItem(items.amenities_id)">
                         <div class="dropdown-link">
                             <img src="../../../assets/img/icons/edit.svg">
-                            <p class="dropdown-link-title"> Edit Operation </p>
+                            <p class="dropdown-link-title"> Edit Amenities </p>
                         </div>
                     </li>
-                    <li class="dropdown-item" @click="deleteItem(items.opern_id)">
+                    <li class="dropdown-item" @click="deleteItem(items.amenities_id)">
                         <div class="dropdown-link">
                             <img src="../../../assets/img/icons/trash.svg">
-                            <p class="dropdown-link-title required"> Delete Operation </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="editStatus(items.opern_id, 1)"
-                        v-if="items.opern_status_id === 2 && items.opern_status_id !== 2">
-                        <div class="dropdown-link">
-                            <p class="w20"></p>
-                            <p class="dropdown-link-title"> Pending </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="editStatus(items.opern_id, 2)" v-if="items.opern_status_id === 1">
-                        <div class="dropdown-link">
-                            <p class="w20"></p>
-                            <p class="dropdown-link-title"> complete </p>
+                            <p class="dropdown-link-title required"> Delete Amenities </p>
                         </div>
                     </li>
                 </ul>
@@ -102,8 +69,8 @@ tr:nth-last-child(3) .custom-dropdown-list {
 }
 
 .user_name {
-    min-width: 18%;
-    max-width: 18%;
+    min-width: 24%;
+    max-width: 24%;
     display: block;
 }
 
@@ -120,21 +87,21 @@ tr:nth-last-child(3) .custom-dropdown-list {
 }
 
 .user_number {
-    min-width: 10%;
-    max-width: 10%;
+    min-width: 20%;
+    max-width: 20%;
     display: block;
 }
 
 .user_address {
-    min-width: 25%;
-    max-width: 25%;
+    min-width: 15%;
+    max-width: 15%;
     display: block;
     overflow: hidden;
 }
 
 .blank {
-    min-width: 12%;
-    max-width: 12%;
+    min-width: 30%;
+    max-width: 30%;
     display: block;
 }
 
@@ -146,8 +113,8 @@ tr:nth-last-child(3) .custom-dropdown-list {
 }
 
 .dropdown {
-    min-width: 5%;
-    max-width: 5%;
+    min-width: 15%;
+    max-width: 15%;
     display: flex;
     justify-content: end;
 }

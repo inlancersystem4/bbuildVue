@@ -25,6 +25,9 @@ export default {
         },
         isOperationCrudActive() {
             return this.$route.matched.some(route => route.name === 'OperationList');
+        },
+        isAmenitiesCrudActive() {
+            return this.$route.matched.some(route => route.name === 'AmenitiesList');
         }
     },
     props: {
@@ -240,6 +243,28 @@ export default {
                         </router-link>
                     </li>
 
+
+                    <li class="list-items">
+                        <router-link to="/amenities-list" class="list-link" :class="{ link_active: isAmenitiesCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M7.5 12.75H16.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M4.5 9V6.75C4.5 5.95435 4.81607 5.19129 5.37868 4.62868C5.94129 4.06607 6.70435 3.75 7.5 3.75H16.5C17.2956 3.75 18.0587 4.06607 18.6213 4.62868C19.1839 5.19129 19.5 5.95435 19.5 6.75V9"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M7.5 15.75V12C7.5 11.4067 7.32405 10.8266 6.99441 10.3333C6.66477 9.83994 6.19623 9.45543 5.64805 9.22836C5.09987 9.0013 4.49667 8.94189 3.91473 9.05765C3.33279 9.1734 2.79824 9.45912 2.37868 9.87868C1.95912 10.2982 1.6734 10.8328 1.55765 11.4147C1.44189 11.9967 1.5013 12.5999 1.72836 13.1481C1.95543 13.6962 2.33994 14.1648 2.83329 14.4944C3.32664 14.8241 3.90666 15 4.5 15V18.75C4.5 18.9489 4.57902 19.1397 4.71967 19.2803C4.86032 19.421 5.05109 19.5 5.25 19.5H18.75C18.9489 19.5 19.1397 19.421 19.2803 19.2803C19.421 19.1397 19.5 18.9489 19.5 18.75V15C20.0933 15 20.6734 14.8241 21.1667 14.4944C21.6601 14.1648 22.0446 13.6962 22.2716 13.1481C22.4987 12.5999 22.5581 11.9967 22.4424 11.4147C22.3266 10.8328 22.0409 10.2982 21.6213 9.87868C21.2018 9.45912 20.6672 9.1734 20.0853 9.05765C19.5033 8.94189 18.9001 9.0013 18.352 9.22836C17.8038 9.45543 17.3352 9.83994 17.0056 10.3333C16.6759 10.8266 16.5 11.4067 16.5 12V15.75"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                <p class="link-title">Amenities List</p>
+                            </div>
+                        </router-link>
+                    </li>
+
                 </ul>
 
             </div>
@@ -398,6 +423,26 @@ export default {
                                         stroke-linecap="round" stroke-linejoin="round" />
                                     <path d="M9.34678 14.6523L5.63428 18.3648" stroke="#6B7280" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </div>
+                        </router-link>
+                    </li>
+
+                    <li class="list-items">
+                        <router-link to="/amenities-list" class="list-link" :class="{ link_active: isAmenitiesCrudActive }">
+                            <div class="link-items">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none">
+                                    <path d="M7.5 12.75H16.5" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M4.5 9V6.75C4.5 5.95435 4.81607 5.19129 5.37868 4.62868C5.94129 4.06607 6.70435 3.75 7.5 3.75H16.5C17.2956 3.75 18.0587 4.06607 18.6213 4.62868C19.1839 5.19129 19.5 5.95435 19.5 6.75V9"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
+                                    <path
+                                        d="M7.5 15.75V12C7.5 11.4067 7.32405 10.8266 6.99441 10.3333C6.66477 9.83994 6.19623 9.45543 5.64805 9.22836C5.09987 9.0013 4.49667 8.94189 3.91473 9.05765C3.33279 9.1734 2.79824 9.45912 2.37868 9.87868C1.95912 10.2982 1.6734 10.8328 1.55765 11.4147C1.44189 11.9967 1.5013 12.5999 1.72836 13.1481C1.95543 13.6962 2.33994 14.1648 2.83329 14.4944C3.32664 14.8241 3.90666 15 4.5 15V18.75C4.5 18.9489 4.57902 19.1397 4.71967 19.2803C4.86032 19.421 5.05109 19.5 5.25 19.5H18.75C18.9489 19.5 19.1397 19.421 19.2803 19.2803C19.421 19.1397 19.5 18.9489 19.5 18.75V15C20.0933 15 20.6734 14.8241 21.1667 14.4944C21.6601 14.1648 22.0446 13.6962 22.2716 13.1481C22.4987 12.5999 22.5581 11.9967 22.4424 11.4147C22.3266 10.8328 22.0409 10.2982 21.6213 9.87868C21.2018 9.45912 20.6672 9.1734 20.0853 9.05765C19.5033 8.94189 18.9001 9.0013 18.352 9.22836C17.8038 9.45543 17.3352 9.83994 17.0056 10.3333C16.6759 10.8266 16.5 11.4067 16.5 12V15.75"
+                                        stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
+                                        stroke-linejoin="round" />
                                 </svg>
                             </div>
                         </router-link>

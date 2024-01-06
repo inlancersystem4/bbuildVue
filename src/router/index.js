@@ -106,6 +106,11 @@ const router = createRouter({
       component: () => import('../pages/operation/OperationList.vue')
     },
     {
+      path: '/amenities-list',
+      name: 'AmenitiesList',
+      component: () => import('../pages/amenitie/AmenitiesList.vue')
+    },
+    {
       path: '/log-in',
       name: 'Login',
       component: () => import('../auth/Login.vue')

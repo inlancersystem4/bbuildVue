@@ -1,5 +1,8 @@
 <script>
 export default {
+    props: {
+        height: String
+    },
     methods: {
         closeModal() {
             this.$emit('closeModal')
@@ -9,8 +12,9 @@ export default {
 </script>
 
 <template>
-    <div class="status-chnageBox">
-        <div class="w-full border border-solid border-Grey_20 rounded-regualr bg-white ">
+    <div class="status-chnageBox" :class="{ 'h-fit': height, 'h-full': !height }">
+        <div
+            class="w-full border border-solid border-Grey_20 rounded-regualr bg-white overflow-auto h-full min-h-max flex flex-col justify-between">
 
             <div class="w-full border-b border-solid border-Gray_20">
 
@@ -23,7 +27,11 @@ export default {
 
             </div>
 
-            <slot></slot>
+            <div class="h-full overflow-y-auto">
+
+                <slot></slot>
+
+            </div>
 
             <div class="w-full border-t border-solid border-Gray_20">
 
@@ -57,6 +65,8 @@ export default {
     width: 98%;
     max-width: 550px;
     z-index: 101;
+    overflow-y: hidden;
+    padding: 12px 0;
 }
 
 .overlay {
@@ -68,5 +78,6 @@ export default {
     opacity: 0.4;
     background: #111827;
     margin-top: 0 !important;
+    overflow: hidden;
 }
 </style>
