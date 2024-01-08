@@ -8,12 +8,15 @@ import ContentSection from '../../subcomponents/ContentSection.vue';
 import SearchBox from '../../subcomponents/common/SearchBox.vue';
 import Pagination from '../../subcomponents/common/Pagination.vue';
 import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
+import TextArea from '../../subcomponents/common/TextArea.vue';
+import Label from '../../subcomponents/common/Label.vue';
 import reminderRow from './subcomponents/reminderRow.vue'
+import Modal from '../inventeryList/subcomponents/Modal.vue';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, ContentSection, SearchBox, Pagination, DeleteModel, reminderRow },
+    components: { Layout, ContentSection, SearchBox, Pagination, DeleteModel, reminderRow, Modal, TextArea, Label },
     data() {
         return {
             list: [],
@@ -23,6 +26,10 @@ export default {
             sort: "asc",
             deleteItemModal: false,
             itemId: "",
+            remDate: "",
+            remNote: "",
+            reminderModal: false,
+            attributes: [],
         }
     },
     created() {
@@ -32,6 +39,23 @@ export default {
         const description = "this is description for Reminder List"
 
         authStore.chnageTitle(title, description)
+    },
+    computed: {
+        remBtnDisabled() {
+            return !this.remDate || !this.remNote.trim();
+        },
+        formattedDate() {
+            const date = new Date(this.remDate);
+
+            const year = date.getFullYear();
+            const month = `0${date.getMonth() + 1}`.slice(-2);
+            const day = `0${date.getDate()}`.slice(-2);
+            const hours = `0${date.getHours()}`.slice(-2);
+            const minutes = `0${date.getMinutes()}`.slice(-2);
+            const seconds = `0${date.getSeconds()}`.slice(-2);
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
     },
     methods: {
 
@@ -61,7 +85,6 @@ export default {
                 const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
                 this.list = response.data;
                 this.totalPages = response.total_pages;
-
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -95,7 +118,66 @@ export default {
         },
 
         editItem(id) {
-            this.$router.push({ name: 'EditReminder', params: { reminderId: id } })
+            this.itemId = id
+            this.reminderModal = true
+            this.getReminderData(id);
+        },
+
+        async getReminderData(id) {
+            var user_data = new FormData();
+            user_data.append("rem_id", id);
+            user_data.append("sort", this.sort);
+            user_data.append("page_no", this.currentPage);
+
+            try {
+                const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
+                this.totalPages = response.total_pages;
+
+                if (response.success === 1) {
+                    this.remNote = response.data.rem_notes;
+                    this.remDate = response.data.rem_date
+                    this.attributes = {
+                        content: 'black',
+                        highlight: true,
+                        dot: true,
+                        bar: true,
+                        popover: {
+                            title: 'Selected Date',
+                            label: this.remNote,
+                        },
+                        dates: new Date(this.remDate),
+                        order: 0
+                    }
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+
+        },
+
+        async addReminder() {
+            var customer_data = new FormData();
+            customer_data.append("rem_id", this.itemId);
+            customer_data.append("rem_self", "");
+            customer_data.append("cus_id", this.itemId);
+            customer_data.append("rem_notes", this.remNote);
+            const formattedDateTime = this.formattedDate;
+            customer_data.append("rem_date", formattedDateTime);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/add-reminder`, customer_data);
+
+                if (data.success === 1) {
+                    this.reminderModal = false
+                    this.reminderData()
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
         },
 
         async deleteItem() {
@@ -201,6 +283,44 @@ export default {
             </template>
 
         </ContentSection>
+
+
+
+        <Modal v-if="reminderModal" @closeModal="this.reminderModal = !this.reminderModal">
+
+            <template v-slot:header>
+                <h4>Add Reminder</h4>
+            </template>
+
+            <div class="padding-y_12px padding-x_16px">
+
+                <div class="space-y-4">
+
+                    <div class="space-y-8px col-span-1">
+                        <Label label="Select Date" />
+                        <VDatePicker v-model="remDate" color="sky-blue" :attributes='attributes' mode="dateTime"
+                            @change="highlightSelectedDate" expanded />
+                        <ErrorMessage msg="" v-if="!remDate && formSubmitted" />
+                    </div>
+
+                    <div class="space-y-8px col-span-2">
+                        <Label label="Note (optional)" />
+                        <TextArea placeholder="Enter Reminder Note" id="Note (optional)" :value="remNote"
+                            @input="event => remNote = event.target.value" />
+                    </div>
+
+                </div>
+
+            </div>
+
+            <template v-slot:footer>
+                <button class="btn-regular" @click="this.reminderModal = !this.reminderModal">Cancel</button>
+                <button class="btn-regular bg-purple color-white" :disabled="remBtnDisabled" @click="addReminder">Add
+                    Reminder</button>
+            </template>
+
+        </Modal>
+
 
 
     </Layout>

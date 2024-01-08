@@ -14,7 +14,7 @@ export default {
             this.$emit('edit_status', id)
         },
         editReminder(id) {
-            this.$router.push({ name: 'AddReminder', params: { reminderId: id } })
+            this.$emit('add_reminder', id)
         }
     },
 }

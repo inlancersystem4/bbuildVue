@@ -9,11 +9,14 @@ import SearchBox from '../../subcomponents/common/SearchBox.vue';
 import Pagination from '../../subcomponents/common/Pagination.vue';
 import Customers from './component/CustomersRow.vue';
 import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
+import TextArea from '../../subcomponents/common/TextArea.vue';
+import Label from '../../subcomponents/common/Label.vue';
+import Modal from '../inventeryList/subcomponents/Modal.vue';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, ContentSection, SearchBox, Pagination, Customers, DeleteModel },
+    components: { Layout, ContentSection, SearchBox, Pagination, Customers, DeleteModel, Modal, TextArea, Label },
     data() {
         return {
             list: [],
@@ -23,6 +26,9 @@ export default {
             sort: "asc",
             deleteItemModal: false,
             itemId: "",
+            remDate: "",
+            remNote: "",
+            reminderModal: false
         }
     },
     created() {
@@ -32,6 +38,23 @@ export default {
         const description = "this is description for Customer List"
 
         authStore.chnageTitle(title, description)
+    },
+    computed: {
+        remBtnDisabled() {
+            return !this.remDate || !this.remNote.trim();
+        },
+        formattedDate() {
+            const date = new Date(this.remDate);
+
+            const year = date.getFullYear();
+            const month = `0${date.getMonth() + 1}`.slice(-2);
+            const day = `0${date.getDate()}`.slice(-2);
+            const hours = `0${date.getHours()}`.slice(-2);
+            const minutes = `0${date.getMinutes()}`.slice(-2);
+            const seconds = `0${date.getSeconds()}`.slice(-2);
+
+            return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+        },
     },
     methods: {
 
@@ -120,6 +143,35 @@ export default {
                 alertStore.error(error)
             }
         },
+
+        addReminderId(id) {
+            this.itemId = id
+            this.reminderModal = true
+        },
+
+        async addReminder() {
+            var customer_data = new FormData();
+            customer_data.append("rem_id", "");
+            customer_data.append("rem_self", "");
+            customer_data.append("cus_id", this.itemId);
+            customer_data.append("rem_notes", this.remNote);
+            const formattedDateTime = this.formattedDate;
+            customer_data.append("rem_date", formattedDateTime);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/add-reminder`, customer_data);
+
+                if (data.success === 1) {
+                    this.customerData();
+                    this.reminderModal = false
+                    this.itemId = ""
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+        }
     },
 }
 </script>
@@ -195,8 +247,8 @@ export default {
                                 <div class="icon-btn icon-btn_32px  custom-dropdown"></div>
                             </td>
                         </tr>
-                        <Customers :list="list" @delete_item="getItemId" @edit_item="editItem"
-                            @edit_status="statusUpdate" />
+                        <Customers :list="list" @delete_item="getItemId" @edit_item="editItem" @edit_status="statusUpdate"
+                            @add_reminder="addReminderId" />
 
                     </tbody>
                 </table>
@@ -212,6 +264,45 @@ export default {
             </template>
 
         </ContentSection>
+
+
+
+
+        <Modal v-if="reminderModal" @closeModal="this.reminderModal = !this.reminderModal">
+
+            <template v-slot:header>
+                <h4>Add Reminder</h4>
+            </template>
+
+            <div class="padding-y_12px padding-x_16px">
+
+                <div class="space-y-4">
+
+                    <div class="space-y-8px col-span-1">
+                        <Label label="Select Date" />
+                        <VDatePicker v-model="remDate" color="sky-blue" :attributes='attributes' mode="dateTime"
+                            @change="highlightSelectedDate" expanded />
+                        <ErrorMessage msg="" v-if="!remDate && formSubmitted" />
+                    </div>
+
+                    <div class="space-y-8px col-span-2">
+                        <Label label="Note (optional)" />
+                        <TextArea placeholder="Enter Reminder Note" id="Note (optional)" :value="remNote"
+                            @input="event => remNote = event.target.value" />
+                    </div>
+
+                </div>
+
+            </div>
+
+            <template v-slot:footer>
+                <button class="btn-regular" @click="this.reminderModal = !this.reminderModal">Cancel</button>
+                <button class="btn-regular bg-purple color-white" :disabled="remBtnDisabled" @click="addReminder">Add
+                    Reminder</button>
+            </template>
+
+        </Modal>
+
 
 
     </Layout>

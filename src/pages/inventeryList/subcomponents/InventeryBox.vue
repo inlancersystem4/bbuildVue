@@ -100,8 +100,52 @@ export default {
     <vue-simple-context-menu element-id="1" :options="options" ref="vueSimpleContextMenu" @option-clicked="optionClicked" />
 
 
+    <div v-for="(item, index) in items" :key="index"
+        class="w-full  min-w-[320px] max-w-96 bg-Grey_10 flex flex-col   border border-solid border-Grey_20 rounded-regualr overflow-hidden">
 
-    <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
+        <div class="p-2">
+
+            <div v-for="(itemdata, itemindex) in item" :key="itemindex" class="space-y-2">
+
+                <div v-for="(itemArray, itemArrayindex) in itemdata" :key="itemArrayindex"
+                    class="bg-white border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
+                    <div v-for="(itemArraydata, itemArraydataindex) in itemArray" :key="itemArraydataindex">
+
+                        <div class="flex flex-wrap py-2 px-4">
+
+                            <div v-for="(inventeryitemdata, inventeryitemdataindex) in itemArraydata.items"
+                                :key="inventeryitemdataindex" class="p-0.5">
+
+                                <buttton @contextmenu.prevent="handleContextMenu($event, inventeryitemdata)"
+                                    class="btn-regular display-flex align-center gap-8px bg-white">
+
+                                    <div class="ellipse-dot"
+                                        :class="{ 'bg-emerald': inventeryitemdata.inv_status === 1, 'bg-rose': inventeryitemdata.inv_status === 2, 'bg-orange': inventeryitemdata.inv_status === 3, 'bg-blue': inventeryitemdata.inv_status === 4, 'bg-Grey_40': inventeryitemdata.inv_status === 5, 'bg-purple': inventeryitemdata.inv_status === 6 }">
+                                    </div>
+
+                                    <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitemdata.inv_name }}
+                                    </p>
+
+                                </buttton>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
 
         <div v-for="(itemArrays, itemArraysindex) in item" :key="itemArraysindex"
             class="w-full  min-w-[320px] max-w-96 bg-Grey_10  border border-solid border-Grey_20 rounded-regualr overflow-hidden">
@@ -159,7 +203,7 @@ export default {
         </div>
 
 
-    </div>
+    </div> -->
 
 
     <!-- <div v-for="(item, index) in items" :key="index"

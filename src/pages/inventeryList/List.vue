@@ -65,6 +65,8 @@ export default {
             deleteItemModal: false,
             operationNote: "",
             addoperationModal: false,
+            selectedCustomer: "",
+            selectedStatusName: "",
         }
     },
     created() {
@@ -195,7 +197,7 @@ export default {
             this.structureList = []
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/inventory-list`, project_data);
+                const response = await fetchWrapper.post(`${baseUrl}/get-inv-list`, project_data);
 
                 this.structureList = response.data
 
@@ -216,6 +218,7 @@ export default {
         selectedInventery(data) {
             this.inventeryId = String(data.inv_id)
             this.chnageStatus = true
+            this.getinvData();
         },
         selectoption(data) {
             this.customerId = String(data.cus_id)
@@ -329,6 +332,11 @@ export default {
                     this.selectinvUpType = response.data.inv_details.inv_type
                     this.invUpdateName = response.data.inv_name
                     this.invUpdateNote = response.data.inv_notes
+                    this.statusNote = response.data.inv_notes
+                    this.selectedStatus = response.data.inv_status_id
+                    this.selectedStatusName = response.data.inv_status
+                    this.selectedCustomer = response.data.inv_cus
+                    this.customerId = String(response.data.inv_cus_id)
                     // this.checkedamenities = response.data.amenities.map(amenity => amenity.amenities_id).join(', ')
                     // console.log(this.checkedamenities)
                     // this.isChecked = this.checkedamenities
@@ -526,7 +534,7 @@ export default {
 
                 </div>
 
-                <div class="space-y-8px w-full " v-if="this.currentproject">
+                <div class="gap-4 flex" v-if="this.currentproject">
 
                     <div class="h-40 w-full text-center flex items-center justify-center"
                         v-if="!this.structureList || this.structureList > 0 || this.structureList.length === 0">
@@ -550,13 +558,13 @@ export default {
         <StatusChnage v-if="chnageStatus" @closeModal="this.chnageStatus = !this.chnageStatus">
 
             <template v-slot:status>
-                <Select :options="statusList" @option-selected="statusSelect" />
+                <Select :options="statusList" @option-selected="statusSelect" :responseData="this.selectedStatusName" />
             </template>
 
             <template v-slot:customer>
                 <h6 class="text-base color-Grey_50" v-if="notneedcustomer">This status not need customer</h6>
                 <SelectCustomer :list="customerList" @input="searchTextFun" placeholder="Enter Customer" :value="searchText"
-                    @selectitem="selectoption" v-if="!notneedcustomer" />
+                    @selectitem="selectoption" v-if="!notneedcustomer" :responseData="selectedCustomer" />
             </template>
 
             <template v-slot:note>
@@ -572,6 +580,7 @@ export default {
             </template>
 
         </StatusChnage>
+
 
         <Modal v-if="updateDetailsModal" @closeModal="this.updateDetailsModal = !this.updateDetailsModal" height="yes">
 

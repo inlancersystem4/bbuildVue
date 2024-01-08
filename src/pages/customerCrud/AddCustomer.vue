@@ -32,6 +32,8 @@ export default {
             customerDob: "",
             customerNote: "",
             customerReference: "",
+            activeAcco: "0",
+            showErrorOfImg: "",
         }
     },
     computed: {
@@ -65,6 +67,14 @@ export default {
 
                 this.selectedImg = URL.createObjectURL(selectedFile)
 
+                this.activeAcco = 1;
+
+                this.showErrorOfImg = false
+
+            }
+
+            else {
+                this.showErrorOfImg = true
             }
 
         },
@@ -92,6 +102,13 @@ export default {
                 const alertStore = useAlertStore()
                 alertStore.error(error)
             }
+        },
+        toggleAccordion(id) {
+            if (this.activeAcco === id) {
+                this.activeAcco = null;
+            } else {
+                this.activeAcco = id;
+            }
         }
     }
 }
@@ -103,9 +120,163 @@ export default {
     <Layout>
 
 
-        <ContentSection title="Add Customer">
+        <ContentSection title="Add Customer" class="max-w-4xl mx-auto relative">
 
-            <div class="row">
+            <div class="absolute right-4 top-5">
+                <div class=" w-10 h-10 rounded-full border relative border-solid border-Grey_20 p-0.5"
+                    v-if="this.selectedImg">
+                    <img :src="this.selectedImg" class="w-full h-full object-cover rounded-full" />
+                </div>
+            </div>
+
+            <div class="custom-accordion">
+
+                <div class="accordion-items" :class="{ 'active-accordion': this.activeAcco == 0 }">
+                    <div class="accordion-header" @click="toggleAccordion(0)">
+                        <div>
+                            <h4 class="accordion-title">Customer Profile Picture</h4>
+                            <p class="accordion-sub-title">add Customer Profile Picture only image</p>
+                        </div>
+                        <div class="accordion-icons">
+                            <img src="../../assets/img/icons/plus-2.svg" class="img-not-selected plus_icon">
+                            <img src="../../assets/img/icons/minus.svg" class="img-not-selected minus_icon">
+                        </div>
+                    </div>
+                    <div class="accordion-body">
+
+                        <!-- <div class="">
+                            <img :src="this.selectedImg" class="pic" v-if="this.selectedImg">
+                        </div> -->
+
+                        <label for="FileDroper2" class="FileDroper">
+                            <input type="file" @change="selectedPic">
+                            <p class="color-Grey_50 text-base_regular">Drop your file here, or <span
+                                    class="font-500 color_violet"> click to
+                                    browse </span></p>
+                            <p class="color-Grey_50 text-base_regular">support only ,JPEG ,PNG ,JPG</p>
+                        </label>
+
+                        <div class="mt-1">
+                            <ErrorMessage msg="support only ,JPEG ,PNG ,JPG" v-if="this.showErrorOfImg" />
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="accordion-items" :class="{ 'active-accordion': this.activeAcco == 1 }">
+                    <div class="accordion-header" @click="toggleAccordion(1)">
+                        <div>
+                            <h4 class="accordion-title">Customer Personal Information</h4>
+                            <p class="accordion-sub-title">add customer personal information as a filed wayes</p>
+                        </div>
+                        <div class="accordion-icons">
+                            <img src="../../assets/img/icons/plus-2.svg" class="img-not-selected plus_icon">
+                            <img src="../../assets/img/icons/minus.svg" class="img-not-selected minus_icon">
+                        </div>
+                    </div>
+                    <div class="accordion-body">
+
+
+                        <div class="address-form">
+
+                            <div class="space-y-8px">
+                                <Label label="First Name" />
+                                <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
+                                    @input="event => customerFirstName = event.target.value" />
+                                <ErrorMessage msg="" v-if="!customerFirstName && formSubmitted" />
+                            </div>
+
+                            <div class="space-y-8px">
+                                <Label label="Middle Name (optional)" />
+                                <Input placeholder="Enter customer Middle Name" id="Middle Name (optional)"
+                                    :value="customerMiddleName" @input="event => customerMiddleName = event.target.value" />
+                            </div>
+
+                            <div class="space-y-8px">
+                                <Label label="Last Name" />
+                                <Input placeholder="Enter customer Last Name" id="Last Name" :value="customerLastName"
+                                    @input="event => customerLastName = event.target.value" />
+                                <ErrorMessage msg="" v-if="!customerLastName && formSubmitted" />
+                            </div>
+
+                            <div class="space-y-8px">
+                                <Label label="Email (optional)" />
+                                <Input placeholder="Enter customer Email" id="Email (optional)" :value="customerEmail"
+                                    @input="customerEmail = $event.target.value; isvalidEmail = validateEmail()"
+                                    :class="{ 'input_error': !isvalidEmail }" />
+                                <ErrorMessage msg="Invalid email" v-if="!isvalidEmail" />
+                                <ErrorMessage msg="" v-if="!customerEmail && formSubmitted" />
+                            </div>
+
+                            <div class="space-y-8px">
+                                <Label label="Phone No." />
+                                <Input placeholder="Enter customer Number" id="Phone No." :value="customerNumber"
+                                    @input="event => customerNumber = event.target.value" type="number"
+                                    :class="{ 'input_error': customerNumber.length > 10 }" />
+                                <ErrorMessage msg="" v-if="!customerNumber && formSubmitted" />
+                                <ErrorMessage msg="Only 10 number valid" v-if="customerNumber.length > 10" />
+                            </div>
+
+                            <div class="space-y-8px">
+                                <Label label="Date Of Birth (optional)" />
+                                <Input id="Date Of Birth (optional)" :value="customerDob"
+                                    @input="event => customerDob = event.target.value" type="date" />
+                            </div>
+
+
+                            <div class="space-y-8px col-span-2">
+                                <Label label="Address" />
+                                <TextArea id="Address" placeholder="Enter customer Address" :value="customerAddress"
+                                    @input="event => customerAddress = event.target.value" type="text" />
+                                <ErrorMessage msg="" v-if="!customerAddress && formSubmitted" />
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-items" :class="{ 'active-accordion': this.activeAcco == 2 }">
+                    <div class="accordion-header" @click="toggleAccordion(2)">
+                        <div>
+                            <h4 class="accordion-title">Customer Details (Optional)</h4>
+                            <p class="accordion-sub-title">add customer details but all filed are Optional </p>
+                        </div>
+                        <div class="accordion-icons">
+                            <img src="../../assets/img/icons/plus-2.svg" class="img-not-selected plus_icon">
+                            <img src="../../assets/img/icons/minus.svg" class="img-not-selected minus_icon">
+                        </div>
+                    </div>
+                    <div class="accordion-body">
+                        <div class="address-form">
+
+                            <div class="space-y-8px">
+                                <Label label="Reference (optional)" />
+                                <Input id="Reference (optional)" placeholder="Enter customer Reference"
+                                    :value="customerReference" @input="event => customerReference = event.target.value"
+                                    type="text" />
+                            </div>
+
+                            <div class="space-y-8px col-span-2">
+                                <Label label="Note (optional)" />
+                                <TextArea placeholder="Enter customer Note" id="Note (optional)" :value="customerNote"
+                                    @input="event => customerNote = event.target.value" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="w-full flex  justify-end mt-2.5">
+                <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addcustomer()">Add
+                    customer</button>
+            </div>
+
+        </ContentSection>
+
+        <!-- <div class="row">
 
                 <div class="col-8">
 
@@ -200,9 +371,9 @@ export default {
 
                 </div>
 
-            </div>
+            </div> -->
 
-        </ContentSection>
+
 
 
     </Layout>
@@ -259,14 +430,7 @@ export default {
     position: relative;
 }
 
-.pic {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 999px;
-    object-fit: cover;
-}
+
 
 .user_pic .add_pic {
     position: absolute;

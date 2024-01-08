@@ -47,7 +47,6 @@ export default {
 
 <template>
     <tr v-for="(items, index) in list" :key="index">
-
         <td class="count">
             <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
         </td>

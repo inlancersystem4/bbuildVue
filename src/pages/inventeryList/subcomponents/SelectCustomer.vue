@@ -3,7 +3,8 @@ export default {
     props: {
         list: Array,
         placeholder: String,
-        value: String
+        value: String,
+        responseData: String,
     },
     data() {
         return {
@@ -25,6 +26,9 @@ export default {
             this.$emit('selectitem', item)
             this.inputValue = ""
             this.selectoption = item.cus_first_name + " " + item.cus_last_name
+        },
+        clearResponse() {
+            // this.selectoption = ""
         }
     },
 }
@@ -32,6 +36,15 @@ export default {
 
 <template>
     <div class="absolute inset-0 w-full h-full z-20">
+        <div v-if="responseData" class="px-2 flex items-center h-full">
+            <div
+                class="rounded-regualr bg-Grey_20 display-flex align-center gap-8px padding-y_2px padding-left_12px padding-right_8px color-Grey_60 text-sm_medium w-fit">
+                <span class="capitalize"> {{ responseData }}</span>
+                <button class="icon-btn icon-btn_24px" @click="clearResponse">
+                    <img src="../../../assets/img/icons/close-icon2.svg">
+                </button>
+            </div>
+        </div>
         <div v-if="selectoption" class="px-2 flex items-center h-full">
             <div
                 class="rounded-regualr bg-Grey_20 display-flex align-center gap-8px padding-y_2px padding-left_12px padding-right_8px color-Grey_60 text-sm_medium w-fit">
@@ -41,7 +54,7 @@ export default {
                 </button>
             </div>
         </div>
-        <input type="text" :placeholder="placeholder" v-model="inputValue" v-if="!selectoption"
+        <input type="text" :placeholder="placeholder" v-model="inputValue" v-if="!selectoption && !responseData"
             class="outline-none w-full h-full  focus:outline-none border-none  padding-x_8px focus-within:outline-none rounded-none">
         <div class="relative w-full h-fit" v-if="inputValue">
             <ul

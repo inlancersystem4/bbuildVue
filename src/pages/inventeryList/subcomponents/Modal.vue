@@ -27,7 +27,7 @@ export default {
 
             </div>
 
-            <div class="h-full overflow-y-auto">
+            <div class="h-full overflow-y-auto max-h-fit">
 
                 <slot></slot>
 
