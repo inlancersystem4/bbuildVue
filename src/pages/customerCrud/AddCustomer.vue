@@ -38,7 +38,8 @@ export default {
     },
     computed: {
         btnDisabled() {
-            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim();
+            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim() || specialCharsRegex.test(this.customerAddress);
         }
     },
     created() {

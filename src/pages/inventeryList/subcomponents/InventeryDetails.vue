@@ -1,17 +1,24 @@
 <script>
 import Layout from '@/components/Layout.vue';
+import TextArea from '@/subcomponents/common/TextArea.vue';
 import { fetchWrapper } from '@/helpers/fetch-wrapper'
 import { useAuthStore, useAlertStore } from '@/stores'
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout },
+    components: { Layout, TextArea },
     data() {
         return {
             inventoryId: "",
             invViewData: "",
             operViewData: [],
+            operationModal: false,
+            operationNote: "",
+            operationInvId: "",
+            operationType: "",
+            operationProId: "",
+            operationId: "",
         };
     },
     created() {
@@ -22,6 +29,12 @@ export default {
         this.inventoryId = this.$route.params.inventoryId;
         this.viewInvData();
         this.viewOpervData();
+    },
+    computed: {
+        addOperationBtn() {
+            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote)
+        }
     },
     methods: {
         async viewInvData() {
@@ -51,6 +64,58 @@ export default {
                 const alertStore = useAlertStore();
                 alertStore.error(error);
             }
+        },
+        editOperation(data) {
+            this.operationNote = data.opern_notes
+            this.operationInvId = data.opern_inv_id
+            this.operationType = data.opern_type
+            this.operationProId = data.opern_proj
+            this.operationId = data.opern_id
+            this.operationModal = true
+        },
+        async addOperation() {
+            var status_data = new FormData();
+            status_data.append("inventory_id", this.inventoryId);
+            if (this.operationId) {
+                status_data.append("operation_id", this.operationId);
+            }
+            else {
+                status_data.append("operation_id", "");
+            }
+            if (this.operationType) {
+                status_data.append("operation_type", this.operationType);
+            }
+            else {
+                status_data.append("operation_type", "2");
+            }
+            if (this.operationProId) {
+                status_data.append("project_id", this.operationProId);
+            }
+            else {
+                status_data.append("project_id", "");
+            }
+            status_data.append("operation_notes", this.operationNote);
+
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/add-operation`, status_data);
+
+                if (data.success === 1) {
+                    this.viewOpervData()
+                    this.operationNote = ""
+                    this.operationNote = ""
+                    this.operationInvId = ""
+                    this.operationType = ""
+                    this.operationProId = ""
+                    this.operationId = ""
+                    this.operationModal = false
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+
         },
     },
 }
@@ -295,7 +360,7 @@ export default {
             <ul class="space-y-4px">
 
                 <li v-for="(item, index) in operViewData" :key="index"
-                    class="bg-white border border-solid border-Grey_20 rounded-regualr p-4">
+                    class="bg-white border border-solid border-Grey_20 rounded-regualr p-4" @click="editOperation(item)">
 
                     <div class="flex items-center justify-between mb-3">
                         <h6 class="text-large_semibold color-Grey_90">{{ item.opern_inv }}</h6>
@@ -306,15 +371,99 @@ export default {
 
                 </li>
 
+                <li class="bg-white border border-solid border-Grey_20 rounded-regualr p-2 cursor-pointer"
+                    @click="this.operationModal = !this.operationModal, this.operationId = '', this.operationNote = ''">
+
+                    <div class="flex items-center justify-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path
+                                d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
+                                stroke="#191C1F" stroke-width="1.5" stroke-miterlimit="10" />
+                            <path d="M8.25 12H15.75" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M12 8.25V15.75" stroke="#191C1F" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                        <p class="text-sm">Add New Operation</p>
+                    </div>
+
+                </li>
+
             </ul>
 
 
         </div>
 
+
+
+        <div class="status-chnageBox" v-if="operationModal">
+            <div class="w-full border border-solid border-Grey_20 rounded-regualr bg-white ">
+
+                <div class="w-full border-b border-solid border-Gray_20">
+
+                    <div class="padding-y_8px padding-x_16px">
+
+                        <h4> <span v-if="!this.operationId"> Add </span> <span v-if="this.operationId">Edit</span> Operation
+                        </h4>
+
+                    </div>
+
+                </div>
+
+                <div class="padding-y_12px padding-x_16px space-y-4">
+
+                    <div class="space-y-4px">
+                        <Label label="operatio Note" />
+                        <TextArea placeholder="Enter operatio Note" id="operatio Note" :value="operationNote"
+                            @input="event => operationNote = event.target.value" />
+                    </div>
+
+                </div>
+
+                <div class="w-full border-t border-solid border-Gray_20">
+
+                    <div class="padding-y_8px padding-x_16px flex items-center justify-end gap-8px">
+
+                        <button class="btn-regular" @click="this.operationModal = !this.operationModal">Cancel</button>
+                        <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn" @click="addOperation">
+                            <span v-if="!this.operationId"> Add Opration </span>
+                            <span v-if="this.operationId">Save Changes</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="overlay" @click="this.operationModal = !this.operationModal" v-if="operationModal"></div>
+
     </Layout>
 </template>
 
 <style scoped>
+.status-chnageBox {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 98%;
+    max-width: 550px;
+    z-index: 101;
+}
+
+.overlay {
+    position: fixed;
+    z-index: 99;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    background: #111827;
+    margin-top: 0 !important;
+}
+
 .list span {
     position: relative;
     margin-left: 20px;

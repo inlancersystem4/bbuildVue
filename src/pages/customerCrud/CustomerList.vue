@@ -41,7 +41,8 @@ export default {
     },
     computed: {
         remBtnDisabled() {
-            return !this.remDate || !this.remNote.trim();
+            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            return !this.remDate || !this.remNote.trim() || specialCharsRegex.test(this.remNote);
         },
         formattedDate() {
             const date = new Date(this.remDate);

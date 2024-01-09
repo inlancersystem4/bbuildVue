@@ -34,6 +34,7 @@ export default {
     },
     computed: {
         profileBtnDis() {
+            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
             return !this.profileFirstName || !this.profileFirstName.trim() ||
                 !this.profileLastName || !this.profileLastName.trim() ||
                 !this.profileEmail || !this.profileEmail.trim() ||
@@ -41,7 +42,7 @@ export default {
                 !this.isvalidEmail ||
                 !this.companyPhoneNo || this.companyPhoneNo.trim().length !== 10 ||
                 !this.companyName || !this.companyName.trim() ||
-                !this.companyAddress || !this.companyAddress.trim()
+                !this.companyAddress || !this.companyAddress.trim() || specialCharsRegex.test(this.operationNote)
         },
     },
     created() {

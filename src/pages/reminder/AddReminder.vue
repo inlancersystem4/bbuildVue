@@ -63,7 +63,8 @@ export default {
             return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
         },
         btnDisabled() {
-            return !this.remDate || !this.remNote.trim();
+            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            return !this.remDate || !this.remNote.trim() || specialCharsRegex.test(this.remNote);
         }
     },
     methods: {

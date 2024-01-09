@@ -205,7 +205,7 @@ export default {
 
                 <div class="main-content">
 
-                    <ProjectStructure :dropDownOpen="selectProject" :structureParentLevel="structureParentLevel"
+                    <ProjectStructure :dropDownOpen="selectProject" :structureLimit="this.projectLimit" :structureParentLevel="structureParentLevel"
                         @dropdownClose="structureItems" @structureCompelte="structureCompelte"
                         @structureSave="structureSave" @closeDropdown="closeDropdown" />
 

@@ -12,7 +12,8 @@ export default {
     components: { DropDown, Input, Label, ProjectStructureBox },
     props: {
         dropDownOpen: Boolean,
-        structureParentLevel: [Number, String]
+        structureParentLevel: [Number, String],
+        structureLimit: [Number, String]
     },
     data() {
         return {
@@ -26,6 +27,11 @@ export default {
         this.projectId = this.$route.params.projectId;
         this.getProjectDataStructure();
         this.structureDetails();
+    },
+    computed: {
+        structureSaveBtn() {
+            return this.structureLimit !== this.items.length
+        }
     },
     methods: {
         async getProjectDataStructure() {
@@ -49,6 +55,7 @@ export default {
                 this.items = [];
             }
 
+
             this.projectId = this.$route.params.projectId;
 
             this.items.push({
@@ -58,6 +65,7 @@ export default {
                 "project_id": this.projectId,
                 "structure_number": "",
             });
+
 
             this.$emit('dropdownClose', this.items.length)
         },
@@ -118,7 +126,7 @@ export default {
 
         },
         closeDropdown() {
-            this.$emit('closeDropdown');
+            this.$emit('close_dropdown');
         }
     },
 }
@@ -136,7 +144,6 @@ export default {
         <div v-if="this.items.length > 0"
             class="padding-x_32px  Sm_padding-x_28px Mobile_padding-x_24px  Sm_padding-y_18px Mobile_padding-y_16px padding-y_24px w-full border border-solid border-Grey_20 rounded-regualr bg-white">
             <div class="w-full display-flex align-center justify-end gap-12px">
-
                 <button class="btn-regular" @click="itemsClear">Cancel</button>
                 <button class="btn-regular bg-purple color-white" :disabled="structureSaveBtn" @click="structureSave">Save
                     Structure</button>

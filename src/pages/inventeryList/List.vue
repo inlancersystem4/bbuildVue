@@ -91,11 +91,11 @@ export default {
         updateDetailsMBtn() {
             const isValidArea = !!(this.invUpArea && typeof this.invUpArea === 'string' && this.invUpArea.trim() !== '');
             const isValidPrice = !!(this.invUpPrice && typeof this.invUpPrice === 'string' && this.invUpPrice.trim() !== '');
-
             return !(isValidArea || isValidPrice) || this.selectinvUpType;
         },
         addOperationBtn() {
-            return !this.operationNote.trim();
+            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote);
         }
     },
     methods: {
@@ -127,6 +127,10 @@ export default {
                             this.project();
                         }
                     }
+                }
+                else {
+                    const alertStore = useAlertStore()
+                    alertStore.error(response.message)
                 }
 
             } catch (error) {
@@ -207,6 +211,8 @@ export default {
                 else {
                     this.structureListLoader = false
                     this.structureListerror = response.message
+                    const alertStore = useAlertStore()
+                    alertStore.error(response.message)
                 }
 
             } catch (error) {
@@ -313,6 +319,10 @@ export default {
                     this.selectinvUpType = ""
                     this.updateDetailsModal = false
                 }
+                else {
+                    const alertStore = useAlertStore()
+                    alertStore.error(data.message)
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -340,6 +350,10 @@ export default {
                     // this.checkedamenities = response.data.amenities.map(amenity => amenity.amenities_id).join(', ')
                     // console.log(this.checkedamenities)
                     // this.isChecked = this.checkedamenities
+                }
+                else {
+                    const alertStore = useAlertStore()
+                    alertStore.error(response.message)
                 }
             }
             catch (error) {
@@ -429,6 +443,10 @@ export default {
                     this.operationNote = ""
                     this.addoperationModal = false
                 }
+                else {
+                    const alertStore = useAlertStore()
+                    alertStore.error(data.message)
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -443,19 +461,6 @@ export default {
 
 <template>
     <Layout>
-
-        <!-- <div class="display-flex align-center justify-end w-100 margin-bottom_12px gap-8px">
-
-            <div class="dropdown">
-
-                <Select :options="projectarray" @option-selected="onOptionSelected" :value="searchProject"
-                    @input="searchProjectFun" />
-
-            </div>
-
-            <span class="btn-regular bg-white">{{ currentprojectName }}</span>
-
-        </div> -->
 
         <div class="display-flex items-center justify-between w-full margin-bottom_12px gap-8px">
 
