@@ -27,7 +27,7 @@ export default {
             structureList: [],
             customerList: [],
             searchText: "",
-            chnageStatus: false,
+            changestatus: false,
             customerId: "",
             inventeryId: "",
             statusNote: "",
@@ -223,7 +223,7 @@ export default {
         },
         selectedInventery(data) {
             this.inventeryId = String(data.inv_id)
-            this.chnageStatus = true
+            this.changestatus = true
             this.getinvData();
         },
         selectoption(data) {
@@ -254,7 +254,7 @@ export default {
                     this.inventeryId = ""
                     this.customerId = ""
                     this.statusNote = ""
-                    this.chnageStatus = false
+                    this.changestatus = false
                 }
 
             } catch (error) {
@@ -560,7 +560,7 @@ export default {
 
 
 
-        <StatusChnage v-if="chnageStatus" @closeModal="this.chnageStatus = !this.chnageStatus">
+        <StatusChnage v-if="changestatus" @closeModal="this.changestatus = !this.changestatus">
 
             <template v-slot:status>
                 <Select :options="statusList" @option-selected="statusSelect" />
@@ -579,7 +579,7 @@ export default {
             </template>
 
             <template v-slot:footer>
-                <button class="btn-regular" @click="this.chnageStatus = !this.chnageStatus">Cancel</button>
+                <button class="btn-regular" @click="this.changestatus = !this.changestatus">Cancel</button>
                 <button class="btn-regular bg-purple color-white" @click="statusChnageIt" :disabled="statusChnageBtn">Status
                     Chnage</button>
             </template>

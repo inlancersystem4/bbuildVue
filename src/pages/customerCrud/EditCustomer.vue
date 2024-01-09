@@ -370,7 +370,7 @@ export default {
 
             <div class="w-full flex  justify-end mt-2.5">
                 <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addcustomer()">Save
-                    Chnages</button>
+                    changes</button>
             </div>
 
         </ContentSection>

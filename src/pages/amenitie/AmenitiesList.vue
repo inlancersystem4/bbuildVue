@@ -64,7 +64,7 @@ export default {
             this.amenitieData();
         },
 
-        chnageSort() {
+        changesort() {
             this.sort = this.sort === 'desc' ? 'asc' : 'desc';
             this.amenitieData();
         },
@@ -179,7 +179,7 @@ export default {
 
                 <div class="table-options">
 
-                    <button class="btn-regular display-flex align-center gap-8px" @click="chnageSort()">
+                    <button class="btn-regular display-flex align-center gap-8px" @click="changesort()">
                         <img src="../../assets/img/icons/adjustments.svg">
                         <span v-if="sort === 'asc'">A to Z</span>
                         <span v-if="sort === 'desc'">Z to A</span>
