@@ -103,6 +103,52 @@ export default {
     <div v-for="(item, index) in items" :key="index"
         class="w-full  min-w-[320px] max-w-96 bg-Grey_10 flex flex-col   border border-solid border-Grey_20 rounded-regualr overflow-hidden">
 
+        <div v-for="(structureItem, structureIndex) in item" :key="structureIndex">
+
+            <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white">
+
+                <p> {{ structureItem.nam }}</p>
+
+            </div>
+
+        </div>
+
+        <div v-for="(structureItem, structureIndex) in item[1]" :key="structureIndex">
+
+            <div v-for="(structureList, structureIndex) in structureItem" :key="structureIndex" class="p-2">
+
+
+                <div class="border border-solid bg-Grey_20 rounded-regualr">
+
+
+
+                    <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white">
+
+
+                        <ul v-for="(structurebread, structurebreadIndex) in structureList.breadcrumb"
+                            :key="structurebreadIndex">
+
+
+                            <span> {{ structurebread }} </span>
+
+                        </ul>
+
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- <div v-for="(item, index) in items" :key="index"
+        class="w-full  min-w-[320px] max-w-96 bg-Grey_10 flex flex-col   border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+
         <div class="p-2">
 
             <div v-for="(itemdata, itemindex) in item" :key="itemindex" class="space-y-2">
@@ -142,7 +188,7 @@ export default {
 
         </div>
 
-    </div>
+    </div> -->
 
 
     <!-- <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">

@@ -93,40 +93,40 @@ export default {
         },
         async profileDataUpdate() {
 
-            const authStore = useAuthStore();
+            // const authStore = useAuthStore();
 
-            await authStore.Updated(this.profileFirstName, this.profileLastName, this.profileEmail, this.profilePic, this.profileNo, this.companyName, this.companyAddress, this.companyPhoneNo);
+            // await authStore.Updated(this.profileFirstName, this.profileLastName, this.profileEmail, this.profilePic, this.profileNo, this.companyName, this.companyAddress, this.companyPhoneNo);
 
-            // this.formSubmitted = true
-            // this.profilesaveLoader = true
+            this.formSubmitted = true
+            this.profilesaveLoader = true
 
-            // var profile = new FormData();
-            // profile.append("user_first_name", this.profileFirstName)
-            // profile.append("user_last_name", this.profileLastName)
-            // profile.append("user_email", this.profileEmail)
-            // if (this.selectedImg) {
-            //     profile.append("user_profile", this.profilePic)
-            // }
-            // profile.append("user_profile", "")
-            // profile.append("mobile_no", this.profileNo)
-            // profile.append("company_name", this.companyName)
-            // profile.append("company_address", this.companyAddress)
-            // profile.append("company_phone_no", this.companyPhoneNo)
+            var profile = new FormData();
+            profile.append("user_first_name", this.profileFirstName)
+            profile.append("user_last_name", this.profileLastName)
+            profile.append("user_email", this.profileEmail)
+            if (this.selectedImg) {
+                profile.append("user_profile", this.profilePic)
+            }
+            profile.append("user_profile", "")
+            profile.append("mobile_no", this.profileNo)
+            profile.append("company_name", this.companyName)
+            profile.append("company_address", this.companyAddress)
+            profile.append("company_phone_no", this.companyPhoneNo)
 
-            // try {
-            //     const data = await fetchWrapper.post(`${baseUrl}/update-profile`, profile);
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/update-profile`, profile);
 
-            //     if (data.success === 1) {
-            //         this.getprofileData();
-            //         this.profilesaveLoader = false
-            //         this.profilenotsaved = false
-            //         this.profilesaved = true
-            //     }
+                if (data.success === 1) {
+                    this.getprofileData();
+                    this.profilesaveLoader = false
+                    this.profilenotsaved = false
+                    this.profilesaved = true
+                }
 
-            // } catch (error) {
-            //     const alertStore = useAlertStore()
-            //     alertStore.error(error)
-            // }
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
 
         },
     },
