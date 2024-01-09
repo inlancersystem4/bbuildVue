@@ -116,13 +116,17 @@ export default {
                 alertStore.error(error)
             }
 
+        },
+        closeDropdown() {
+            this.$emit('closeDropdown');
         }
     },
 }
 </script>
 
 <template>
-    <DropDown :items="projectStructureList" v-if="dropDownOpen" @option-selected="selectedStructure" />
+    <DropDown :items="projectStructureList" v-if="dropDownOpen" @option-selected="selectedStructure"
+        @close_dropdown="closeDropdown" />
 
     <div class="space-y-8px">
 

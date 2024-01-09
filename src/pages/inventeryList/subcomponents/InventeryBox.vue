@@ -23,21 +23,21 @@ export default {
             this.selectedItem = item;
             if (item.inv_details == 1) {
                 this.options = [
-                    { name: 'Edit', action: 'edit' },
-                    { name: 'View', action: 'view' },
-                    { name: 'Update', action: 'update' },
+                    { name: 'Edit Details', action: 'edit' },
+                    { name: 'View Inventory', action: 'view' },
+                    { name: 'Update Inventory', action: 'update' },
                     { name: 'Status Chnage', action: 'Chnage' },
-                    { name: 'Delete', action: 'delete' },
-                    { name: 'Operation', action: 'operation' },
+                    { name: 'Delete Inventory', action: 'delete' },
+                    { name: 'Add Operation', action: 'operation' },
                 ]
             }
             else {
                 this.options = [
-                    { name: 'Edit', action: 'edit' },
-                    { name: 'Update', action: 'update' },
+                    { name: 'Edit Details', action: 'edit' },
+                    { name: 'Update Inventory', action: 'update' },
                     { name: 'Status Chnage', action: 'Chnage' },
-                    { name: 'Delete', action: 'delete' },
-                    { name: 'Operation', action: 'operation' },
+                    { name: 'Delete Inventory', action: 'delete' },
+                    { name: 'Add Operation', action: 'operation' },
                 ]
             }
             this.$refs.vueSimpleContextMenu.showMenu(event, item)

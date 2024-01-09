@@ -165,6 +165,9 @@ export default {
 
         editStructure() {
             this.activeSetp = "Project_Structure"
+        },
+        closeDropdown() {
+            this.selectProject = false
         }
     },
 }
@@ -204,7 +207,7 @@ export default {
 
                     <ProjectStructure :dropDownOpen="selectProject" :structureParentLevel="structureParentLevel"
                         @dropdownClose="structureItems" @structureCompelte="structureCompelte"
-                        @structureSave="structureSave" />
+                        @structureSave="structureSave" @closeDropdown="closeDropdown" />
 
                 </div>
 

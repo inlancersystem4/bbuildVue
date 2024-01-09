@@ -558,7 +558,7 @@ export default {
         <StatusChnage v-if="chnageStatus" @closeModal="this.chnageStatus = !this.chnageStatus">
 
             <template v-slot:status>
-                <Select :options="statusList" @option-selected="statusSelect" :responseData="this.selectedStatusName" />
+                <Select :options="statusList" @option-selected="statusSelect" />
             </template>
 
             <template v-slot:customer>

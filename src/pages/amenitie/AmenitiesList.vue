@@ -180,15 +180,15 @@ export default {
 
                     <button class="btn-regular display-flex align-center gap-8px" @click="chnageSort()">
                         <img src="../../assets/img/icons/adjustments.svg">
-                        <span v-if="sort === 'asc'">Newest</span>
-                        <span v-if="sort === 'desc'">Oddest</span>
+                        <span v-if="sort === 'asc'">A to Z</span>
+                        <span v-if="sort === 'desc'">Z to A</span>
                     </button>
 
                 </div>
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Account" :value="searchText" @input="searchTextFun" />
+                    <SearchBox placeholder="Search Amenities" :value="searchText" @input="searchTextFun" />
 
                     <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap" @click="addUserFun()">
                         <img src="../../assets/img/icons/plus-3.svg">

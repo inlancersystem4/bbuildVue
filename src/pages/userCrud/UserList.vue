@@ -142,7 +142,7 @@ export default {
                     <button class="btn-regular display-flex align-center gap-8px" @click="chnageSort()">
                         <img src="../../assets/img/icons/adjustments.svg">
                         <span v-if="sort === 'asc'">Newest</span>
-                        <span v-if="sort === 'desc'">Oddest</span>
+                        <span v-if="sort === 'desc'">Oldest</span>
                     </button>
 
                     <button class=" btn-regular display-flex align-center gap-8px" @click="pushRoles()">
