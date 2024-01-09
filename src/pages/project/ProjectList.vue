@@ -129,7 +129,7 @@ export default {
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Account" :value="searchText" @input="searchTextFun" />
+                    <SearchBox placeholder="Search Project" :value="searchText" @input="searchTextFun" />
 
                     <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap"
                         @click="addProjectFun()">
@@ -149,13 +149,13 @@ export default {
                                 <p class="text-sm_regular color-Grey_50">No.</p>
                             </td>
                             <td class="project_name">
-                                <p class="text-sm_regular color-Grey_50">project name</p>
+                                <p class="text-sm_regular color-Grey_50">Project Name</p>
                             </td>
                             <td class="project_stuactur">
                                 <p class="text-sm_regular color-Grey_50">Project Structure No.</p>
                             </td>
                             <td class="project_address">
-                                <p class="text-sm_regular color-Grey_50">project address</p>
+                                <p class="text-sm_regular color-Grey_50">Project Address</p>
                             </td>
                             <td class="blank"></td>
                             <td class="dropdown">
