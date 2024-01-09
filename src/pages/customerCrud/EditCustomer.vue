@@ -154,6 +154,29 @@ export default {
                 alertStore.error(error)
             }
         },
+        async addReminder() {
+            var customer_data = new FormData();
+            customer_data.append("rem_id", "");
+            customer_data.append("rem_self", "");
+            customer_data.append("cus_id", this.customerId);
+            customer_data.append("rem_notes", this.remNote);
+            const formattedDateTime = this.formattedDate;
+            customer_data.append("rem_date", formattedDateTime);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/add-reminder`, customer_data);
+
+                if (data.success === 1) {
+                    this.customerData();
+                    this.reminderModal = false
+                    this.itemId = ""
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore()
+                alertStore.error(error)
+            }
+        },
         toggleAccordion(id) {
             if (this.activeAcco === id) {
                 this.activeAcco = null;
@@ -289,8 +312,30 @@ export default {
                     </div>
                 </div>
 
-                <div class="accordion-items" :class="{ 'active-accordion': this.activeAcco == 2 }">
+                <div class="accordion-items" :class="{ 'active-accordion': this.activeAcco == 2 }"
+                    v-if="this.cusRemindersArr.length !== 0">
                     <div class="accordion-header" @click="toggleAccordion(2)">
+                        <div>
+                            <h4 class="accordion-title">Customer Reminder details</h4>
+                            <p class="accordion-sub-title">Customer Reminder details</p>
+                        </div>
+                        <div class="accordion-icons">
+                            <img src="../../assets/img/icons/plus-2.svg" class="img-not-selected plus_icon">
+                            <img src="../../assets/img/icons/minus.svg" class="img-not-selected minus_icon">
+                        </div>
+                    </div>
+                    <div class="accordion-body">
+
+                        <div>
+                            <VDatePicker v-model="remDate" color="sky-blue" :attributes='attributes' mode="dateTime"
+                                @change="highlightSelectedDate" :formatter="dateTimeFormatter" expanded />
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="accordion-items" :class="{ 'active-accordion': this.activeAcco == 3 }">
+                    <div class="accordion-header" @click="toggleAccordion(3)">
                         <div>
                             <h4 class="accordion-title">Customer Details (Optional)</h4>
                             <p class="accordion-sub-title">add customer details but all filed are Optional </p>
@@ -323,8 +368,8 @@ export default {
             </div>
 
             <div class="w-full flex  justify-end mt-2.5">
-                <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addcustomer()">Add
-                    customer</button>
+                <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addcustomer()">Save
+                    Chnages</button>
             </div>
 
         </ContentSection>

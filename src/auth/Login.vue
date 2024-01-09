@@ -160,7 +160,7 @@ export default {
 
                     <div class="space-y-4px auth-title">
 
-                        <h1 class="color-Grey_90 text-2xl_semibold">Enter your phnone!</h1>
+                        <h1 class="color-Grey_90 text-2xl_semibold">Enter your Phone!</h1>
                         <h6 class="color-Grey_50 text-base_regular">
                             Enter your phone no to verify it.
                         </h6>
@@ -193,7 +193,7 @@ export default {
                     <div class="space-y-4px auth-title">
 
                         <h1 class="color-Grey_90 text-2xl_semibold">OTP Verification</h1>
-                        <h6 class="color-Grey_50 text-base_regular">Enter OTP code senet to {{ maskedNumber }} </h6>
+                        <h6 class="color-Grey_50 text-base_regular">Enter OTP code sent to {{ maskedNumber }} </h6>
 
                     </div>
 

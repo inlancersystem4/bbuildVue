@@ -102,140 +102,213 @@ export default {
 
         // },
 
-        processStructure(structure) {
-            structure.forEach(item => {
-                if (Array.isArray(item.structure) && item.structure.length !== 0) {
-                    this.processStructure(item.structure);
-                } else {
-                    this.processInventory(item);
-                }
-            });
-        },
-        processInventory(item) {
-            if (Array.isArray(item.inventery) && item.inventery.length !== 0) {
-                this.allProjectData.push(item.inventery);
-            } else {
-                this.allProjectData.push("inventery is empty or does not exist for this item");
-            }
-        }
+        //     processStructure(structure) {
+        //         structure.forEach(item => {
+        //             if (Array.isArray(item.structure) && item.structure.length !== 0) {
+        //                 this.processStructure(item.structure);
+        //             } else {
+        //                 this.processInventory(item);
+        //             }
+        //         });
+        //     },
+        //     processInventory(item) {
+        //         if (Array.isArray(item.inventery) && item.inventery.length !== 0) {
+        //             this.allProjectData.push(item.inventery);
+        //         } else {
+        //             this.allProjectData.push("inventery is empty or does not exist for this item");
+        //         }
+        //     }
+        // }
+
+
+        // sum_numbers(arr) {
+
+        // }
+
+
+
+
+
+        // if (Array.isArray(arr) && arr.length !== 0) {
+        //     arr.forEach(item => {
+        //         arr = item
+        //         if (Array.isArray(arr.structure) && arr.structure.length == 0) {
+        //             if (Array.isArray(arr.inventery) && arr.inventery.length !== 0) {
+        //                 this.inventoryList = arr.inventery
+        //                 // console.log(this.inventoryList)
+        //             } else {
+        //                 console.log("Inventory is empty or does not exist for this item");
+        //             }
+        //         }
+        //         else {
+        //             if (Array.isArray(arr.structure) && arr.structure.length !== 0) {
+        //                 arr.structure.forEach(item => {
+        //                     arr = item
+        //                     this.sum_numbers(arr)
+        //                 });
+        //             }
+        //         }
+        //     });
+        // }
+
+        // if (n <= 0) {
+        //     console.log("this is  index", n)
+        //     return 0;
+        // }
+        // if (arr.inventory && arr.inventory.length > 0) {
+        //     // console.log("this is array", arr)
+        //     return arr.inventory.length;
+        // } else {
+        //     // console.log("new function", this.sum_numbers(arr, n - 1) + arr[n - 1])
+        //     return this.sum_numbers(arr, n - 1) + arr[n - 1];
+        // }
+        // }
+
+        // sum_numbers(arr, n) {
+        //     console.log(arr)
+        //     // if (n <= 0) {
+        //     //     console.log("Reached index 0");
+        //     //     return 0;
+        //     // }
+
+        //     if (Array.isArray(arr)) {
+        //         let sum = 0;
+
+        //         arr.forEach(item => {
+        //             if (item.inventory && item.inventory.length > 0) {
+        //                 console.log("Found inventory:", item.inventory);
+        //                 return item.inventory.length;
+        //             } else if (Array.isArray(item.structure)) {
+        //                 sum += this.sum_numbers(item.structure, n - 1);
+        //             } else if (!isNaN(item)) {
+        //                 sum += item;
+        //             }
+        //         });
+
+        //         return sum;
+        //     } else {
+        //         console.log("Input is not an array");
+        //         return 0;
+        //     }
+        // }
+
+        // sum_numbers(arr) {
+        //     if (!arr || arr.length === 0) {
+        //         return 0;
+        //     } else {
+        //         return this.calculateSum(arr, 0);
+        //     }
+        // },
+        // calculateSum(arr, index) {
+        //     if (index >= arr.length) {
+        //         return 0;
+        //     } else {
+        //         const currentValue = parseFloat(arr[index]);
+        //         const recursiveSum = this.calculateSum(arr, index + 1);
+        //         return isNaN(currentValue) ? recursiveSum : recursiveSum + currentValue;
+        //     }
+        // }
+        // findInventory(structure) {
+        //     const foundItems = [];
+
+        //     const searchInventory = (currentStructure) => {
+        //         for (let i = 0; i < currentStructure.length; i++) {
+        //             const currentItem = currentStructure[i];
+        //             if (Array.isArray(currentItem)) {
+        //                 console.log('Nested Array found');
+        //                 searchInventory(currentItem); // Recursively search nested arrays
+        //             } else if (currentItem && currentItem.inventory === 'inventory') {
+        //                 console.log('Inventory found:', currentItem); // Log found inventory
+        //                 foundItems.push(currentItem); // Found inventory, add it to the array
+        //             }
+        //         }
+        //     };
+
+        //     searchInventory(structure); // Start searching from the main structure
+
+        //     console.log('Found items:', foundItems); // Log all found items
+
+        //     return foundItems; // Return the array of found inventory items
+        // }
     }
-
-
-    // sum_numbers(arr) {
-
-    // }
-
-
-
-
-
-    // if (Array.isArray(arr) && arr.length !== 0) {
-    //     arr.forEach(item => {
-    //         arr = item
-    //         if (Array.isArray(arr.structure) && arr.structure.length == 0) {
-    //             if (Array.isArray(arr.inventery) && arr.inventery.length !== 0) {
-    //                 this.inventoryList = arr.inventery
-    //                 // console.log(this.inventoryList)
-    //             } else {
-    //                 console.log("Inventory is empty or does not exist for this item");
-    //             }
-    //         }
-    //         else {
-    //             if (Array.isArray(arr.structure) && arr.structure.length !== 0) {
-    //                 arr.structure.forEach(item => {
-    //                     arr = item
-    //                     this.sum_numbers(arr)
-    //                 });
-    //             }
-    //         }
-    //     });
-    // }
-
-    // if (n <= 0) {
-    //     console.log("this is  index", n)
-    //     return 0;
-    // }
-    // if (arr.inventory && arr.inventory.length > 0) {
-    //     // console.log("this is array", arr)
-    //     return arr.inventory.length;
-    // } else {
-    //     // console.log("new function", this.sum_numbers(arr, n - 1) + arr[n - 1])
-    //     return this.sum_numbers(arr, n - 1) + arr[n - 1];
-    // }
-    // }
-
-    // sum_numbers(arr, n) {
-    //     console.log(arr)
-    //     // if (n <= 0) {
-    //     //     console.log("Reached index 0");
-    //     //     return 0;
-    //     // }
-
-    //     if (Array.isArray(arr)) {
-    //         let sum = 0;
-
-    //         arr.forEach(item => {
-    //             if (item.inventory && item.inventory.length > 0) {
-    //                 console.log("Found inventory:", item.inventory);
-    //                 return item.inventory.length;
-    //             } else if (Array.isArray(item.structure)) {
-    //                 sum += this.sum_numbers(item.structure, n - 1);
-    //             } else if (!isNaN(item)) {
-    //                 sum += item;
-    //             }
-    //         });
-
-    //         return sum;
-    //     } else {
-    //         console.log("Input is not an array");
-    //         return 0;
-    //     }
-    // }
-
-    // sum_numbers(arr) {
-    //     if (!arr || arr.length === 0) {
-    //         return 0;
-    //     } else {
-    //         return this.calculateSum(arr, 0);
-    //     }
-    // },
-    // calculateSum(arr, index) {
-    //     if (index >= arr.length) {
-    //         return 0;
-    //     } else {
-    //         const currentValue = parseFloat(arr[index]);
-    //         const recursiveSum = this.calculateSum(arr, index + 1);
-    //         return isNaN(currentValue) ? recursiveSum : recursiveSum + currentValue;
-    //     }
-    // }
-    // findInventory(structure) {
-    //     const foundItems = [];
-
-    //     const searchInventory = (currentStructure) => {
-    //         for (let i = 0; i < currentStructure.length; i++) {
-    //             const currentItem = currentStructure[i];
-    //             if (Array.isArray(currentItem)) {
-    //                 console.log('Nested Array found');
-    //                 searchInventory(currentItem); // Recursively search nested arrays
-    //             } else if (currentItem && currentItem.inventory === 'inventory') {
-    //                 console.log('Inventory found:', currentItem); // Log found inventory
-    //                 foundItems.push(currentItem); // Found inventory, add it to the array
-    //             }
-    //         }
-    //     };
-
-    //     searchInventory(structure); // Start searching from the main structure
-
-    //     console.log('Found items:', foundItems); // Log all found items
-
-    //     return foundItems; // Return the array of found inventory items
-    // }
 }
 </script>
 
 
 <template>
-    <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
+    <div v-for="(item, index) in items" :key="index"
+        class="w-full  min-w-[320px] max-w-96 bg-Grey_10 flex flex-col   border border-solid border-Grey_20 rounded-regualr overflow-hidden h-fit">
+
+        <div v-for="(structureItem, structureIndex) in item" :key="structureIndex">
+
+            <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white"
+                v-if="structureItem.nam">
+
+                <p> {{ structureItem.nam }}</p>
+
+            </div>
+
+        </div>
+
+        <div v-for="(structureItem, structureIndex) in item[1]" :key="structureIndex">
+
+            <div v-for="(structureList, structureIndex) in structureItem" :key="structureIndex" class="p-2">
+
+
+                <div class="border border-solid bg-Grey_20 rounded-regualr overflow-hidden">
+
+
+                    <ul class="flex padding-x_24px padding-y_12px border-b border-solid border-Grey_20 bg-white list">
+
+                        <li v-for="(structurebread, structurebreadIndex) in structureList.breadcrumb"
+                            :key="structurebreadIndex">
+
+                            <span> {{ structurebread }} </span>
+
+                        </li>
+
+                    </ul>
+
+
+                    <div class="flex flex-wrap py-2 px-4 bg-white">
+
+                        <ul v-for="(inventeryitem, inventeryitemIndex) in structureList.items" :key="inventeryitemIndex">
+                            <li class="p-0.5">
+                                <buttton @contextmenu.prevent="handleContextMenu($event, inventeryitem)"
+                                    class="btn-regular display-flex align-center gap-8px bg-white">
+
+                                    <div class="ellipse-dot"
+                                        :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 4, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 6 }">
+                                    </div>
+
+                                    <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitem.inv_name }}
+                                    </p>
+
+                                </buttton>
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- <div v-for="(item, index) in items" :key="index" class="flex items-start gap-3">
 
         <div v-for="(itemArrays, itemArraysindex) in item" :key="itemArraysindex"
             class="w-full  min-w-[320px] max-w-96 bg-Grey_10  border border-solid border-Grey_20 rounded-regualr overflow-hidden">
@@ -293,7 +366,7 @@ export default {
         </div>
 
 
-    </div>
+    </div> -->
 
 
 

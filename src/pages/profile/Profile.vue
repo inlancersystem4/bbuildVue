@@ -121,6 +121,13 @@ export default {
                     this.profilesaveLoader = false
                     this.profilenotsaved = false
                     this.profilesaved = true
+                    const alertStore = useAlertStore();
+                    alertStore.success(data.message);
+                }
+                else {
+                    const alertStore = useAlertStore();
+                    alertStore.error(data.message);
+                    this.profilesaveLoader = false
                 }
 
             } catch (error) {

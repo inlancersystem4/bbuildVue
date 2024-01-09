@@ -228,20 +228,20 @@ export default {
                                 <p class="text-sm_regular color-Grey_50">No.</p>
                             </td>
                             <td class="user_name">
-                                <p class="text-sm_regular color-Grey_50">User Name</p>
+                                <p class="text-sm_regular color-Grey_50">Customer Name</p>
                             </td>
                             <td class="user_email">
-                                <p class="text-sm_regular color-Grey_50">User Email</p>
+                                <p class="text-sm_regular color-Grey_50">Customer Email</p>
                             </td>
                             <td class="user_number">
-                                <p class="text-sm_regular color-Grey_50">User No.</p>
+                                <p class="text-sm_regular color-Grey_50">Mobile No.</p>
                             </td>
                             <td class="user_number">
-                                <p class="text-sm_regular color-Grey_50">User Address</p>
+                                <p class="text-sm_regular color-Grey_50">Customer Address</p>
                             </td>
                             <td class="blank"></td>
                             <td class="user-status">
-                                <p class="text-sm_regular color-Grey_50">User staus</p>
+                                <p class="text-sm_regular color-Grey_50">Customer staus</p>
                             </td>
                             <td class="dropdown">
                                 <div class="icon-btn icon-btn_32px  custom-dropdown"></div>

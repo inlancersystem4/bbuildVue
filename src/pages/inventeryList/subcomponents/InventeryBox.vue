@@ -101,7 +101,7 @@ export default {
 
 
     <div v-for="(item, index) in items" :key="index"
-        class="w-full  min-w-[320px] max-w-96 bg-Grey_10 flex flex-col   border border-solid border-Grey_20 rounded-regualr overflow-hidden">
+        class="w-full  min-w-[320px] max-w-96 bg-Grey_10 flex flex-col   border border-solid border-Grey_20 rounded-regualr overflow-hidden h-fit">
 
         <div v-for="(structureItem, structureIndex) in item" :key="structureIndex">
 

@@ -23,9 +23,10 @@ export default {
 
             var project_data = new FormData();
             project_data.append("project_id", this.projectId)
+            project_data.append("status_id", "");
 
             try {
-                const response = await fetchWrapper.post(`${baseUrl}/structure-preview`, project_data);
+                const response = await fetchWrapper.post(`${baseUrl}/get-inv-list`, project_data);
 
                 if (response.success === 1) {
                     this.projectPreviewList = response.data
