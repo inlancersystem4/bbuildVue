@@ -280,10 +280,10 @@ export default {
                         <button class="btn-regular" @click="this.amenitiesModal = !this.amenitiesModal">Cancel</button>
                         <button class="btn-regular bg-purple color-white" :disabled="addamenitiesBtn" @click="addAmenities"
                             v-if="!this.itemId">Add
-                            Operation</button>
+                            Amenities</button>
                         <button class="btn-regular bg-purple color-white" :disabled="addamenitiesBtn" @click="addAmenities"
-                            v-if="this.itemId">Chnage
-                            Operation</button>
+                            v-if="this.itemId">Save
+                            Amenities</button>
 
                     </div>
 

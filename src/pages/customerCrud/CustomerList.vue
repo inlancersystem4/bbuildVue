@@ -242,7 +242,7 @@ export default {
                             </td>
                             <td class="blank"></td>
                             <td class="user-status">
-                                <p class="text-sm_regular color-Grey_50">Customer staus</p>
+                                <p class="text-sm_regular color-Grey_50">Customer Status</p>
                             </td>
                             <td class="dropdown">
                                 <div class="icon-btn icon-btn_32px  custom-dropdown"></div>

@@ -324,7 +324,7 @@ export default {
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.reminderModal = !this.reminderModal">Cancel</button>
                 <button class="btn-regular bg-purple color-white" :disabled="remBtnDisabled" @click="addReminder">Save
-                    Changes</button>
+                    Reminder</button>
             </template>
 
         </Modal>
