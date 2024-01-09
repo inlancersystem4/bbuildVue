@@ -256,6 +256,10 @@ export default {
                     this.statusNote = ""
                     this.changestatus = false
                 }
+                else{
+                    const alertStore = useAlertStore()
+                alertStore.error(data.message)
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -581,7 +585,7 @@ export default {
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.changestatus = !this.changestatus">Cancel</button>
                 <button class="btn-regular bg-purple color-white" @click="statusChnageIt" :disabled="statusChnageBtn">Status
-                    Chnage</button>
+                    Change</button>
             </template>
 
         </StatusChnage>

@@ -427,7 +427,7 @@ export default {
                         <button class="btn-regular" @click="this.operationModal = !this.operationModal">Cancel</button>
                         <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn" @click="addOperation">
                             <span v-if="!this.operationId"> Add Opration </span>
-                            <span v-if="this.operationId">Save Changes</span>
+                            <span v-if="this.operationId">Save Operation</span>
                         </button>
 
                     </div>

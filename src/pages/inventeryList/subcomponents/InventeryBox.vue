@@ -26,7 +26,7 @@ export default {
                     { name: 'Edit Details', action: 'edit' },
                     { name: 'View Inventory', action: 'view' },
                     { name: 'Update Inventory', action: 'update' },
-                    { name: 'Status Chnage', action: 'Chnage' },
+                    { name: 'Status Change', action: 'Chnage' },
                     { name: 'Delete Inventory', action: 'delete' },
                     { name: 'Add Operation', action: 'operation' },
                 ]
@@ -35,7 +35,7 @@ export default {
                 this.options = [
                     { name: 'Edit Details', action: 'edit' },
                     { name: 'Update Inventory', action: 'update' },
-                    { name: 'Status Chnage', action: 'Chnage' },
+                    { name: 'Status Change', action: 'Chnage' },
                     { name: 'Delete Inventory', action: 'delete' },
                     { name: 'Add Operation', action: 'operation' },
                 ]

@@ -138,16 +138,17 @@ export default {
                     this.remNote = response.data.rem_notes;
                     this.remDate = response.data.rem_date
                     this.attributes = {
-                        content: 'black',
+                        content: 'blue',
                         highlight: true,
                         dot: true,
-                        bar: true,
+                        bar: false,
                         popover: {
-                            title: 'Selected Date',
-                            label: this.remNote,
+                            title: `Reminder`,
+                            label: response.data.rem_notes,
                         },
-                        dates: new Date(this.remDate),
-                        order: 0
+                        dates: new Date(response.data.rem_date),
+                        order: 1,
+                        time: new Date(response.data.rem_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                     }
                 }
 
@@ -156,6 +157,11 @@ export default {
                 alertStore.error(error)
             }
 
+        },
+
+        dateTimeFormatter(date) {
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(date).toLocaleString([], options);
         },
 
         async addReminder() {
@@ -261,6 +267,7 @@ export default {
                             </td>
                             <td class="blank"></td>
                             <td class="user-status relative">
+                                <p class="text-base_semibold color-Grey_50 line-clamp-1">Reminder status</p>
                             </td>
                             <td class="dropdown">
                                 <div class="icon-btn icon-btn_32px  custom-dropdown">
@@ -300,7 +307,7 @@ export default {
                     <div class="space-y-8px col-span-1">
                         <Label label="Select Date" />
                         <VDatePicker v-model="remDate" color="sky-blue" :attributes='attributes' mode="dateTime"
-                            @change="highlightSelectedDate" expanded />
+                            @change="highlightSelectedDate" expanded :formatter="dateTimeFormatter" />
                         <ErrorMessage msg="" v-if="!remDate && formSubmitted" />
                     </div>
 

@@ -234,7 +234,9 @@ export default {
                                 <p class="text-base_semibold color-Grey_50 line-clamp-1">Operation Note</p>
                             </td>
                             <td class="blank"></td>
-                            <td class="user-status"></td>
+                            <td class="user-status">
+                                <p class="text-base_semibold color-Grey_50 line-clamp-1 ">Operation Status</p>
+                            </td>
                             <td class="dropdown">
                                 <div class="icon-btn icon-btn_32px  custom-dropdown"></div>
                             </td>
@@ -287,7 +289,7 @@ export default {
 
                         <button class="btn-regular" @click="this.operationModal = !this.operationModal">Cancel</button>
                         <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn"
-                            @click="addOperation">Save changes</button>
+                            @click="addOperation">Save Operation</button>
 
                     </div>
 
@@ -372,8 +374,8 @@ tr:nth-last-child(3) .custom-dropdown-list {
 }
 
 .user_address {
-    min-width: 20%;
-    max-width: 20%;
+    min-width: 25%;
+    max-width: 25%;
     display: block;
     overflow: hidden;
 }
@@ -397,6 +399,7 @@ tr:nth-last-child(3) .custom-dropdown-list {
     display: flex;
     justify-content: end;
 }
+
 
 .custom-dropdown:hover .custom-dropdown-list {
     display: block;
