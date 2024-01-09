@@ -105,7 +105,8 @@ export default {
 
         <div v-for="(structureItem, structureIndex) in item" :key="structureIndex">
 
-            <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white">
+            <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white"
+                v-if="structureItem.nam">
 
                 <p> {{ structureItem.nam }}</p>
 
@@ -118,21 +119,39 @@ export default {
             <div v-for="(structureList, structureIndex) in structureItem" :key="structureIndex" class="p-2">
 
 
-                <div class="border border-solid bg-Grey_20 rounded-regualr">
+                <div class="border border-solid bg-Grey_20 rounded-regualr overflow-hidden">
 
 
+                    <ul class="flex padding-x_24px padding-y_12px border-b border-solid border-Grey_20 bg-white list">
 
-                    <div class="padding-x_24px padding-y_12px border-b border-solid border-Grey_20 list flex bg-white">
-
-
-                        <ul v-for="(structurebread, structurebreadIndex) in structureList.breadcrumb"
+                        <li v-for="(structurebread, structurebreadIndex) in structureList.breadcrumb"
                             :key="structurebreadIndex">
-
 
                             <span> {{ structurebread }} </span>
 
-                        </ul>
+                        </li>
 
+                    </ul>
+
+
+                    <div class="flex flex-wrap py-2 px-4 bg-white">
+
+                        <ul v-for="(inventeryitem, inventeryitemIndex) in structureList.items" :key="inventeryitemIndex">
+                            <li class="p-0.5">
+                                <buttton @contextmenu.prevent="handleContextMenu($event, inventeryitem)"
+                                    class="btn-regular display-flex align-center gap-8px bg-white">
+
+                                    <div class="ellipse-dot"
+                                        :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 4, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 6 }">
+                                    </div>
+
+                                    <p class="text-sm_medium color-Grey_60 text-uppercase">{{ inventeryitem.inv_name }}
+                                    </p>
+
+                                </buttton>
+                            </li>
+
+                        </ul>
 
                     </div>
 
@@ -643,8 +662,13 @@ li {
     margin-left: 20px;
 }
 
+.list li:nth-child(1) span {
+    margin-left: 0 !important;
+}
 
-
+.list li:nth-child(1) span:after {
+    display: none;
+}
 
 .list span:after {
     content: "";
