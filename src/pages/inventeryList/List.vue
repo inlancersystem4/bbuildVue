@@ -256,9 +256,9 @@ export default {
                     this.statusNote = ""
                     this.changestatus = false
                 }
-                else{
+                else {
                     const alertStore = useAlertStore()
-                alertStore.error(data.message)
+                    alertStore.error(data.message)
                 }
 
             } catch (error) {

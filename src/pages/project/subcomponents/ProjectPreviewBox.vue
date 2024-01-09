@@ -274,8 +274,7 @@ export default {
 
                         <ul v-for="(inventeryitem, inventeryitemIndex) in structureList.items" :key="inventeryitemIndex">
                             <li class="p-0.5">
-                                <buttton @contextmenu.prevent="handleContextMenu($event, inventeryitem)"
-                                    class="btn-regular display-flex align-center gap-8px bg-white">
+                                <buttton class="btn-regular display-flex align-center gap-8px bg-white">
 
                                     <div class="ellipse-dot"
                                         :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 4, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 6 }">

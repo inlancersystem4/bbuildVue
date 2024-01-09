@@ -205,24 +205,25 @@ export default {
 
                 <div class="main-content">
 
-                    <ProjectStructure :dropDownOpen="selectProject" :structureLimit="this.projectLimit" :structureParentLevel="structureParentLevel"
-                        @dropdownClose="structureItems" @structureCompelte="structureCompelte"
-                        @structureSave="structureSave" @closeDropdown="closeDropdown" />
+                    <ProjectStructure :dropDownOpen="selectProject" :structureLimit="this.projectLimit"
+                        :structureParentLevel="structureParentLevel" @dropdownClose="structureItems"
+                        @structureCompelte="structureCompelte" @structureSave="structureSave"
+                        @closeDropdown="closeDropdown" />
 
                 </div>
 
             </SettingPage>
 
 
-            <SettingPage title="Preview" v-if="activeSetp === 'Project_Preview'">
+            <div v-if="activeSetp === 'Project_Preview'">
 
-                <div class="main-content overflow-x-auto pb-5">
+                <div class="main-content overflow-x-auto pb-5 flex gap-2">
 
                     <ProjectPreview @structurePreviewSucees="structurePreviewSucees" />
 
                 </div>
 
-            </SettingPage>
+            </div>
 
         </div>
 
