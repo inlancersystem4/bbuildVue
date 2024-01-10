@@ -67,6 +67,7 @@ export default {
             addoperationModal: false,
             selectedCustomer: "",
             selectedStatusName: "",
+            isStatusFiveDisabled: "",
         }
     },
     created() {
@@ -88,17 +89,17 @@ export default {
         //         return !this.statusNote.trim() || !this.customerId || !this.inventeryId || !this.selectedStatus;
         //     }
         // },
-        statusChnageBtn() {
-            const isStatusOneOf = [6, 2, 1].includes(this.selectedStatus);
-            const missingFields = !this.statusNote?.trim() || !this.inventeryId || !this.selectedStatus || (isStatusOneOf && !this.customerId);
+        // statusChnageBtn() {
+        //     const isStatusOneOf = [6, 2, 1].includes(this.selectedStatus);
+        //     const missingFields = !this.statusNote?.trim() || !this.inventeryId || !this.selectedStatus || (isStatusOneOf && !this.customerId);
 
-            return missingFields;
-        },
-        updateDetailsMBtn() {
-            const isValidArea = !!(this.invUpArea && typeof this.invUpArea === 'string' && this.invUpArea.trim() !== '');
-            const isValidPrice = !!(this.invUpPrice && typeof this.invUpPrice === 'string' && this.invUpPrice.trim() !== '');
-            return !(isValidArea || isValidPrice) || this.selectinvUpType;
-        },
+        //     return missingFields;
+        // },
+        // updateDetailsBtn() {
+        //     const isValidArea = !!(this.invUpArea && typeof this.invUpArea === 'string' && this.invUpArea.trim() !== '');
+        //     const isValidPrice = !!(this.invUpPrice && typeof this.invUpPrice === 'string' && this.invUpPrice.trim() !== '');
+        //     return !(isValidArea || isValidPrice) || this.selectinvUpType;
+        // },
         addOperationBtn() {
             const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
             return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote);
@@ -296,8 +297,9 @@ export default {
             }
         },
         updatedDetails(data) {
+            console.log(data)
             this.inventeryId = String(data.inv_id)
-            this.inventerydetaiId = String(data.inv_details)
+            this.inventerydetaiId = String(data.details_id)
             this.updateDetailsModal = true
             this.getinvData();
         },
@@ -306,7 +308,7 @@ export default {
         },
         async invUpdated() {
             var status_data = new FormData();
-            if (this.inventerydetaiId === '0') {
+            if (!this.inventerydetaiId) {
                 status_data.append("detail_id", "");
             }
             else {
@@ -345,6 +347,8 @@ export default {
             status_data.append("inv_id", this.inventeryId);
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/inventory-details`, status_data);
+
+                let isStatusFive = false;
                 if (response.success === 1) {
                     this.invViewData = response.data;
                     this.invUpArea = response.data.inv_details.inv_area
@@ -367,6 +371,10 @@ export default {
                     else {
                         this.notneedcustomer = false
                     }
+                    if (this.selectedStatus === 5) {
+                        isStatusFive = true;
+                    }
+                    this.isStatusFiveDisabled = isStatusFive;
                 }
                 else {
                     const alertStore = useAlertStore()
@@ -612,7 +620,7 @@ export default {
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.changestatus = !this.changestatus">Cancel</button>
                 <button class="btn-regular bg-purple color-white" @click="statusChnageIt"
-                    :disabled="statusChnageBtn || this.selectedStatus == 5">Status
+                    :disabled="statusChnageBtn || this.isStatusFiveDisabled">Status
                     Change</button>
             </template>
 
@@ -673,7 +681,7 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.updateDetailsModal = !this.updateDetailsModal">Cancel</button>
-                <button class="btn-regular bg-purple color-white" :disabled="updateDetailsMBtn"
+                <button class="btn-regular bg-purple color-white" :disabled="updateDetailsBtn"
                     @click="invUpdated">Updated</button>
             </template>
 

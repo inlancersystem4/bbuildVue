@@ -139,8 +139,8 @@ export default {
                         <ul v-for="(inventeryitem, inventeryitemIndex) in structureList.items" :key="inventeryitemIndex">
                             <li class="p-0.5">
                                 <buttton @contextmenu.prevent="handleContextMenu($event, inventeryitem)"
-                                    class="btn-regular display-flex align-center gap-8px bg-white">
-
+                                    class="btn-regular display-flex align-center gap-8px bg-opacity-15"
+                                    :class="{ 'bg-[#10B981] border-[#10B981]': inventeryitem.inv_status === 1, 'bg-[#F43F5E] border-[#F43F5E]': inventeryitem.inv_status === 2, 'bg-[#F97316] border-[#F97316]': inventeryitem.inv_status === 3, 'bg-[#1E3A8A] border-[#1E3A8A]': inventeryitem.inv_status === 4, 'bg-[#808080] border-[#808080]': inventeryitem.inv_status === 5, 'bg-[#7C3AED] border-[#7C3AED]': inventeryitem.inv_status === 6 }">
                                     <div class="ellipse-dot"
                                         :class="{ 'bg-emerald': inventeryitem.inv_status === 1, 'bg-rose': inventeryitem.inv_status === 2, 'bg-orange': inventeryitem.inv_status === 3, 'bg-blue': inventeryitem.inv_status === 4, 'bg-Grey_40': inventeryitem.inv_status === 5, 'bg-purple': inventeryitem.inv_status === 6 }">
                                     </div>
