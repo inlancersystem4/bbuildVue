@@ -199,11 +199,12 @@ export default {
                     <div
                         class="padding-x_32px Sm_padding-x_28px Mobile_padding-x_24px Mobile-fit_padding-x_18px padding-y_24px display-flex align-center justify-between Sm_flex-column Sm_align-start Sm_gap-6px">
 
-                        <h4 class="color-Grey_90 text-xl_semibold capitalize">
-                            <span v-if="invViewData.inv_name">
-                                {{ invViewData.inv_name }}
-                            </span> details
-                        </h4>
+                        <h6 class="color-Grey_90 text-xl_semibold list flex">
+                            <p v-if="invViewData.inv_str">{{ invViewData.inv_str }}</p>
+                            <span v-if="invViewData.inv_name">{{ invViewData.inv_name }}</span>
+                            <span v-if="invViewData.inv_nam">{{ invViewData.inv_nam }}</span>
+                            <span>Details</span>
+                        </h6>
 
                     </div>
 
@@ -266,11 +267,13 @@ export default {
                     <div
                         class="padding-x_32px Sm_padding-x_28px Mobile_padding-x_24px Mobile-fit_padding-x_18px padding-y_24px display-flex align-center justify-between Sm_flex-column Sm_align-start Sm_gap-6px">
 
-                        <h4 class="color-Grey_90 text-xl_semibold capitalize">
-                            <span v-if="invViewData.inv_name">
-                                {{ invViewData.inv_name }}
-                            </span> amenities
-                        </h4>
+
+                        <h6 class="color-Grey_90 text-xl_semibold list flex">
+                            <p v-if="invViewData.inv_str">{{ invViewData.inv_str }}</p>
+                            <span v-if="invViewData.inv_name">{{ invViewData.inv_name }}</span>
+                            <span v-if="invViewData.inv_nam">{{ invViewData.inv_nam }}</span>
+                            <span>Amenities</span>
+                        </h6>
 
                     </div>
 
@@ -303,11 +306,13 @@ export default {
                     <div
                         class="padding-x_32px Sm_padding-x_28px Mobile_padding-x_24px Mobile-fit_padding-x_18px padding-y_24px display-flex align-center justify-between Sm_flex-column Sm_align-start Sm_gap-6px">
 
-                        <h4 class="color-Grey_90 text-xl_semibold capitalize">
-                            <span v-if="invViewData.inv_name">
-                                {{ invViewData.inv_name }}
-                            </span> tracking
-                        </h4>
+
+                        <h6 class="color-Grey_90 text-xl_semibold list flex">
+                            <p v-if="invViewData.inv_str">{{ invViewData.inv_str }}</p>
+                            <span v-if="invViewData.inv_name">{{ invViewData.inv_name }}</span>
+                            <span v-if="invViewData.inv_nam">{{ invViewData.inv_nam }}</span>
+                            <span>Tracking</span>
+                        </h6>
 
                     </div>
 

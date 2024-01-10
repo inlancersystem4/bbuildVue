@@ -4,7 +4,7 @@ import { RouterView } from 'vue-router'
 
 <template>
   <NotificationGroup group="foo">
-    <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none">
+    <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none z-[100]">
       <div class="w-full max-w-sm">
         <Notification v-slot="{ notifications }" enter="transform ease-out duration-300 transition"
           enter-from="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-4"

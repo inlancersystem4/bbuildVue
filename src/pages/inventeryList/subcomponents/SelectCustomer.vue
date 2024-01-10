@@ -28,7 +28,7 @@ export default {
             this.selectoption = item.cus_first_name + " " + item.cus_last_name
         },
         clearResponse() {
-            // this.selectoption = ""
+            this.$emit('clear-response');
         }
     },
 }

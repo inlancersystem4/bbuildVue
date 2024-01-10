@@ -81,12 +81,18 @@ export default {
         authStore.chnageTitle(title, description)
     },
     computed: {
+        // statusChnageBtn() {
+        //     if (this.selectedStatus == 6 || this.selectedStatus == 2 || this.selectedStatus == 1) {
+        //         return !this.statusNote.trim() || !this.inventeryId || !this.selectedStatus;
+        //     } else {
+        //         return !this.statusNote.trim() || !this.customerId || !this.inventeryId || !this.selectedStatus;
+        //     }
+        // },
         statusChnageBtn() {
-            if (this.selectedStatus == 6 || this.selectedStatus == 2 || this.selectedStatus == 1) {
-                return !this.statusNote.trim() || !this.inventeryId || !this.selectedStatus;
-            } else {
-                return !this.statusNote.trim() || !this.customerId || !this.inventeryId || !this.selectedStatus;
-            }
+            const isStatusOneOf = [6, 2, 1].includes(this.selectedStatus);
+            const missingFields = !this.statusNote?.trim() || !this.inventeryId || !this.selectedStatus || (isStatusOneOf && !this.customerId);
+
+            return missingFields;
         },
         updateDetailsMBtn() {
             const isValidArea = !!(this.invUpArea && typeof this.invUpArea === 'string' && this.invUpArea.trim() !== '');
@@ -351,9 +357,16 @@ export default {
                     this.selectedStatusName = response.data.inv_status
                     this.selectedCustomer = response.data.inv_cus
                     this.customerId = String(response.data.inv_cus_id)
-                    // this.checkedamenities = response.data.amenities.map(amenity => amenity.amenities_id).join(', ')
-                    // console.log(this.checkedamenities)
-                    // this.isChecked = this.checkedamenities
+                    if (response.data.amenities.length !== 0) {
+                        this.checkedamenities = response.data.amenities.map(amenity => amenity.amenities_id);
+                    }
+                    if (this.selectedStatus == 6 || this.selectedStatus == 2 || this.selectedStatus == 1) {
+                        this.notneedcustomer = true
+                        this.customerId = ""
+                    }
+                    else {
+                        this.notneedcustomer = false
+                    }
                 }
                 else {
                     const alertStore = useAlertStore()
@@ -385,8 +398,13 @@ export default {
                 alertStore.error(error);
             }
         },
-
+        isChecked(amenityId) {
+            return this.checkedamenities.includes(amenityId);
+        },
         selectAmen(data) {
+            if (!Array.isArray(this.checkedamenities)) {
+                this.checkedamenities = [];
+            }
             const index = this.checkedamenities.indexOf(data.amenities_id);
             if (index !== -1) {
                 this.checkedamenities.splice(index, 1);
@@ -397,7 +415,9 @@ export default {
         async inventoryUpdated() {
             var status_data = new FormData();
 
-            const joinedamenities = this.checkedamenities.join(',');
+            const amenitiesArray = [...this.checkedamenities];
+            const cleanedArray = amenitiesArray.filter(item => item !== "," && item !== "");
+            const joinedamenities = cleanedArray.join(',');
 
             status_data.append("inv_id", this.inventeryId);
             status_data.append("inv_name", this.invUpdateName);
@@ -414,6 +434,10 @@ export default {
                     this.invUpdateNote = ""
                     this.checkedamenities = []
                     this.updateInvModal = false
+                }
+                else {
+                    const alertStore = useAlertStore()
+                    alertStore.error(data.message)
                 }
 
             } catch (error) {
@@ -458,6 +482,9 @@ export default {
             }
 
         },
+        clearCustomResponseData() {
+            this.selectedCustomer = ""
+        }
     },
 }
 </script>
@@ -565,15 +592,15 @@ export default {
 
 
         <StatusChnage v-if="changestatus" @closeModal="this.changestatus = !this.changestatus">
-
             <template v-slot:status>
-                <Select :options="statusList" @option-selected="statusSelect" />
+                <Select :options="statusList" @option-selected="statusSelect" :responseData="selectedStatusName" />
             </template>
 
             <template v-slot:customer>
                 <h6 class="text-base color-Grey_50" v-if="notneedcustomer">This status not need customer</h6>
                 <SelectCustomer :list="customerList" @input="searchTextFun" placeholder="Enter Customer" :value="searchText"
-                    @selectitem="selectoption" v-if="!notneedcustomer" :responseData="selectedCustomer" />
+                    @selectitem="selectoption" v-if="!notneedcustomer" :responseData="selectedCustomer"
+                    @clear-response="clearCustomResponseData" />
             </template>
 
             <template v-slot:note>
@@ -584,7 +611,8 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.changestatus = !this.changestatus">Cancel</button>
-                <button class="btn-regular bg-purple color-white" @click="statusChnageIt" :disabled="statusChnageBtn">Status
+                <button class="btn-regular bg-purple color-white" @click="statusChnageIt"
+                    :disabled="statusChnageBtn || this.selectedStatus == 5">Status
                     Change</button>
             </template>
 
@@ -690,9 +718,9 @@ export default {
                                         <p class="color-Grey_50 text-base_regular margin-top_4px">{{
                                             updateInvDetaiTypeitems.amenities_details }}</p>
                                     </div>
-
                                     <div class="custom-toogle-btn">
                                         <input type="checkbox" class="form-toogle-btn"
+                                            :checked="isChecked(updateInvDetaiTypeitems.amenities_id)"
                                             @input="selectAmen(updateInvDetaiTypeitems)">
                                     </div>
 

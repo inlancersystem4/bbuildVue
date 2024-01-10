@@ -7,10 +7,9 @@ export default {
             type: Array,
             required: true,
         },
-        responseData: Object,
+        responseData: [Object, String],
         value: String
     },
-
     data() {
         return {
             selectDropdownOpen: false,
@@ -56,17 +55,13 @@ export default {
         <div class=" display-flex align-center justify-between w-100 gap-4" @click="toggleDropdown">
 
             <div class="cursor-pointer">
-
-                <p v-if="!responseData" class="w-100 text-capitalize  color-Grey_90 font-medium"
+                <p v-if="!selectedOption && responseData" class="w-100 text-capitalize  color-Grey_90 font-medium">
+                    {{ responseData }}
+                </p>
+                <p v-else class="w-100 text-capitalize  color-Grey_90 font-medium"
                     :class="{ 'color-Grey_50': selectedOption !== null }">
                     {{ selectedOption ? selectedOption : 'Select Option' }}
                 </p>
-
-                <p v-if="responseData" class="w-100 text-capitalize  color-Grey_90 font-medium">
-                    <!-- {{ responseData }} -->
-                    {{ responseData ? responseData : 'Select Option' }}
-                </p>
-
             </div>
 
 
