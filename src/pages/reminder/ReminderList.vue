@@ -42,7 +42,7 @@ export default {
     },
     computed: {
         remBtnDisabled() {
-            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
             return !this.remDate || !this.remNote.trim() || specialCharsRegex.test(this.remNote);
         },
         formattedDate() {

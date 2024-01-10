@@ -47,7 +47,7 @@ export default {
     },
     computed: {
         btnDisabled() {
-            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
             return !this.customerFirstName.trim() || !this.customerLastName.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim() || specialCharsRegex.test(this.customerAddress);
         }
     },
@@ -148,6 +148,10 @@ export default {
 
                 if (data.success === 1) {
                     this.$router.push({ name: 'CustomerList' });
+                }
+                else {
+                    const alertStore = useAlertStore()
+                    alertStore.error(data.message)
                 }
 
             } catch (error) {

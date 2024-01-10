@@ -100,7 +100,7 @@ export default {
             return !(isValidArea || isValidPrice) || this.selectinvUpType;
         },
         addOperationBtn() {
-            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
             return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote);
         }
     },
@@ -564,9 +564,9 @@ export default {
 
             <div class="w-full overflow-x-auto pb-4">
 
-                <div class="w-full h-96 flex items-center justify-center" v-if="structureListLoader">
+                <div class="w-full h-fit flex items-center justify-center" v-if="structureListLoader">
 
-                    <img src="../../assets/img/loader3.gif">
+                    <img src="../../assets/img/loader2.gif">
 
                 </div>
 
@@ -701,7 +701,7 @@ export default {
                             @input="event => invUpdateNote = event.target.value" />
                     </div>
 
-                    <div class="space-y-8px">
+                    <div class="space-y-8px" v-if="this.amenitiesList.length !== 0">
 
                         <Label label="Select Amenities" />
 

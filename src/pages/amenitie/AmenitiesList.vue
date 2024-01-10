@@ -41,7 +41,7 @@ export default {
     },
     computed: {
         addamenitiesBtn() {
-            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
             return !this.amenitiesName.trim() || !this.amenitiesNote.trim() || specialCharsRegex.test(this.amenitiesNote)
         }
     },

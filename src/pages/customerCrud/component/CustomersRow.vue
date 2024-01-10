@@ -31,7 +31,7 @@ export default {
                 <img :src="items.cus_profile" class="user-img" v-if="items.cus_profile">
                 <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" class="user-img"
                     v-if="!items.cus_profile">
-                <p class="text-base_semibold color-Grey_90">{{ items.cus_first_name }} {{ items.cus_last_name }}</p>
+                <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.cus_first_name }} {{ items.cus_last_name }}</p>
             </div>
         </td>
         <td class="user_email">
