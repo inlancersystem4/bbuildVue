@@ -34,7 +34,7 @@ export default {
     },
     computed: {
         profileBtnDis() {
-            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
             return !this.profileFirstName || !this.profileFirstName.trim() ||
                 !this.profileLastName || !this.profileLastName.trim() ||
                 !this.profileEmail || !this.profileEmail.trim() ||

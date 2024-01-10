@@ -100,7 +100,7 @@ export default {
             return !(isValidArea || isValidPrice) || this.selectinvUpType;
         },
         addOperationBtn() {
-            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
             return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote);
         }
     },

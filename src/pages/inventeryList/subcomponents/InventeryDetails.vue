@@ -32,7 +32,7 @@ export default {
     },
     computed: {
         addOperationBtn() {
-            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
             return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote)
         }
     },

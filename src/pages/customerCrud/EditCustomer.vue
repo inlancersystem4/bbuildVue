@@ -47,7 +47,7 @@ export default {
     },
     computed: {
         btnDisabled() {
-            const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+            const specialCharsRegex = /[!@#$%^&*().?":{}|<>]/;
             return !this.customerFirstName.trim() || !this.customerLastName.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim() || specialCharsRegex.test(this.customerAddress);
         }
     },
