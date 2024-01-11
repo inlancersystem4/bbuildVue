@@ -269,7 +269,6 @@ export default {
 
                     </ul>
 
-
                     <div class="flex flex-wrap py-2 px-4 bg-white">
 
                         <ul v-for="(inventeryitem, inventeryitemIndex) in structureList.items" :key="inventeryitemIndex">

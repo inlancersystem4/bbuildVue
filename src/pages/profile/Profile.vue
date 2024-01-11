@@ -6,7 +6,7 @@ import Input from '../../subcomponents/common/Input.vue';
 import TextArea from '@/subcomponents/common/TextArea.vue';
 import ContentSection2 from '@/subcomponents/ContentSection2.vue'
 import ErrorMessage from '../../subcomponents/common/ErrorMessage.vue';
-import { useAuthStore, useAlertStore } from '../../stores'
+import { useAuthStore, useAlertStore, useProfileStore } from '../../stores'
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -92,51 +92,61 @@ export default {
             }
 
         },
+        // async profileDataUpdate() {
+
+        //     const profileStore = useProfileStore();
+
+        //     await profileStore.Updated(this.profileFirstName, this.profileLastName, this.profileEmail, this.profilePic, this.profileNo, this.companyName, this.companyAddress, this.companyPhoneNo);
+
+
+        //     await this.getprofileData();
+        //     this.formSubmitted = true;
+        //     this.profilesaveLoader = true;
+
+        //     // var profile = new FormData();
+        //     // profile.append("user_first_name", this.profileFirstName)
+        //     // profile.append("user_last_name", this.profileLastName)
+        //     // profile.append("user_email", this.profileEmail)
+        //     // if (this.selectedImg) {
+        //     //     profile.append("user_profile", this.profilePic)
+        //     // }
+        //     // profile.append("user_profile", "")
+        //     // profile.append("mobile_no", this.profileNo)
+        //     // profile.append("company_name", this.companyName)
+        //     // profile.append("company_address", this.companyAddress)
+        //     // profile.append("company_phone_no", this.companyPhoneNo)
+
+        //     // try {
+        //     //     const data = await fetchWrapper.post(`${baseUrl}/update-profile`, profile);
+
+        //     //     if (data.success === 1) {
+        //     //         this.getprofileData();
+        //     //         this.profilesaveLoader = false
+        //     //         this.profilenotsaved = false
+        //     //         this.profilesaved = true
+        //     //         const alertStore = useAlertStore();
+        //     //         alertStore.success(data.message);
+        //     //     }
+        //     //     else {
+        //     //         const alertStore = useAlertStore();
+        //     //         alertStore.error(data.message);
+        //     //         this.profilesaveLoader = false
+        //     //     }
+
+        //     // } catch (error) {
+        //     //     const alertStore = useAlertStore()
+        //     //     alertStore.error(error)
+        //     // }
+
+        // },
         async profileDataUpdate() {
+            const profileStore = useProfileStore();
 
-            // const authStore = useAuthStore();
+            await profileStore.Updated(this.profileFirstName, this.profileLastName, this.profileEmail, this.profilePic, this.profileNo, this.companyName, this.companyAddress, this.companyPhoneNo);
 
-            // await authStore.Updated(this.profileFirstName, this.profileLastName, this.profileEmail, this.profilePic, this.profileNo, this.companyName, this.companyAddress, this.companyPhoneNo);
+            await this.getprofileData();
 
-            this.formSubmitted = true
-            this.profilesaveLoader = true
-
-            var profile = new FormData();
-            profile.append("user_first_name", this.profileFirstName)
-            profile.append("user_last_name", this.profileLastName)
-            profile.append("user_email", this.profileEmail)
-            if (this.selectedImg) {
-                profile.append("user_profile", this.profilePic)
-            }
-            profile.append("user_profile", "")
-            profile.append("mobile_no", this.profileNo)
-            profile.append("company_name", this.companyName)
-            profile.append("company_address", this.companyAddress)
-            profile.append("company_phone_no", this.companyPhoneNo)
-
-            try {
-                const data = await fetchWrapper.post(`${baseUrl}/update-profile`, profile);
-
-                if (data.success === 1) {
-                    this.getprofileData();
-                    this.profilesaveLoader = false
-                    this.profilenotsaved = false
-                    this.profilesaved = true
-                    const alertStore = useAlertStore();
-                    alertStore.success(data.message);
-                }
-                else {
-                    const alertStore = useAlertStore();
-                    alertStore.error(data.message);
-                    this.profilesaveLoader = false
-                }
-
-            } catch (error) {
-                const alertStore = useAlertStore()
-                alertStore.error(error)
-            }
-
-        },
+        }
     },
 }
 </script>
