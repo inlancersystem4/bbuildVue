@@ -2,6 +2,7 @@
 export default {
     props: {
         list: Array,
+        loading: Boolean,
     },
     methods: {
         deleteItem(id) {
@@ -19,67 +20,81 @@ export default {
     },
 }
 </script>
-
 <template>
-    <tr v-for="(items, index) in list" :key="index">
+    <template v-for="(items, index) in 6" :key="index">
+        <tr v-if="loading">
+            <td class="count skeleton-element"></td>
+            <td class="user_name skeleton-element"></td>
+            <td class="user_email skeleton-element"></td>
+            <td class="user_address skeleton-element"></td>
+            <td class="blank"></td>
+            <td class="user-status skeleton-element"></td>
+            <td class="dropdown skeleton-element"></td>
+        </tr>
+    </template>
 
-        <td class="count">
-            <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
-        </td>
-        <td class="user_name">
-            <p class="text-base_semibold color-Grey_90"> {{ items.opern_inv }}</p>
-        </td>
-        <td class="user_email">
-            <p class="text-base_semibold color-Grey_90">{{ items.opern_date }}</p>
-        </td>
-        <td class="user_address">
-            <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.opern_notes }}</p>
-        </td>
-        <td class="blank"></td>
-        <td class="user-status">
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.opern_status_id === 1">
-                <div class="ellipse-dot bg-rose"></div>
-                <p class="text-sm_medium color-Grey_60 capitalize">{{ items.opern_status }}</p>
-            </button>
-            <button class="btn-regular display-flex align-center gap-8px" v-if="items.opern_status_id === 2">
-                <div class="ellipse-dot bg-emerald"></div>
-                <p class="text-sm_medium color-Grey_60 capitalize">{{ items.opern_status }}</p>
-            </button>
-        </td>
-        <td class="dropdown">
-            <div class="icon-btn icon-btn_32px  custom-dropdown">
-                <img src="../../../assets/img/icons/dots-icon.svg">
-                <ul class="custom-dropdown-list leftside icon-dropdown">
-                    <li class="dropdown-item" @click="editItem(items.opern_id)">
-                        <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/edit.svg">
-                            <p class="dropdown-link-title"> Edit Operation </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="deleteItem(items.opern_id)">
-                        <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/trash.svg">
-                            <p class="dropdown-link-title required"> Delete Operation </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="editStatus(items.opern_id, 1)"
-                        v-if="items.opern_status_id === 2 && items.opern_status_id !== 2">
-                        <div class="dropdown-link">
-                            <p class="w20"></p>
-                            <p class="dropdown-link-title"> Pending </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="editStatus(items.opern_id, 2)" v-if="items.opern_status_id === 1">
-                        <div class="dropdown-link">
-                            <p class="w20"></p>
-                            <p class="dropdown-link-title"> complete </p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </td>
-    </tr>
+    <template v-for="(items, index) in list" :key="index">
+        <tr v-if="!loading">
+
+            <td class="count">
+                <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
+            </td>
+            <td class="user_name">
+                <p class="text-base_semibold color-Grey_90"> {{ items.opern_inv }}</p>
+            </td>
+            <td class="user_email">
+                <p class="text-base_semibold color-Grey_90">{{ items.opern_date }}</p>
+            </td>
+            <td class="user_address">
+                <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.opern_notes }}</p>
+            </td>
+            <td class="blank"></td>
+            <td class="user-status">
+                <button class="btn-regular display-flex align-center gap-8px" v-if="items.opern_status_id === 1">
+                    <div class="ellipse-dot bg-rose"></div>
+                    <p class="text-sm_medium color-Grey_60 capitalize">{{ items.opern_status }}</p>
+                </button>
+                <button class="btn-regular display-flex align-center gap-8px" v-if="items.opern_status_id === 2">
+                    <div class="ellipse-dot bg-emerald"></div>
+                    <p class="text-sm_medium color-Grey_60 capitalize">{{ items.opern_status }}</p>
+                </button>
+            </td>
+            <td class="dropdown">
+                <div class="icon-btn icon-btn_32px  custom-dropdown">
+                    <img src="../../../assets/img/icons/dots-icon.svg">
+                    <ul class="custom-dropdown-list leftside icon-dropdown">
+                        <li class="dropdown-item" @click="editItem(items.opern_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/edit.svg">
+                                <p class="dropdown-link-title"> Edit Operation </p>
+                            </div>
+                        </li>
+                        <li class="dropdown-item" @click="deleteItem(items.opern_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/trash.svg">
+                                <p class="dropdown-link-title required"> Delete Operation </p>
+                            </div>
+                        </li>
+                        <li class="dropdown-item" @click="editStatus(items.opern_id, 1)"
+                            v-if="items.opern_status_id === 2 && items.opern_status_id !== 2">
+                            <div class="dropdown-link">
+                                <p class="w20"></p>
+                                <p class="dropdown-link-title"> Pending </p>
+                            </div>
+                        </li>
+                        <li class="dropdown-item" @click="editStatus(items.opern_id, 2)" v-if="items.opern_status_id === 1">
+                            <div class="dropdown-link">
+                                <p class="w20"></p>
+                                <p class="dropdown-link-title"> complete </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </template>
 </template>
+
 
 <style scoped>
 tr {

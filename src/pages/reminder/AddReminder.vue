@@ -43,8 +43,8 @@ export default {
     },
     created() {
         const authStore = useAuthStore();
-        const title = "Reminder |  Billion Build"
-        const description = "this is description for Reminder"
+        const title = "Follow Up |  Billion Build"
+        const description = "this is description for Follow Up"
 
         authStore.chnageTitle(title, description)
         this.customerId = this.$route.params.reminderId;
@@ -115,7 +115,7 @@ export default {
     <Layout>
 
 
-        <ContentSection title="Add Reminder">
+        <ContentSection title="Add Follow Up">
 
 
 
@@ -138,7 +138,7 @@ export default {
             </div>
 
             <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addReminder()">Add
-                Reminder</button>
+                Follow Up</button>
 
 
         </ContentSection>

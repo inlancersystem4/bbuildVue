@@ -1,6 +1,6 @@
 <script>
 
-import { useAuthStore, useAlertStore } from "@/stores";
+import { useAuthStore, useAlertStore, useProfileStore } from "@/stores";
 import { fetchWrapper } from "@/helpers";
 import axios from "axios";
 import DeleteModel from '../subcomponents/common/DeleteModel.vue';
@@ -19,14 +19,19 @@ export default {
             profilePic: "",
         }
     },
-    mounted() {
-        document.body.addEventListener('click', this.handleClickOutside);
-        const userDetails = localStorage.getItem('user_details');
-        if (userDetails) {
-            const userDetailsObj = JSON.parse(userDetails);
-            this.profilePic = userDetailsObj.user_profile_pic;
+    computed: {
+        profilePicUrl() {
+            return useProfileStore().profilePicUrl;
         }
     },
+    // mounted() {
+    //     document.body.addEventListener('click', this.handleClickOutside);
+    //     const userDetails = localStorage.getItem('user_details');
+    //     if (userDetails) {
+    //         const userDetailsObj = JSON.parse(userDetails);
+    //         this.profilePic = userDetailsObj.user_profile_pic;
+    //     }
+    // },
     methods: {
         goToPreviousPage() {
             this.$router.go(-1);
@@ -71,9 +76,10 @@ export default {
         <div class="header-btn-group">
             <div class="user-avtar" @click="toggleDropdown()" ref="dropdownContainer">
                 <div class="avtar">
-                    <img :src="this.profilePic" v-if="this.profilePic">
+                    <img :src="profilePicUrl" v-if="profilePicUrl">
+                    <!-- <img :src="this.profilePic" v-if="this.profilePic"> -->
                     <img src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
-                        v-if="!this.profilePic">
+                        v-if="!profilePicUrl">
                 </div>
                 <ul class="user-personal-option" v-show="personal_optionDrop">
                     <li>

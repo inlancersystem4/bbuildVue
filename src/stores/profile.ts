@@ -10,9 +10,13 @@ export const useProfileStore = defineStore({
     id: 'profile',
     state: () => ({
         profile: JSON.parse(localStorage.getItem('user_details')),
+        profilePicUrl: JSON.parse(localStorage.getItem('user_details'))?.user_profile_pic || '',
         returnUrl: null
     }),
     actions: {
+        updateProfilePicUrl(newUrl) {
+            this.profilePicUrl = newUrl;
+        },
         async Updated(profileFirstName, profileLastName, profileEmail, profilePic, profileNo, companyName, companyAddress, companyPhoneNo) {
             var profile = new FormData();
             profile.append("user_first_name", profileFirstName)

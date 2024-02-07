@@ -2,6 +2,7 @@
 export default {
     props: {
         list: Array,
+        loading: Boolean,
     },
     methods: {
         deleteItem(id) {
@@ -15,38 +16,51 @@ export default {
 </script>
 
 <template>
-    <tr v-for="(items, index) in list" :key="index">
-        <td class="count">
-            <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
-        </td>
-        <td class="user_name">
-            <p class="text-base_semibold color-Grey_90">{{ items.amenities_name }}</p>
-        </td>
-        <td class="user_number">
-            <p class="text-base_semibold color-Grey_90">{{ items.amenities_details }}</p>
-        </td>
-        <td class="blank"></td>
-        <td class="dropdown">
-            <div class="icon-btn icon-btn_32px  custom-dropdown">
-                <img src="../../../assets/img/icons/dots-icon.svg">
-                <ul class="custom-dropdown-list leftside icon-dropdown">
-                    <li class="dropdown-item" @click="editItem(items.amenities_id)">
-                        <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/edit.svg">
-                            <p class="dropdown-link-title"> Edit Amenities </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="deleteItem(items.amenities_id)">
-                        <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/trash.svg">
-                            <p class="dropdown-link-title required"> Delete Amenities </p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </td>
-    </tr>
+    <template v-for="(items, index) in 6" :key="index">
+        <tr v-if="loading">
+            <td class="count skeleton-element"></td>
+            <td class="user_name skeleton-element"></td>
+            <td class="user_number skeleton-element"></td>
+            <td class="blank"></td>
+            <td class="skeleton-element min-w-10 max-w-10 ml-[145px]"></td>
+        </tr>
+    </template>
+
+    <template v-for="(items, index) in list" :key="index">
+        <tr v-if="!loading">
+            <td class="count">
+                <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
+            </td>
+            <td class="user_name">
+                <p class="text-base_semibold color-Grey_90">{{ items.amenities_name }}</p>
+            </td>
+            <td class="user_number">
+                <p class="text-base_semibold color-Grey_90">{{ items.amenities_details }}</p>
+            </td>
+            <td class="blank"></td>
+            <td class="dropdown">
+                <div class="icon-btn icon-btn_32px  custom-dropdown">
+                    <img src="../../../assets/img/icons/dots-icon.svg">
+                    <ul class="custom-dropdown-list leftside icon-dropdown">
+                        <li class="dropdown-item" @click="editItem(items.amenities_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/edit.svg">
+                                <p class="dropdown-link-title"> Edit Amenities </p>
+                            </div>
+                        </li>
+                        <li class="dropdown-item" @click="deleteItem(items.amenities_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/trash.svg">
+                                <p class="dropdown-link-title required"> Delete Amenities </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </template>
 </template>
+
 
 <style scoped>
 tr {

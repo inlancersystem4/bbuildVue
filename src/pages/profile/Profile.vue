@@ -146,6 +146,11 @@ export default {
 
             await this.getprofileData();
 
+            if (this.profilePic) {
+                profileStore.updateProfilePicUrl(this.profilePic);
+            } else {
+                profileStore.updateProfilePicUrl('');
+            }
         }
     },
 }

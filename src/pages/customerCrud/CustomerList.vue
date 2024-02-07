@@ -28,7 +28,9 @@ export default {
             itemId: "",
             remDate: "",
             remNote: "",
-            reminderModal: false
+            reminderModal: false,
+            listLoading: false,
+            listEmpty: false
         }
     },
     created() {
@@ -80,6 +82,9 @@ export default {
         },
 
         async customerData() {
+            this.listLoading = true;
+            this.listEmpty = false;
+
             var user_data = new FormData();
             user_data.append("cus_id", "");
             user_data.append("sort", this.sort);
@@ -88,9 +93,15 @@ export default {
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/customer-list`, user_data);
-                this.list = response.data;
-                this.totalPages = response.total_pages;
-
+                if (response.data.length !== 0) {
+                    this.listLoading = false;
+                    this.list = response.data;
+                    this.totalPages = response.total_pages;
+                }
+                else {
+                    this.listEmpty = true;
+                    this.totalPages = 1;
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -218,11 +229,11 @@ export default {
 
             <template v-slot:main-table>
 
-                <div v-if="!list" class="data-not-found border-b border-Grey_20 border-solid">
+                <!-- <div v-if="!list" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div>
+                </div> -->
 
-                <table class="w-100 user-table" v-if="list">
+                <table class="w-100 user-table">
                     <tbody>
                         <tr>
                             <td class="count">
@@ -241,15 +252,18 @@ export default {
                                 <p class="text-sm_regular color-Grey_50">Customer Address</p>
                             </td>
                             <td class="blank"></td>
-                            <td class="user-status">
+                            <!-- <td class="user-status">
                                 <p class="text-sm_regular color-Grey_50">Customer Status</p>
+                            </td> -->
+                            <td class="user-status">
+                                <p class="text-sm_regular color-Grey_50">Follow Ups Counts</p>
                             </td>
                             <td class="dropdown">
                                 <div class="icon-btn icon-btn_32px  custom-dropdown"></div>
                             </td>
                         </tr>
                         <Customers :list="list" @delete_item="getItemId" @edit_item="editItem" @edit_status="statusUpdate"
-                            @add_reminder="addReminderId" />
+                            @add_reminder="addReminderId" :loading="listLoading" />
 
                     </tbody>
                 </table>
@@ -272,7 +286,7 @@ export default {
         <Modal v-if="reminderModal" @closeModal="this.reminderModal = !this.reminderModal">
 
             <template v-slot:header>
-                <h4>Add Reminder</h4>
+                <h4>Add Follow Up</h4>
             </template>
 
             <div class="padding-y_12px padding-x_16px">
@@ -299,7 +313,7 @@ export default {
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.reminderModal = !this.reminderModal">Cancel</button>
                 <button class="btn-regular bg-purple color-white" :disabled="remBtnDisabled" @click="addReminder">Add
-                    Reminder</button>
+                    Follow Up</button>
             </template>
 
         </Modal>

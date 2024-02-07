@@ -28,7 +28,9 @@ export default {
             itemId: "",
             amenitiesName: "",
             amenitiesNote: "",
-            amenitiesModal: false
+            amenitiesModal: false,
+            listLoading: false,
+            listEmpty: false
         }
     },
     created() {
@@ -70,6 +72,10 @@ export default {
         },
 
         async amenitieData() {
+
+            this.listLoading = true;
+            this.listEmpty = false;
+
             var user_data = new FormData();
             user_data.append("amenities_id", "");
             user_data.append("sort", this.sort);
@@ -78,8 +84,15 @@ export default {
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/amenity-list`, user_data);
-                this.list = response.data;
-                this.totalPages = response.total_pages;
+                if (response.data.length !== 0) {
+                    this.listLoading = false;
+                    this.list = response.data;
+                    this.totalPages = response.total_pages;
+                }
+                else {
+                    this.listEmpty = true;
+                    this.totalPages = 1;
+                }
 
 
             } catch (error) {
@@ -202,11 +215,11 @@ export default {
 
             <template v-slot:main-table>
 
-                <div v-if="this.list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
+                <!-- <div v-if="this.list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div>
+                </div> -->
 
-                <table class="w-100 user-table" v-if="this.list.length > 0">
+                <table class="w-100 user-table">
                     <tbody>
                         <tr>
                             <td class="count">
@@ -225,7 +238,7 @@ export default {
                                 </div>
                             </td>
                         </tr>
-                        <AmenitiesRow :list="list" @delete_item="getItemId" @edit_item="editItem" />
+                        <AmenitiesRow :list="list" @delete_item="getItemId" @edit_item="editItem" :loading="listLoading"/>
 
                     </tbody>
                 </table>

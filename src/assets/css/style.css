@@ -3280,3 +3280,29 @@ input[type="color"] {
     background-color: black !important;
     color: white !important;
 }
+
+
+
+
+
+.skeleton-element {
+    height: 18px;
+    border-radius: 4px;
+    background-color: #ccc;
+    animation: skeleton-loading 1s ease-in-out infinite alternate;
+    -webkit-animation: skeleton-loading 1s ease-in-out infinite alternate;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+
+@keyframes skeleton-loading {
+    from {
+        background-color: #eee;
+    }
+
+    to {
+        background-color: #ccc;
+    }
+}

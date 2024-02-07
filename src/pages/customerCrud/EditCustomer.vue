@@ -54,7 +54,13 @@ export default {
     methods: {
         validateEmail() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(this.userEmail);
+            if (this.customerEmail.trim() === '' || emailRegex.test(this.customerEmail)) {
+                this.isvalidEmail = true;
+                return true;
+            } else {
+                this.isvalidEmail = false;
+                return false;
+            }
         },
         selectedPic(event) {
             const selectedFile = event.target.files[0]
@@ -198,7 +204,7 @@ export default {
     <Layout>
 
 
-        <ContentSection title="Edit Customer" class="max-w-4xl mx-auto relative">
+        <!-- <ContentSection title="Edit Customer" class="max-w-4xl mx-auto relative">
 
             <div class="absolute right-4 top-5">
                 <div class=" w-10 h-10 rounded-full border relative border-solid border-Grey_20 p-0.5">
@@ -225,9 +231,9 @@ export default {
                     </div>
                     <div class="accordion-body">
 
-                        <!-- <div class="">
+                        <div class="">
                             <img :src="this.selectedImg" class="pic" v-if="this.selectedImg">
-                        </div> -->
+                        </div>
 
                         <label for="FileDroper2" class="FileDroper">
                             <input type="file" @change="selectedPic">
@@ -321,8 +327,8 @@ export default {
                     v-if="this.cusRemindersArr.length !== 0">
                     <div class="accordion-header" @click="toggleAccordion(2)">
                         <div>
-                            <h4 class="accordion-title">Customer Reminder details</h4>
-                            <p class="accordion-sub-title">Customer Reminder details</p>
+                            <h4 class="accordion-title">Customer Follow Up details</h4>
+                            <p class="accordion-sub-title">Customer Follow Up details</p>
                         </div>
                         <div class="accordion-icons">
                             <img src="../../assets/img/icons/plus-2.svg" class="img-not-selected plus_icon">
@@ -377,10 +383,10 @@ export default {
                     changes</button>
             </div>
 
-        </ContentSection>
+        </ContentSection> -->
 
 
-        <!-- <ContentSection title="Edit Customer">
+        <ContentSection title="Edit Customer">
 
             <div class="row">
 
@@ -485,7 +491,7 @@ export default {
 
             </div>
 
-        </ContentSection> -->
+        </ContentSection>
     </Layout>
 </template>
 

@@ -21,6 +21,8 @@ export default {
             sort: "asc",
             deleteItemModal: false,
             itemId: "",
+            listLoading: false,
+            listEmpty: false,
         }
     },
     created() {
@@ -54,6 +56,10 @@ export default {
         },
 
         async projectData() {
+
+            this.listLoading = true;
+            this.listEmpty = false;
+
             var project_data = new FormData();
             project_data.append("sort", this.sort);
             project_data.append("search", this.searchText);
@@ -62,8 +68,15 @@ export default {
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/project-list`, project_data);
 
-                this.list = response.data;
-                this.totalPages = response.total_pages;
+                if (response.data.length !== 0) {
+                    this.listLoading = false;
+                    this.list = response.data;
+                    this.totalPages = response.total_pages;
+                }
+                else {
+                    this.listEmpty = true;
+                    this.totalPages = 1;
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -142,7 +155,7 @@ export default {
 
             <template v-slot:main-table>
 
-                <table class="w-100 user-table" v-if="list || list.length > 0">
+                <table class="w-100 user-table">
                     <tbody>
                         <tr>
                             <td class="count">
@@ -163,14 +176,15 @@ export default {
                                 </div>
                             </td>
                         </tr>
-                        <ProjectListRow :list="list" @delete_item="getItemId" @edit_item="editItem" />
+                        <ProjectListRow :list="list" @delete_item="getItemId" @edit_item="editItem"
+                            :loading="listLoading" />
 
                     </tbody>
                 </table>
 
-                <div v-if="!list || list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
+                <!-- <div v-if="!list || list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div>
+                </div> -->
 
             </template>
 

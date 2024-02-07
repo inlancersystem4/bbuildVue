@@ -2,6 +2,7 @@
 export default {
     props: {
         list: Array,
+        loading: Boolean,
     },
     data() {
         return {
@@ -44,70 +45,83 @@ export default {
     },
 }
 </script>
-
 <template>
-    <tr v-for="(items, index) in list" :key="index">
-        <td class="count">
-            <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
-        </td>
-        <td class="user_name">
-            <div class="display-flex align-center gap-14px">
-                <p class="text-base_semibold color-Grey_90">{{ items.rem_cus }} </p>
-            </div>
-        </td>
-        <td class="user_number">
-            <p class="text-base_semibold color-Grey_90">{{ items.rem_date }}</p>
-        </td>
-        <td class="user_address">
-            <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.rem_notes }}</p>
-        </td>
-        <td class="blank"></td>
-        <td class="user-status relative">
-            <button class="btn-regular display-flex align-center gap-8px" @click="statusShow(index)">
-                <div class="ellipse-dot"
-                    :class="{ 'bg-emerald': items.rem_status_id === 3, 'bg-orange': items.rem_status_id === 2, 'bg-Grey_40': items.rem_status_id === 1 }">
+    <template v-for="(items, index) in 6" :key="index">
+        <tr v-if="loading">
+            <td class="count skeleton-element"></td>
+            <td class="user_name skeleton-element"></td>
+            <td class="user_number skeleton-element"></td>
+            <td class="user_address skeleton-element"></td>
+            <td class="blank"></td>
+            <td class="user-status relative skeleton-element"></td>
+            <td class="dropdown skeleton-element"></td>
+        </tr>
+    </template>
+
+    <template v-for="(items, index) in list" :key="index">
+        <tr v-if="!loading">
+            <td class="count">
+                <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
+            </td>
+            <td class="user_name">
+                <div class="display-flex align-center gap-14px">
+                    <p class="text-base_semibold color-Grey_90">{{ items.rem_cus }} </p>
                 </div>
-                <p class="text-sm_medium color-Grey_60 capitalize">{{ items.rem_status }}</p>
-            </button>
-            <ul class="custom-dropdown-list" v-if="showStatus[index] && items.rem_status_id !== 3"
-                @click.self="closeStatus">
-                <li class="dropdown-item" @click="editStatus(items.rem_id, 1)">
-                    <div class="dropdown-link">
-                        <p class="dropdown-link-title capitalize"> pending </p>
+            </td>
+            <td class="user_number">
+                <p class="text-base_semibold color-Grey_90">{{ items.rem_date }}</p>
+            </td>
+            <td class="user_address">
+                <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.rem_notes }}</p>
+            </td>
+            <td class="blank"></td>
+            <td class="user-status relative">
+                <button class="btn-regular display-flex align-center gap-8px" @click="statusShow(index)">
+                    <div class="ellipse-dot"
+                        :class="{ 'bg-emerald': items.rem_status_id === 3, 'bg-orange': items.rem_status_id === 2, 'bg-Grey_40': items.rem_status_id === 1 }">
                     </div>
-                </li>
-                <li class="dropdown-item" @click="editStatus(items.rem_id, 2)">
-                    <div class="dropdown-link">
-                        <p class="dropdown-link-title capitalize"> unanswered </p>
-                    </div>
-                </li>
-                <li class="dropdown-item" @click="editStatus(items.rem_id, 3)">
-                    <div class="dropdown-link">
-                        <p class="dropdown-link-title capitalize"> complete </p>
-                    </div>
-                </li>
-            </ul>
-        </td>
-        <td class="dropdown">
-            <div class="icon-btn icon-btn_32px  custom-dropdown">
-                <img src="../../../assets/img/icons/dots-icon.svg">
-                <ul class="custom-dropdown-list leftside icon-dropdown">
-                    <li class="dropdown-item" @click="editItem(items.rem_id)">
+                    <p class="text-sm_medium color-Grey_60 capitalize">{{ items.rem_status }}</p>
+                </button>
+                <ul class="custom-dropdown-list" v-if="showStatus[index] && items.rem_status_id !== 3"
+                    @click.self="closeStatus">
+                    <li class="dropdown-item" @click="editStatus(items.rem_id, 1)">
                         <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/edit.svg">
-                            <p class="dropdown-link-title"> Edit Reminder </p>
+                            <p class="dropdown-link-title capitalize"> pending </p>
                         </div>
                     </li>
-                    <li class="dropdown-item" @click="deleteItem(items.rem_id)">
+                    <li class="dropdown-item" @click="editStatus(items.rem_id, 2)">
                         <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/trash.svg">
-                            <p class="dropdown-link-title required"> Delete Reminder </p>
+                            <p class="dropdown-link-title capitalize"> unanswered </p>
+                        </div>
+                    </li>
+                    <li class="dropdown-item" @click="editStatus(items.rem_id, 3)">
+                        <div class="dropdown-link">
+                            <p class="dropdown-link-title capitalize"> complete </p>
                         </div>
                     </li>
                 </ul>
-            </div>
-        </td>
-    </tr>
+            </td>
+            <td class="dropdown">
+                <div class="icon-btn icon-btn_32px  custom-dropdown">
+                    <img src="../../../assets/img/icons/dots-icon.svg">
+                    <ul class="custom-dropdown-list leftside icon-dropdown">
+                        <li class="dropdown-item" @click="editItem(items.rem_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/edit.svg">
+                                <p class="dropdown-link-title"> Edit Follow Up </p>
+                            </div>
+                        </li>
+                        <li class="dropdown-item" @click="deleteItem(items.rem_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/trash.svg">
+                                <p class="dropdown-link-title required"> Delete Follow Up </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </template>
 </template>
 
 <style scoped>

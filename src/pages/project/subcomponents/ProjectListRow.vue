@@ -2,6 +2,7 @@
 export default {
     props: {
         list: Array,
+        loading: Boolean,
     },
     methods: {
         deleteItem(id) {
@@ -16,43 +17,56 @@ export default {
     },
 }
 </script>
-
 <template>
-    <tr v-for="(items, index) in list" :key="index">
-        <td class="count">
-            <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
-        </td>
-        <td class="project_name">
-            <p class="text-base_semibold color-Grey_90">{{ items.project_name }}</p>
-        </td>
-        <td class="project_stuactur">
-            <p class="text-base_semibold color-Grey_90">{{ items.project_no_of_level }}</p>
-        </td>
-        <td class="project_address">
-            <p class="text-base_semibold color-Grey_90 line-clamp-1"> {{ items.project_address }} </p>
-        </td>
-        <td class="blank"></td>
-        <td class="dropdown">
-            <div class="icon-btn icon-btn_32px  custom-dropdown">
-                <img src="../../../assets/img/icons/dots-icon.svg">
-                <ul class="custom-dropdown-list leftside icon-dropdown">
-                    <li class="dropdown-item" @click="editItem(items.project_id)">
-                        <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/edit.svg">
-                            <p class="dropdown-link-title"> Edit Project </p>
-                        </div>
-                    </li>
-                    <li class="dropdown-item" @click="deleteItem(items.project_id)">
-                        <div class="dropdown-link">
-                            <img src="../../../assets/img/icons/trash.svg">
-                            <p class="dropdown-link-title required"> Delete Project </p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </td>
-    </tr>
+    <template  v-for="(items, index) in 6" :key="index">
+        <tr v-if="loading">
+            <td class="count skeleton-element"></td>
+            <td class="project_name skeleton-element"></td>
+            <td class="project_stuactur skeleton-element"></td>
+            <td class="project_address skeleton-element"></td>
+            <td class="blank"></td>
+            <td class="dropdown skeleton-element"></td>
+        </tr>
+    </template>
+
+    <template v-for="(items, index) in list" :key="index">
+        <tr v-if="!loading">
+            <td class="count">
+                <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
+            </td>
+            <td class="project_name">
+                <p class="text-base_semibold color-Grey_90">{{ items.project_name }}</p>
+            </td>
+            <td class="project_stuactur">
+                <p class="text-base_semibold color-Grey_90">{{ items.project_no_of_level }}</p>
+            </td>
+            <td class="project_address">
+                <p class="text-base_semibold color-Grey_90 line-clamp-1"> {{ items.project_address }} </p>
+            </td>
+            <td class="blank"></td>
+            <td class="dropdown">
+                <div class="icon-btn icon-btn_32px  custom-dropdown">
+                    <img src="../../../assets/img/icons/dots-icon.svg">
+                    <ul class="custom-dropdown-list leftside icon-dropdown">
+                        <li class="dropdown-item" @click="editItem(items.project_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/edit.svg">
+                                <p class="dropdown-link-title"> Edit Project </p>
+                            </div>
+                        </li>
+                        <li class="dropdown-item" @click="deleteItem(items.project_id)">
+                            <div class="dropdown-link">
+                                <img src="../../../assets/img/icons/trash.svg">
+                                <p class="dropdown-link-title required"> Delete Project </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </template>
 </template>
+
 
 <style scoped>
 tr {

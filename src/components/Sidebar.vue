@@ -84,7 +84,7 @@ export default {
             <div class="sidebar-avatar-header margin-bottom_24px">
 
                 <router-link to="/">
-                    <img src="../../billionbuild.svg" class="w-[150px]">
+                    <img src="/billionbuild.svg" class="w-[150px]">
                 </router-link>
 
                 <div class="user-profile-btn" id="Open_mini_sidebar"
@@ -211,7 +211,7 @@ export default {
                                     <path d="M13.5 13.125L15 12V16.875" stroke="#6B7280" stroke-width="1.5"
                                         stroke-linecap="round" stroke-linejoin="round" />
                                 </svg>
-                                <p class="link-title">Reminder List</p>
+                                <p class="link-title">Follow Up List</p>
                             </div>
                         </router-link>
                     </li>
@@ -282,7 +282,7 @@ export default {
 
             <div class="w-[25px]">
                 <router-link to="/">
-                    <img src="../../icon.svg">
+                    <img src="/icon.svg">
                 </router-link>
             </div>
 

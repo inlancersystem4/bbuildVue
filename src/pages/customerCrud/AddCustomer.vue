@@ -52,11 +52,12 @@ export default {
     methods: {
         validateEmail() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (this.customerEmail.trim()) {
-                return emailRegex.test(this.customerEmail);
-            }
-            else {
-                this.isvalidEmail = true
+            if (this.customerEmail.trim() === '' || emailRegex.test(this.customerEmail)) {
+                this.isvalidEmail = true;
+                return true;
+            } else {
+                this.isvalidEmail = false;
+                return false;
             }
         },
         selectedPic(event) {
@@ -125,7 +126,7 @@ export default {
     <Layout>
 
 
-        <ContentSection title="Add Customer" class="max-w-4xl mx-auto relative">
+        <!-- <ContentSection title="Add Customer" class="max-w-4xl mx-auto relative">
 
             <div class="absolute right-4 top-5">
                 <div class=" w-10 h-10 rounded-full border relative border-solid border-Grey_20 p-0.5"
@@ -149,9 +150,9 @@ export default {
                     </div>
                     <div class="accordion-body">
 
-                        <!-- <div class="">
+                   <div class="">
                             <img :src="this.selectedImg" class="pic" v-if="this.selectedImg">
-                        </div> -->
+                        </div>
 
                         <label for="FileDroper2" class="FileDroper">
                             <input type="file" @change="selectedPic">
@@ -209,7 +210,7 @@ export default {
                                 <Input placeholder="Enter customer Email" id="Email (optional)" :value="customerEmail"
                                     @input="customerEmail = $event.target.value; isvalidEmail = validateEmail()"
                                     :class="{ 'input_error': !isvalidEmail }" />
-                                <ErrorMessage msg="Invalid email" v-if="!isvalidEmail" />
+                                <ErrorMessage msg="Invalid email" v-if="!isvalidEmail && customerEmail.trim() !== ''" />
                                 <ErrorMessage msg="" v-if="!customerEmail && formSubmitted" />
                             </div>
 
@@ -275,13 +276,14 @@ export default {
             </div>
 
             <div class="w-full flex  justify-end mt-2.5">
-                <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addcustomer()">Add
-                    customer</button>
+                <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled"
+                    @click="addcustomer()">Save</button>
             </div>
 
-        </ContentSection>
+        </ContentSection> -->
 
-        <!-- <div class="row">
+        <ContentSection title="Add Customer">
+            <div class="row">
 
                 <div class="col-8">
 
@@ -353,7 +355,7 @@ export default {
 
 
                         <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled"
-                            @click="addcustomer()">Add customer</button>
+                            @click="addcustomer()">Save</button>
 
                     </div>
 
@@ -376,10 +378,8 @@ export default {
 
                 </div>
 
-            </div> -->
-
-
-
+            </div>
+        </ContentSection>
 
     </Layout>
 </template>
@@ -435,7 +435,14 @@ export default {
     position: relative;
 }
 
-
+.pic {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 999px;
+    object-fit: cover;
+}
 
 .user_pic .add_pic {
     position: absolute;

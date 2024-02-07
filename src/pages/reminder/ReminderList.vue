@@ -30,13 +30,15 @@ export default {
             remNote: "",
             reminderModal: false,
             attributes: [],
+            listLoading: false,
+            listEmpty: false
         }
     },
     created() {
         this.reminderData();
         const authStore = useAuthStore();
-        const title = "Reminder List |  Billion Build"
-        const description = "this is description for Reminder List"
+        const title = "Follow Up List |  Billion Build"
+        const description = "this is description for Follow Up List"
 
         authStore.chnageTitle(title, description)
     },
@@ -76,6 +78,10 @@ export default {
         },
 
         async reminderData() {
+
+            this.listLoading = true;
+            this.listEmpty = false;
+
             var user_data = new FormData();
             user_data.append("rem_id", "");
             user_data.append("sort", this.sort);
@@ -84,8 +90,15 @@ export default {
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
-                this.list = response.data;
-                this.totalPages = response.total_pages;
+                if (response.data.length !== 0) {
+                    this.listLoading = false;
+                    this.list = response.data;
+                    this.totalPages = response.total_pages;
+                }
+                else {
+                    this.listEmpty = true;
+                    this.totalPages = 1;
+                }
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -125,6 +138,7 @@ export default {
         },
 
         async getReminderData(id) {
+
             var user_data = new FormData();
             user_data.append("rem_id", id);
             user_data.append("sort", this.sort);
@@ -132,6 +146,7 @@ export default {
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
+
                 this.totalPages = response.total_pages;
 
                 if (response.success === 1) {
@@ -151,6 +166,7 @@ export default {
                         time: new Date(response.data.rem_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
                     }
                 }
+
 
             } catch (error) {
                 const alertStore = useAlertStore()
@@ -220,7 +236,7 @@ export default {
             <template v-slot:table-header>
 
                 <div class="w-100 margin-bottom_12px">
-                    <h2 class="title">Reminder List</h2>
+                    <h2 class="title">Follow Up List</h2>
                 </div>
 
 
@@ -244,11 +260,11 @@ export default {
 
             <template v-slot:main-table>
 
-                <div v-if="!list" class="data-not-found border-b border-Grey_20 border-solid">
+                <!-- <div v-if="!list" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div>
+                </div> -->
 
-                <table class="w-100 user-table" v-if="list">
+                <table class="w-100 user-table">
                     <tbody>
                         <tr>
                             <td class="count">
@@ -267,15 +283,15 @@ export default {
                             </td>
                             <td class="blank"></td>
                             <td class="user-status relative">
-                                <p class="text-base_semibold color-Grey_50 line-clamp-1">Reminder status</p>
+                                <p class="text-base_semibold color-Grey_50 line-clamp-1">Follow Up status</p>
                             </td>
                             <td class="dropdown">
                                 <div class="icon-btn icon-btn_32px  custom-dropdown">
                                 </div>
                             </td>
                         </tr>
-                        <reminderRow :list="list" @delete_item="getItemId" @edit_item="editItem"
-                            @edit_status="statusUpdate" />
+                        <reminderRow :list="list" @delete_item="getItemId" @edit_item="editItem" @edit_status="statusUpdate"
+                            :loading="listLoading" />
 
                     </tbody>
                 </table>
@@ -297,7 +313,7 @@ export default {
         <Modal v-if="reminderModal" @closeModal="this.reminderModal = !this.reminderModal">
 
             <template v-slot:header>
-                <h4>Add Reminder</h4>
+                <h4>Add Follow Up</h4>
             </template>
 
             <div class="padding-y_12px padding-x_16px">
@@ -324,7 +340,7 @@ export default {
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.reminderModal = !this.reminderModal">Cancel</button>
                 <button class="btn-regular bg-purple color-white" :disabled="remBtnDisabled" @click="addReminder">Save
-                    Reminder</button>
+                    Follow Up</button>
             </template>
 
         </Modal>

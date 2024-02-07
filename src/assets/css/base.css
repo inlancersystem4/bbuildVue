@@ -997,7 +997,8 @@ body {
 }
 
 .btn-regular:focus {
-    background-color: var(--Grey-5);
+    background-color: black;
+    color: white;
 }
 
 button:focus {
