@@ -44,30 +44,30 @@ export default {
         <tr v-if="!loading">
 
             <td class="count">
-                <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
+                <p class="gap-8px text-sm_regular color-Grey_90">{{ index + 1 }}</p>
             </td>
             <td class="user_name">
                 <div class="display-flex align-center gap-14px">
                     <img :src="items.cus_profile" class="user-img" v-if="items.cus_profile">
                     <img src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745" class="user-img"
                         v-if="!items.cus_profile">
-                    <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.cus_first_name }} {{
+                    <p class="text-sm_regular color-Grey_90 line-clamp-1">{{ items.cus_first_name }} {{
                         items.cus_last_name
                     }}</p>
                 </div>
             </td>
             <td class="user_email">
-                <p class="text-base_semibold color-Grey_90">{{ items.cus_email }}</p>
+                <p class="text-sm_regular color-Grey_90">{{ items.cus_email }}</p>
             </td>
             <td class="user_number">
-                <p class="text-base_semibold color-Grey_90">{{ items.cus_phone_no }}</p>
+                <p class="text-sm_regular color-Grey_90">{{ items.cus_phone_no }}</p>
             </td>
             <td class="user_address">
-                <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.cus_address }}</p>
+                <p class="text-sm_regular color-Grey_90 line-clamp-1">{{ items.cus_address }}</p>
             </td>
             <td class="blank"></td>
             <td class="user-status">
-                <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.follow_up }}</p>
+                <p class="text-sm_regular color-Grey_90 line-clamp-1">{{ items.follow_up }}</p>
                 <!-- <button class="btn-regular display-flex align-center gap-8px" v-if="items.cus_status === 1">
                     <div class="ellipse-dot bg-emerald"></div>
                     <p class="text-sm_medium color-Grey_60">Enable</p>

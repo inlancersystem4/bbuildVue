@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 import { fetchWrapper } from '@/helpers';
 import router from '@/router';
 import { useAlertStore } from '@/stores';
-import { notify } from "notiwind"
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -64,7 +63,7 @@ export const useAuthStore = defineStore({
         async logout() {
             this.user = null;
             localStorage.removeItem('user');
-            router.push('home');
+            router.push('Login');
         },
         chnageTitle(title, description) {
             document.title = title

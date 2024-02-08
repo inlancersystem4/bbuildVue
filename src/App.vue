@@ -1,8 +1,10 @@
 <script setup>
 import { RouterView } from 'vue-router'
-</script> 
+</script>
 
 <template>
+  <RouterView />
+
   <NotificationGroup group="foo">
     <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none ">
       <div class="w-full max-w-sm">
@@ -60,7 +62,5 @@ import { RouterView } from 'vue-router'
       </div>
     </div>
   </NotificationGroup>
-
-  <RouterView />
 </template>
 

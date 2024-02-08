@@ -24,6 +24,6 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(Notifications)
-app.mount('#app')
 app.use(VCalendar, {})
 app.component('vue-simple-context-menu', VueSimpleContextMenu);
+app.mount('#app')

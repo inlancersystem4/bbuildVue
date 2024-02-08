@@ -1,4 +1,20 @@
-import { useAuthStore } from '@/stores';
+import { useAuthStore, useAlertStore } from '@/stores';
+import router from '@/router';
+
+
+function showNetworkStatusMessage(online) {
+    const alertStore = useAlertStore();
+    if (online) {
+        alertStore.success("Back online");
+    }
+    else {
+        alertStore.error('Network error. Please check your internet connection.');
+    }
+}
+
+window.addEventListener('online', () => showNetworkStatusMessage(true));
+window.addEventListener('offline', () => showNetworkStatusMessage(false));
+
 
 export const fetchWrapper = {
     get: request('GET'),
@@ -8,7 +24,7 @@ export const fetchWrapper = {
 };
 
 function request(method) {
-    return (url, body) => {
+    return async (url, body) => {
         const requestOptions = {
             method,
             headers: authHeader(url)
@@ -18,7 +34,16 @@ function request(method) {
             // requestOptions.body = JSON.stringify(body);
             requestOptions.body = body;
         }
-        return fetch(url, requestOptions).then(handleResponse);
+        try {
+
+            // return fetch(url, requestOptions).then(handleResponse);
+
+            const response = await fetch(url, requestOptions);
+            return handleResponse(response);
+
+        } catch (error) {
+            return Promise.reject('Network error. Please check your internet connection.');
+        }
     }
 }
 
@@ -40,6 +65,12 @@ async function handleResponse(response) {
     const isJson = response.headers?.get('content-type')?.includes('application/json');
     const data = isJson ? await response.json() : null;
 
+    // Api Response Null At That Time Error Message
+    if (data === null) {
+        const error = 'Server error: No valid response data';
+        return Promise.reject(error);
+    }
+
     // check for error response
     if (!response.ok) {
         const { user, logout } = useAuthStore();
@@ -50,6 +81,18 @@ async function handleResponse(response) {
 
         // get error message from body or default to response status
         const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+    }
+
+    // Token Expire logout and redirect to login page
+    if (data.message === "Unauthorized User") {
+        // Logout and redirect to login
+        const { user, logout } = useAuthStore();
+        if (user) {
+            logout();
+            router.push({ name: 'Login' });
+        }
+        const error = 'Token error: Your Token Expire Please login!';
         return Promise.reject(error);
     }
 

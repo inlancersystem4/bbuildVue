@@ -80,11 +80,11 @@ const router = createRouter({
       name: 'InventeryDetails',
       component: () => import('../pages/inventeryList/subcomponents/InventeryDetails.vue')
     },
-    {
-      path: '/settings',
-      name: 'Settings',
-      component: () => import('../pages/Settings.vue')
-    },
+    // {
+    //   path: '/settings',
+    //   name: 'Settings',
+    //   component: () => import('../pages/Settings.vue')
+    // },
     {
       path: '/reminder-list',
       name: 'ReminderList',
@@ -128,6 +128,11 @@ const router = createRouter({
     {
       path: '/:catchAll(.*)',
       redirect: '/page-not-found'
+    },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: () => import('../pages/settings/SettingPage.vue')
     }
   ]
 })

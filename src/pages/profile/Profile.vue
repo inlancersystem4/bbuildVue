@@ -239,7 +239,7 @@ export default {
 
                     <button class="btn-regular" :class="{ 'is-loading': profilesaveLoader }" type="submit"
                         @click="profileDataUpdate" :disabled="profileBtnDis">
-                        <span v-if="profilenotsaved"> Save Profile </span>
+                        <span v-if="profilenotsaved">Save</span>
                         <span v-if="profilesaved" class="flex items-center gap-1"> Saved <svg
                                 xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none">
                                 <path d="M20.25 6.75L9.75 17.25L4.5 12" class=" stroke-green-500" stroke-width="1.5"

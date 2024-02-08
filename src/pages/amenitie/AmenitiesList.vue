@@ -223,13 +223,13 @@ export default {
                     <tbody>
                         <tr>
                             <td class="count">
-                                <p class="text-sm_regular color-Grey_50">No.</p>
+                                <p class="text-base_semibold color-Grey_50">No.</p>
                             </td>
                             <td class="user_name">
-                                <p class="text-sm_regular color-Grey_50">Amenities Name</p>
+                                <p class="text-base_semibold color-Grey_50">Amenities Name</p>
                             </td>
                             <td class="user_number">
-                                <p class="text-sm_regular color-Grey_50">Amenities Details</p>
+                                <p class="text-base_semibold color-Grey_50">Amenities Details</p>
                             </td>
                             <td class="blank"></td>
                             <td class="dropdown">
@@ -309,7 +309,7 @@ export default {
     </Layout>
 
 
-    <DeleteModel model_title="Delete Customer" model_subtitle="Are you sure you want to delete this Customer?"
+    <DeleteModel model_title="Delete Amenities" model_subtitle="Are you sure you want to delete this Amenities?"
         v-if="deleteItemModal" @close_model="deleteItemModal = false" @delete_item="deleteItem()" />
 </template>
 

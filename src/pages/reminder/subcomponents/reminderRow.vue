@@ -61,18 +61,18 @@ export default {
     <template v-for="(items, index) in list" :key="index">
         <tr v-if="!loading">
             <td class="count">
-                <p class="gap-8px text-base_semibold color-Grey_90">{{ index + 1 }}</p>
+                <p class="gap-8px text-sm_regular color-Grey_90">{{ index + 1 }}</p>
             </td>
             <td class="user_name">
                 <div class="display-flex align-center gap-14px">
-                    <p class="text-base_semibold color-Grey_90">{{ items.rem_cus }} </p>
+                    <p class="text-sm_regular color-Grey_90">{{ items.rem_cus }} </p>
                 </div>
             </td>
             <td class="user_number">
-                <p class="text-base_semibold color-Grey_90">{{ items.rem_date }}</p>
+                <p class="text-sm_regular color-Grey_90">{{ items.rem_date }}</p>
             </td>
             <td class="user_address">
-                <p class="text-base_semibold color-Grey_90 line-clamp-1">{{ items.rem_notes }}</p>
+                <p class="text-sm_regular color-Grey_90 line-clamp-1">{{ items.rem_notes }}</p>
             </td>
             <td class="blank"></td>
             <td class="user-status relative">

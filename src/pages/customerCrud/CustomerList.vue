@@ -237,26 +237,26 @@ export default {
                     <tbody>
                         <tr>
                             <td class="count">
-                                <p class="text-sm_regular color-Grey_50">No.</p>
+                                <p class="text-base_semibold color-Grey_50">No.</p>
                             </td>
                             <td class="user_name">
-                                <p class="text-sm_regular color-Grey_50">Customer Name</p>
+                                <p class="text-base_semibold color-Grey_50">Customer Name</p>
                             </td>
                             <td class="user_email">
-                                <p class="text-sm_regular color-Grey_50">Customer Email</p>
+                                <p class="text-base_semibold color-Grey_50">Customer Email</p>
                             </td>
                             <td class="user_number">
-                                <p class="text-sm_regular color-Grey_50">Mobile No.</p>
+                                <p class="text-base_semibold color-Grey_50">Mobile No.</p>
                             </td>
                             <td class="user_number">
-                                <p class="text-sm_regular color-Grey_50">Customer Address</p>
+                                <p class="text-base_semibold color-Grey_50">Customer Address</p>
                             </td>
                             <td class="blank"></td>
                             <!-- <td class="user-status">
-                                <p class="text-sm_regular color-Grey_50">Customer Status</p>
+                                <p class="text-base_semibold color-Grey_50">Customer Status</p>
                             </td> -->
                             <td class="user-status">
-                                <p class="text-sm_regular color-Grey_50">Follow Ups Counts</p>
+                                <p class="text-base_semibold color-Grey_50">Follow Ups Counts</p>
                             </td>
                             <td class="dropdown">
                                 <div class="icon-btn icon-btn_32px  custom-dropdown"></div>

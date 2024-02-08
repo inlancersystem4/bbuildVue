@@ -159,16 +159,16 @@ export default {
                     <tbody>
                         <tr>
                             <td class="count">
-                                <p class="text-sm_regular color-Grey_50">No.</p>
+                                <p class="text-base_semibold color-Grey_50">No.</p>
                             </td>
                             <td class="project_name">
-                                <p class="text-sm_regular color-Grey_50">Project Name</p>
+                                <p class="text-base_semibold color-Grey_50">Project Name</p>
                             </td>
                             <td class="project_stuactur">
-                                <p class="text-sm_regular color-Grey_50">Project Structure No.</p>
+                                <p class="text-base_semibold color-Grey_50">Project Structure No.</p>
                             </td>
                             <td class="project_address">
-                                <p class="text-sm_regular color-Grey_50">Project Address</p>
+                                <p class="text-base_semibold color-Grey_50">Project Address</p>
                             </td>
                             <td class="blank"></td>
                             <td class="dropdown">
