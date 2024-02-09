@@ -7,6 +7,7 @@ import ContentSection from '@/subcomponents/ContentSection.vue';
 import Pagination from '@/subcomponents/common/Pagination.vue';
 import SearchBox from '@/subcomponents/common/SearchBox.vue';
 import ProjectListRow from '@/pages/project/subcomponents/ProjectListRow.vue'
+import _debounce from 'lodash/debounce';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -53,10 +54,16 @@ export default {
             this.$router.push({ name: 'Project', params: { projectId } });
         },
 
-        searchTextFun(event) {
+        searchTextFun: _debounce(function (event) {
             this.searchText = event.target.value.trim();
             this.projectData();
+        }, 400),
+
+        clearSearch() {
+            this.searchText = '';
+            this.projectData();
         },
+
 
         updatePage(Number) {
             this.currentPage = Number;
@@ -87,6 +94,8 @@ export default {
                     this.totalPages = response.total_pages;
                 }
                 else {
+                    const alertStore = useAlertStore()
+                    alertStore.error("No Data Available")
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }
@@ -155,7 +164,8 @@ export default {
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Project" :value="searchText" @input="searchTextFun" />
+                    <SearchBox placeholder="Search Project" :value="searchText" @input="searchTextFun"
+                        @clear_search="clearSearch" />
 
                     <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap"
                         @click="addProjectFun()">
@@ -168,7 +178,7 @@ export default {
 
             <template v-slot:main-table>
 
-                <table class="w-100 user-table">
+                <table class="w-100 user-table" v-if="!listEmpty">
                     <tbody>
                         <tr>
                             <td class="count">
@@ -195,9 +205,9 @@ export default {
                     </tbody>
                 </table>
 
-                <!-- <div v-if="!list || list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
+                <div v-if="listEmpty" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div> -->
+                </div>
 
             </template>
 
@@ -211,7 +221,7 @@ export default {
 
     </Layout>
 
-    <DeleteModel model_title="Delete Customer" model_subtitle="Are you sure you want to delete this Customer?"
+    <DeleteModel model_title="Delete Project" model_subtitle="Are you sure you want to delete this Project?"
         v-if="deleteItemModal" @close_model="deleteItemModal = false" @delete_item="deleteItem()" />
 </template>
 

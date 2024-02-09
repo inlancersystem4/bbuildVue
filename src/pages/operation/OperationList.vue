@@ -10,6 +10,7 @@ import Pagination from '../../subcomponents/common/Pagination.vue';
 import Operations from './subcomponents/OperationRow.vue';
 import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
 import TextArea from '../../subcomponents/common/TextArea.vue';
+import _debounce from 'lodash/debounce';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -49,8 +50,13 @@ export default {
     },
     methods: {
 
-        searchTextFun(event) {
+        searchTextFun: _debounce(function (event) {
             this.searchText = event.target.value.trim();
+            this.operationData();
+        }, 400),
+
+        clearSearch() {
+            this.searchText = '';
             this.operationData();
         },
 
@@ -83,6 +89,8 @@ export default {
                     this.totalPages = response.total_pages;
                 }
                 else {
+                    const alertStore = useAlertStore();
+                    alertStore.error("No Data Available")
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }
@@ -218,7 +226,7 @@ export default {
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Note" :value="searchText" @input="searchTextFun" />
+                    <SearchBox placeholder="Search Note" :value="searchText" @input="searchTextFun" @clear_search="clearSearch" />
 
                 </div>
 
@@ -227,11 +235,11 @@ export default {
 
             <template v-slot:main-table>
 
-                <!-- <div v-if="this.list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
+                <div v-if="listEmpty" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div> -->
+                </div>
 
-                <table class="w-100 user-table">
+                <table class="w-100 user-table" v-if="!listEmpty">
                     <tbody>
                         <tr>
                             <td class="count">

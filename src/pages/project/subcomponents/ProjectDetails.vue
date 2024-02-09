@@ -122,21 +122,21 @@ export default {
 <template>
     <form class="address-form" @submit.prevent="addproject">
         <div class="space-y-8px">
-            <Label label="project Name" />
+            <Label label="project Name" required />
             <Input placeholder="Enter Project Name" id="project Name" :value="projectName"
                 @input="event => projectName = event.target.value" />
             <ErrorMessage msg="" v-if="!this.projectName.trim() && formSubmitted" />
         </div>
 
         <div class="space-y-8px col-span-2">
-            <Label label="project Address" />
+            <Label label="project Address" required />
             <TextArea placeholder="Enter Project Address" id="project Address" :value="projectAddress"
                 @input="event => projectAddress = event.target.value" />
             <ErrorMessage msg="" v-if="!this.projectAddress.trim() && formSubmitted" />
         </div>
 
         <div class="space-y-8px" v-if="this.projectAddress.trim() && this.projectName.trim()">
-            <Label label="project Level" />
+            <Label label="project Level" required />
             <Input placeholder="Enter Project Level" id="project Level" :value="projectLevel"
                 @input="event => projectLevel = event.target.value" type="number" />
             <ErrorMessage msg="" v-if="!projectLevel && formSubmitted" />

@@ -9,9 +9,11 @@ import SearchBox from '../../subcomponents/common/SearchBox.vue';
 import Pagination from '../../subcomponents/common/Pagination.vue';
 import AmenitiesRow from './subcomponents/AmenitiesRow.vue';
 import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
-import Input from '../../subcomponents/common/Input.vue'
-import TextArea from '../../subcomponents/common/TextArea.vue'
-import Label from '../../subcomponents/common/Label.vue'
+import Input from '../../subcomponents/common/Input.vue';
+import TextArea from '../../subcomponents/common/TextArea.vue';
+import Label from '../../subcomponents/common/Label.vue';
+import _debounce from 'lodash/debounce';
+
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -69,8 +71,13 @@ export default {
             this.itemId = ""
         },
 
-        searchTextFun(event) {
+        searchTextFun: _debounce(function (event) {
             this.searchText = event.target.value.trim();
+            this.amenitieData();
+        }, 400),
+
+        clearSearch() {
+            this.searchText = '';
             this.amenitieData();
         },
 
@@ -103,6 +110,8 @@ export default {
                     this.totalPages = response.total_pages;
                 }
                 else {
+                    const alertStore = useAlertStore();
+                    alertStore.error("No Data Available.");
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }
@@ -215,7 +224,7 @@ export default {
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Amenities" :value="searchText" @input="searchTextFun" />
+                    <SearchBox placeholder="Search Amenities" :value="searchText" @input="searchTextFun" @clear_search="clearSearch" />
 
                     <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap" @click="addUserFun()">
                         <img src="../../assets/img/icons/plus-3.svg">
@@ -228,11 +237,11 @@ export default {
 
             <template v-slot:main-table>
 
-                <!-- <div v-if="this.list.length === 0" class="data-not-found border-b border-Grey_20 border-solid">
+                <div v-if="listEmpty" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div> -->
+                </div>
 
-                <table class="w-100 user-table">
+                <table class="w-100 user-table" v-if="!listEmpty">
                     <tbody>
                         <tr>
                             <td class="count">
@@ -251,7 +260,7 @@ export default {
                                 </div>
                             </td>
                         </tr>
-                        <AmenitiesRow :list="list" @delete_item="getItemId" @edit_item="editItem" :loading="listLoading"/>
+                        <AmenitiesRow :list="list" @delete_item="getItemId" @edit_item="editItem" :loading="listLoading" />
 
                     </tbody>
                 </table>
@@ -286,13 +295,13 @@ export default {
                 <div class="padding-y_12px padding-x_16px space-y-4">
 
                     <div class="space-y-4px">
-                        <Label label="Amenities Name" />
+                        <Label label="Amenities Name" required />
                         <Input placeholder="Enter Amenities Name" id="Amenities Name" :value="amenitiesName"
                             @input="event => amenitiesName = event.target.value" />
                     </div>
 
                     <div class="space-y-4px">
-                        <Label label="Amenities details" />
+                        <Label label="Amenities details" required />
                         <TextArea placeholder="Enter Amenities details" id="Amenities details" :value="amenitiesNote"
                             @input="event => amenitiesNote = event.target.value" />
                     </div>

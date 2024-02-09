@@ -11,13 +11,15 @@ import StatusChnage from './subcomponents/StatusChnage.vue'
 import SelectCustomer from './subcomponents/SelectCustomer.vue';
 import Modal from './subcomponents/Modal.vue';
 import DeleteModel from '@/subcomponents/common/DeleteModel.vue';
+import ErrorMessage from '../../subcomponents/common/ErrorMessage.vue';
+
 import { useAuthStore, useAlertStore } from '../../stores'
 
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label, DeleteModel },
+    components: { Layout, InventeryBox, InventeryBoxStatus, ErrorMessage, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label, DeleteModel },
     data() {
         return {
             breadcrumbList: [
@@ -77,6 +79,9 @@ export default {
             selectedCustomer: "",
             selectedStatusName: "",
             isStatusFiveDisabled: "",
+            isValidNote: true,
+            invUpAreaIsValid: true,
+            formSubmitted: false,
         }
     },
     created() {
@@ -104,6 +109,7 @@ export default {
 
         //     return missingFields;
         // },
+
         // updateDetailsBtn() {
         //     const isValidArea = !!(this.invUpArea && typeof this.invUpArea === 'string' && this.invUpArea.trim() !== '');
         //     const isValidPrice = !!(this.invUpPrice && typeof this.invUpPrice === 'string' && this.invUpPrice.trim() !== '');
@@ -115,6 +121,10 @@ export default {
         }
     },
     methods: {
+        noteIsValid(value) {
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            return value.trim() === '' || !specialCharsRegex.test(value);
+        },
         searchProjectFun(event) {
             this.searchProject = event.target.value.trim();
             this.projectData();
@@ -306,7 +316,6 @@ export default {
             }
         },
         updatedDetails(data) {
-            console.log(data)
             this.inventeryId = String(data.inv_id)
             this.inventerydetaiId = String(data.details_id)
             this.updateDetailsModal = true
@@ -651,7 +660,8 @@ export default {
                     <div class="space-y-4px">
                         <Label label="Area" required />
                         <Input placeholder="Enter Area" id="Area" :value="invUpArea"
-                            @input="event => invUpArea = event.target.value" />
+                            @input="invUpArea = $event.target.value; invUpAreaIsValid = this.noteIsValid(this.invUpArea)" />
+                        <ErrorMessage msg="Area cannot contain special characters" v-if="!invUpAreaIsValid" />
                     </div>
 
                     <div class="space-y-4px">
@@ -692,8 +702,7 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.updateDetailsModal = !this.updateDetailsModal">Cancel</button>
-                <button class="btn-regular" :disabled="updateDetailsBtn"
-                    @click="invUpdated">Update</button>
+                <button class="btn-regular" @click="invUpdated">Update</button>
             </template>
 
         </Modal>
@@ -709,20 +718,20 @@ export default {
                 <div class="space-y-4">
 
                     <div class="space-y-4px">
-                        <Label label="Name" />
+                        <Label label="Name" required />
                         <Input placeholder="Enter Name" id="Name" :value="invUpdateName"
                             @input="event => invUpdateName = event.target.value" />
                     </div>
 
                     <div class="space-y-4px">
-                        <Label label="Note" />
+                        <Label label="Note" required />
                         <TextArea placeholder="Enter Note" id="Note" :value="invUpdateNote"
                             @input="event => invUpdateNote = event.target.value" />
                     </div>
 
                     <div class="space-y-8px" v-if="this.amenitiesList.length !== 0">
 
-                        <Label label="Select Amenities" />
+                        <Label label="Select Amenities" required />
 
                         <div class="flex flex-wrap gap-4 flex-col">
 
@@ -772,9 +781,11 @@ export default {
             <div class="padding-y_12px padding-x_16px">
 
                 <div class="space-y-4px">
-                    <Label label="Note" />
+                    <Label label="Note" required />
                     <TextArea placeholder="Enter Note" id="Note" :value="operationNote"
-                        @input="event => operationNote = event.target.value" />
+                        @input="operationNote = $event.target.value; isValidNote = this.noteIsValid(this.operationNote)" />
+                    <ErrorMessage msg="Note cannot contain special characters" v-if="!isValidNote" />
+
                 </div>
 
             </div>

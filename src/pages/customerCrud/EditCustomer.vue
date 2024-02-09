@@ -38,7 +38,6 @@ export default {
             selectedImg: "",
             customerId: "",
             formSubmitted: false,
-            isvalidEmail: true,
             customerMiddleName: "",
             customerDob: "",
             customerNote: "",
@@ -47,6 +46,11 @@ export default {
             cusRemindersArr: [],
             activeAcco: "0",
             showErrorOfImg: "",
+            isvalidEmail: true,
+            isValidFirstName: true,
+            isValidLastName: true,
+            isValidNumber: true,
+            isValidAddress: true,
         }
     },
     created() {
@@ -65,6 +69,11 @@ export default {
         }
     },
     methods: {
+
+        validateField(value) {
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            return value.trim() === '' || !specialCharsRegex.test(value);
+        },
         validateEmail() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (this.customerEmail.trim() === '' || emailRegex.test(this.customerEmail)) {
@@ -72,6 +81,15 @@ export default {
                 return true;
             } else {
                 this.isvalidEmail = false;
+                return false;
+            }
+        },
+        validatePhoneNumber() {
+            if (this.customerNumber.trim() === '' || this.customerNumber.length === 10 && /^\d+$/.test(this.customerNumber)) {
+                this.isValidNumber = true;
+                return true;
+            } else {
+                this.isValidNumber = false;
                 return false;
             }
         },
@@ -410,7 +428,8 @@ export default {
                         <div class="space-y-8px">
                             <Label label="First Name" required />
                             <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
-                                @input="event => customerFirstName = event.target.value" />
+                                @input="customerFirstName = $event.target.value; isValidFirstName = this.validateField(this.customerFirstName)" />
+                            <ErrorMessage msg="First name cannot contain special characters" v-if="!isValidFirstName" />
                             <ErrorMessage msg="" v-if="!customerFirstName && formSubmitted" />
                         </div>
 
@@ -423,7 +442,8 @@ export default {
                         <div class="space-y-8px">
                             <Label label="Last Name" required />
                             <Input placeholder="Enter customer Last Name" id="Last Name" :value="customerLastName"
-                                @input="event => customerLastName = event.target.value" />
+                                @input="customerLastName = $event.target.value; isValidLastName = this.validateField(this.customerLastName)" />
+                            <ErrorMessage msg="Last name cannot contain special characters" v-if="!isValidLastName" />
                             <ErrorMessage msg="" v-if="!customerLastName && formSubmitted" />
                         </div>
 
@@ -439,10 +459,10 @@ export default {
                         <div class="space-y-8px">
                             <Label label="Phone No." required />
                             <Input placeholder="Enter customer Number" id="Phone No." :value="customerNumber"
-                                @input="event => customerNumber = event.target.value" type="number"
-                                :class="{ 'input_error': customerNumber.length > 10 }" />
+                                @input="customerNumber = $event.target.value; isValidNumber = validatePhoneNumber()"
+                                type="number" :class="{ 'input_error': customerNumber.length > 10 }" />
                             <ErrorMessage msg="" v-if="!customerNumber && formSubmitted" />
-                            <ErrorMessage msg="Only 10 number valid" v-if="customerNumber.length > 10" />
+                            <ErrorMessage msg="Only 10 number valid" v-if="!isValidNumber" />
                         </div>
 
                         <div class="space-y-8px">
@@ -461,7 +481,9 @@ export default {
                         <div class="space-y-8px col-span-2">
                             <Label label="Address" required />
                             <Input id="Address" placeholder="Enter customer Address" :value="customerAddress"
-                                @input="event => customerAddress = event.target.value" type="text" />
+                                @input="customerAddress = $event.target.value; isValidAddress = this.validateField(this.customerAddress)"
+                                type="text" />
+                            <ErrorMessage msg="Address cannot contain special characters" v-if="!isValidAddress" />
                             <ErrorMessage msg="" v-if="!customerAddress && formSubmitted" />
                         </div>
 

@@ -230,7 +230,7 @@ export default {
 
                 <div class="details-content sticky">
 
-                    <h6 class="color-Grey_90 text-xl_semibold">Add Project Structure</h6>
+                    <h6 class="color-Grey_90 text-xl_semibold">Add Project Structure <span class="text-rose">*</span></h6>
                     <p class="color-Grey_50 text-base_regular margin-top_4px">Manage the Project Structure that you
                         will
                         operate within.</p>

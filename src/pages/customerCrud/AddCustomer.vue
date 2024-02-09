@@ -40,15 +40,17 @@ export default {
             customerAddress: "",
             selectedImg: "",
             formSubmitted: false,
-            isvalidEmail: true,
             customerMiddleName: "",
             customerDob: "",
             customerNote: "",
             customerReference: "",
             activeAcco: "0",
             showErrorOfImg: "",
-            specialCharsRegex: '/[!@#$%^&*()?":{}|<>]/',
-            isValidFirstName:'',
+            isvalidEmail: true,
+            isValidFirstName: true,
+            isValidLastName: true,
+            isValidNumber: true,
+            isValidAddress: true,
         }
     },
     computed: {
@@ -65,44 +67,28 @@ export default {
         authStore.chnageTitle(title, description)
     },
     methods: {
-        // validateEmail() {
-        //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        //     if (this.customerEmail.trim() === '' || emailRegex.test(this.customerEmail)) {
-        //         this.isvalidEmail = true;
-        //         return true;
-        //     } else {
-        //         this.isvalidEmail = false;
-        //         return false;
-        //     }
-        // },
-        validateFirstName(event) {
-            const firstName = event.target.value;
+        validateField(value) {
             const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
-            this.isValidFirstName = !specialCharsRegex.test(firstName);
-            this.customerFirstName = firstName;
+            return value.trim() === '' || !specialCharsRegex.test(value);
         },
-        validateLastName(event) {
-            const lastName = event.target.value;
-            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
-            this.isValidLastName = !specialCharsRegex.test(lastName);
-            this.customerLastName = lastName;
-        },
-        validateEmail(event) {
-            const email = event.target.value;
+        validateEmail() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            this.isvalidEmail = email === '' || emailRegex.test(email);
-            this.customerEmail = email;
+            if (this.customerEmail.trim() === '' || emailRegex.test(this.customerEmail)) {
+                this.isvalidEmail = true;
+                return true;
+            } else {
+                this.isvalidEmail = false;
+                return false;
+            }
         },
-        validatePhoneNumber(event) {
-            const phoneNumber = event.target.value;
-            this.isValidPhoneNumber = phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
-            this.customerNumber = phoneNumber;
-        },
-        validateAddress(event) {
-            const address = event.target.value;
-            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
-            this.isValidAddress = !specialCharsRegex.test(address);
-            this.customerAddress = address;
+        validatePhoneNumber() {
+            if (this.customerNumber.trim() === '' || this.customerNumber.length === 10 && /^\d+$/.test(this.customerNumber)) {
+                this.isValidNumber = true;
+                return true;
+            } else {
+                this.isValidNumber = false;
+                return false;
+            }
         },
         selectedPic(event) {
             const selectedFile = event.target.files[0]
@@ -335,11 +321,10 @@ export default {
 
                         <div class="space-y-8px">
                             <Label label="First Name" required />
-                            <!-- <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
-                                @input="event => customerFirstName = event.target.value" /> -->
                             <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
-                            @input="validateFirstName($event)" />
+                                @input="customerFirstName = $event.target.value; isValidFirstName = this.validateField(this.customerFirstName)" />
                             <ErrorMessage msg="First name cannot contain special characters" v-if="!isValidFirstName" />
+                            <ErrorMessage msg="" v-if="!customerFirstName && formSubmitted" />
                         </div>
 
                         <div class="space-y-8px">
@@ -352,7 +337,8 @@ export default {
                         <div class="space-y-8px">
                             <Label label="Last Name" required />
                             <Input placeholder="Enter customer Last Name" id="Last Name" :value="customerLastName"
-                                @input="event => customerLastName = event.target.value" />
+                                @input="customerLastName = $event.target.value; isValidLastName = this.validateField(this.customerLastName)" />
+                            <ErrorMessage msg="Last name cannot contain special characters" v-if="!isValidLastName" />
                             <ErrorMessage msg="" v-if="!customerLastName && formSubmitted" />
                         </div>
 
@@ -368,10 +354,10 @@ export default {
                         <div class="space-y-8px">
                             <Label label="Phone No." required />
                             <Input placeholder="Enter customer Number" id="Phone No." :value="customerNumber"
-                                @input="event => customerNumber = event.target.value" type="number"
-                                :class="{ 'input_error': customerNumber.length > 10 }" />
+                                @input="customerNumber = $event.target.value; isValidNumber = validatePhoneNumber()"
+                                type="number" :class="{ 'input_error': customerNumber.length > 10 }" />
                             <ErrorMessage msg="" v-if="!customerNumber && formSubmitted" />
-                            <ErrorMessage msg="Only 10 number valid" v-if="customerNumber.length > 10" />
+                            <ErrorMessage msg="Only 10 number valid" v-if="!isValidNumber" />
                         </div>
 
                         <div class="space-y-8px">
@@ -390,8 +376,10 @@ export default {
                         <div class="space-y-8px col-span-2">
                             <Label label="Address" required />
                             <Input id="Address" placeholder="Enter customer Address" :value="customerAddress"
-                                @input="event => customerAddress = event.target.value" type="text" />
+                                @input="customerAddress = $event.target.value; isValidAddress = this.validateField(this.customerAddress)"
+                                type="text" />
                             <ErrorMessage msg="" v-if="!customerAddress && formSubmitted" />
+                            <ErrorMessage msg="Address cannot contain special characters" v-if="!isValidAddress" />
                         </div>
 
                         <div class="space-y-8px col-span-2">
