@@ -7,6 +7,15 @@ export default {
     components: { Layout },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Settings',
+                }
+            ],
             options: [
                 {
                     title: "Projects",
@@ -46,7 +55,7 @@ export default {
 </script>
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
         <div>
 

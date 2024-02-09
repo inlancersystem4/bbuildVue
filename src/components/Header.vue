@@ -12,6 +12,9 @@ export default {
         useAlertStore,
         fetchWrapper
     },
+    props: {
+        breadcrumbList: Array
+    },
     data() {
         return {
             personal_optionDrop: false,
@@ -67,12 +70,16 @@ export default {
     <header class="main-content-header">
 
         <div class="header-btn-group">
-            <button class="layout-buttons" @click="goToPreviousPage">
-                <img src="../assets/img/icons/arrow-left.svg" class="img-not-selected">
-            </button>
-            <button class="layout-buttons" @click="goToNextPage">
-                <img src="../assets/img/icons/arrow-right.svg" class="img-not-selected">
-            </button>
+            <ul class="breadcrumb-list">
+                <li v-for="(breadcrumb, index) in breadcrumbList" :key="index">
+                    <router-link :to="breadcrumb.link" v-if="breadcrumb.link">
+                        {{ breadcrumb.name }}
+                    </router-link>
+                    <span v-else>
+                        {{ breadcrumb.name }}
+                    </span>
+                </li>
+            </ul>
         </div>
 
 
@@ -207,5 +214,31 @@ export default {
 
 .user-avtar .user-personal-option button:hover {
     background-color: var(--Grey-20);
+}
+
+.breadcrumb-list {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    font-size: 14px;
+    color: var(--Grey-90);
+    gap: 6px;
+}
+
+.breadcrumb-list li a {
+    display: inline-flex;
+}
+
+.breadcrumb-list li span {
+    color: var(--Grey-50);
+}
+
+.breadcrumb-list li:nth-last-child(1)::after {
+    display: none;
+}
+
+.breadcrumb-list li::after {
+    content: '/';
+    padding-left: 6px;
 }
 </style>

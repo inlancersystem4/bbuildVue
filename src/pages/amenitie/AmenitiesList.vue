@@ -19,6 +19,19 @@ export default {
     components: { Layout, ContentSection, SearchBox, Pagination, AmenitiesRow, DeleteModel, Input, TextArea, Label },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Settings',
+                    link: '/settings'
+                },
+                {
+                    name: 'Amenities',
+                }
+            ],
             list: [],
             searchText: "",
             currentPage: 1,
@@ -36,8 +49,8 @@ export default {
     created() {
         this.amenitieData();
         const authStore = useAuthStore();
-        const title = "Customer List |  Billion Build"
-        const description = "this is description for Customer List"
+        const title = "Amenities List |  Billion Build"
+        const description = "this is description for Amenities List"
 
         authStore.chnageTitle(title, description)
     },
@@ -178,7 +191,7 @@ export default {
 
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
 
         <ContentSection>
@@ -291,12 +304,10 @@ export default {
                     <div class="padding-y_8px padding-x_16px flex items-center justify-end gap-8px">
 
                         <button class="btn-regular" @click="this.amenitiesModal = !this.amenitiesModal">Cancel</button>
-                        <button class="btn-regular bg-purple color-white" :disabled="addamenitiesBtn" @click="addAmenities"
-                            v-if="!this.itemId">Add
-                            Amenities</button>
-                        <button class="btn-regular bg-purple color-white" :disabled="addamenitiesBtn" @click="addAmenities"
-                            v-if="this.itemId">Save
-                            Amenities</button>
+                        <button class="btn-regular" :disabled="addamenitiesBtn" @click="addAmenities"
+                            v-if="!this.itemId">Save</button>
+                        <button class="btn-regular" :disabled="addamenitiesBtn" @click="addAmenities"
+                            v-if="this.itemId">Update</button>
 
                     </div>
 

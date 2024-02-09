@@ -14,6 +14,23 @@ export default {
     components: { Layout, Setps, ContentSection2, ProjectDetails, ProjectStructure, SettingPage, ProjectPreview, InventeryBoxStatus },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Settings',
+                    link: '/settings'
+                },
+                {
+                    name: 'Projects',
+                    link: '/project-list'
+                },
+                {
+                    name: 'Add Project',
+                }
+            ],
             setps: [
                 {
                     id: 1,
@@ -51,6 +68,25 @@ export default {
     },
     created() {
         this.projectId = this.$route.params.projectId;
+        if (this.projectId != 0) {
+            this.breadcrumbList = [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Settings',
+                    link: '/settings'
+                },
+                {
+                    name: 'Projects',
+                    link: '/project-list'
+                },
+                {
+                    name: 'Edit Project',
+                }
+            ]
+        }
         document.title = 'Projects | Billion Build'
         const authStore = useAuthStore();
         const title = "Projects |  Billion Build"
@@ -175,7 +211,7 @@ export default {
 
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
         <div class="space-y-16px">
 

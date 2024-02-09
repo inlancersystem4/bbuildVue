@@ -4,6 +4,15 @@ import { useAuthStore } from "@/stores";
 
 export default {
     components: { Layout },
+    data() {
+        return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                },
+            ],
+        }
+    },
     created() {
         const authStore = useAuthStore();
         const title = "Home |  Billion Build"
@@ -16,10 +25,10 @@ export default {
 
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
 
-        <!-- <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+        <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
 
             <div class="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
                 <div>
@@ -96,10 +105,10 @@ export default {
                                 Structure
                             </li>
                         </ul>
-                        <a href="/" aria-label=""
+                        <router-link to="/" aria-label=""
                             class="inline-flex items-center font-semibold transition-colors duration-200 text-green-400 hover:text-green-800">Learn
                             more
-                        </a>
+                        </router-link>
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row">
@@ -145,10 +154,10 @@ export default {
                                 Follow Ups
                             </li>
                         </ul>
-                        <a href="/" aria-label=""
+                        <router-link to="/" aria-label=""
                             class="inline-flex items-center font-semibold transition-colors duration-200 text-green-400 hover:text-green-800">Learn
                             more
-                        </a>
+                        </router-link>
                     </div>
                 </div>
                 <div class="flex flex-col sm:flex-row">
@@ -194,15 +203,15 @@ export default {
                                 Track changes & updates by customers
                             </li>
                         </ul>
-                        <a href="/" aria-label=""
+                        <router-link to="/" aria-label=""
                             class="inline-flex items-center font-semibold transition-colors duration-200 text-green-400 hover:text-green-800">Learn
                             more
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
 
-        </div> -->
+        </div>
 
 
     </Layout>

@@ -10,6 +10,19 @@ export default {
     components: { Layout, TextArea },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Inventory',
+                    link: '/inventory-list'
+                },
+                {
+                    name: 'View Inventory',
+                }
+            ],
             inventoryId: "",
             invViewData: "",
             operViewData: [],
@@ -122,7 +135,7 @@ export default {
 </script>
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
         <div class="grid-cols-3 Lg_grid-cols-1 display-grid gap-16px">
 
@@ -431,8 +444,8 @@ export default {
 
                         <button class="btn-regular" @click="this.operationModal = !this.operationModal">Cancel</button>
                         <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn" @click="addOperation">
-                            <span v-if="!this.operationId"> Add Opration </span>
-                            <span v-if="this.operationId">Save Operation</span>
+                            <span v-if="!this.operationId"> Save </span>
+                            <span v-if="this.operationId">Update</span>
                         </button>
 
                     </div>

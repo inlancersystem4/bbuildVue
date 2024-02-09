@@ -20,6 +20,15 @@ export default {
     components: { Layout, InventeryBox, InventeryBoxStatus, Select, StatusChnage, SelectCustomer, TextArea, Modal, Input, Label, DeleteModel },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Inventories',
+                }
+            ],
             projectarray: [],
             projectId: "",
             currentproject: "",
@@ -332,11 +341,13 @@ export default {
                     this.updateDetailsModal = false
                 }
                 else {
+                    alert("Call else")
                     const alertStore = useAlertStore()
                     alertStore.error(data.message)
                 }
 
             } catch (error) {
+                alert("Call catch")
                 const alertStore = useAlertStore()
                 alertStore.error(error)
             }
@@ -499,7 +510,7 @@ export default {
 
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
         <div class="display-flex items-center justify-between w-full margin-bottom_12px gap-8px">
 
@@ -638,20 +649,20 @@ export default {
                 <div class="space-y-4">
 
                     <div class="space-y-4px">
-                        <Label label="Area" />
+                        <Label label="Area" required />
                         <Input placeholder="Enter Area" id="Area" :value="invUpArea"
                             @input="event => invUpArea = event.target.value" />
                     </div>
 
                     <div class="space-y-4px">
-                        <Label label="Price" />
+                        <Label label="Price" required />
                         <Input placeholder="Enter Price" id="Price" :value="invUpPrice" type="number"
                             @input="event => invUpPrice = event.target.value" />
                     </div>
 
                     <div class="space-y-8px">
 
-                        <Label label="Select Type" />
+                        <Label label="Select Type" required />
 
                         <div class="display-flex align-center gap-24px">
 
@@ -681,8 +692,8 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.updateDetailsModal = !this.updateDetailsModal">Cancel</button>
-                <button class="btn-regular bg-purple color-white" :disabled="updateDetailsBtn"
-                    @click="invUpdated">Updated</button>
+                <button class="btn-regular" :disabled="updateDetailsBtn"
+                    @click="invUpdated">Update</button>
             </template>
 
         </Modal>
@@ -747,7 +758,7 @@ export default {
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.updateInvModal = !this.updateInvModal">Cancel</button>
                 <button class="btn-regular bg-purple color-white" :disabled="inventoryUpdatedBtn"
-                    @click="inventoryUpdated">Updated</button>
+                    @click="inventoryUpdated">Update</button>
             </template>
 
         </Modal>
@@ -770,8 +781,8 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.addoperationModal = !this.addoperationModal">Cancel</button>
-                <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn" @click="addOperation">Add
-                    Operation</button>
+                <button class="btn-regular bg-purple color-white" :disabled="addOperationBtn"
+                    @click="addOperation">Save</button>
             </template>
 
         </Modal>

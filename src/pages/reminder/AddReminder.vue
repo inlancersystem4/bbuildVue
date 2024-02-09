@@ -137,8 +137,7 @@ export default {
 
             </div>
 
-            <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addReminder()">Add
-                Follow Up</button>
+            <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled" @click="addReminder()">Save</button>
 
 
         </ContentSection>

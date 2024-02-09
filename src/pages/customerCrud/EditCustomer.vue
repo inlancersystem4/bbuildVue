@@ -16,6 +16,19 @@ export default {
     components: { Layout, ContentSection, Label, Input, ErrorMessage, TextArea },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Customers',
+                    link: '/customerlist'
+                },
+                {
+                    name: 'Edit Customer',
+                }
+            ],
             customerFirstName: "",
             customerLastName: "",
             customerEmail: "",
@@ -201,7 +214,7 @@ export default {
 
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
 
         <!-- <ContentSection title="Edit Customer" class="max-w-4xl mx-auto relative">
@@ -395,7 +408,7 @@ export default {
                     <div class="address-form">
 
                         <div class="space-y-8px">
-                            <Label label="First Name" />
+                            <Label label="First Name" required />
                             <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
                                 @input="event => customerFirstName = event.target.value" />
                             <ErrorMessage msg="" v-if="!customerFirstName && formSubmitted" />
@@ -408,7 +421,7 @@ export default {
                         </div>
 
                         <div class="space-y-8px">
-                            <Label label="Last Name" />
+                            <Label label="Last Name" required />
                             <Input placeholder="Enter customer Last Name" id="Last Name" :value="customerLastName"
                                 @input="event => customerLastName = event.target.value" />
                             <ErrorMessage msg="" v-if="!customerLastName && formSubmitted" />
@@ -424,7 +437,7 @@ export default {
                         </div>
 
                         <div class="space-y-8px">
-                            <Label label="Phone No." />
+                            <Label label="Phone No." required />
                             <Input placeholder="Enter customer Number" id="Phone No." :value="customerNumber"
                                 @input="event => customerNumber = event.target.value" type="number"
                                 :class="{ 'input_error': customerNumber.length > 10 }" />
@@ -446,7 +459,7 @@ export default {
                         </div>
 
                         <div class="space-y-8px col-span-2">
-                            <Label label="Address" />
+                            <Label label="Address" required />
                             <Input id="Address" placeholder="Enter customer Address" :value="customerAddress"
                                 @input="event => customerAddress = event.target.value" type="text" />
                             <ErrorMessage msg="" v-if="!customerAddress && formSubmitted" />
@@ -460,7 +473,7 @@ export default {
 
 
                         <button type="submit" class="btn-regular margin-top_8px" :disabled="btnDisabled"
-                            @click="addcustomer()">Save Changes</button>
+                            @click="addcustomer()">Update</button>
 
                     </div>
 

@@ -140,7 +140,7 @@ export default {
                                         stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"
                                         stroke-linejoin="round" />
                                 </svg>
-                                <p class="link-title">Customer</p>
+                                <p class="link-title">Customers</p>
                             </div>
                         </router-link>
                     </li>

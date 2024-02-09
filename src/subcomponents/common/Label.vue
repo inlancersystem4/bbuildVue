@@ -2,13 +2,14 @@
 export default {
     props: {
         label: String,
+        required:Boolean
     }
 }
 </script>
 
 
 <template>
-    <label :for="label">{{ label }} </label>
+    <label :for="label">{{ label }} <span class="text-rose" v-if="required">*</span> </label>
 </template>
 
 <style scoped>

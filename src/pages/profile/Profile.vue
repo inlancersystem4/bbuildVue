@@ -14,6 +14,15 @@ export default {
     components: { Layout, Label, Input, ErrorMessage, ContentSection2, TextArea },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Profile',
+                }
+            ],
             profileFirstName: "",
             profileLastName: "",
             profileEmail: "",
@@ -157,7 +166,7 @@ export default {
 </script>
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
         <ContentSection2 title="profile">
 
@@ -166,21 +175,21 @@ export default {
                 <div class="address-form w-3/4">
 
                     <div class="space-y-8px">
-                        <Label label="First Name" />
+                        <Label label="First Name" required />
                         <Input placeholder="Enter First Name" id="First Name" :value="profileFirstName"
                             @input="event => profileFirstName = event.target.value" />
                         <ErrorMessage msg="" v-if="!profileFirstName && formSubmitted" />
                     </div>
 
                     <div class="space-y-8px">
-                        <Label label="Last Name" />
+                        <Label label="Last Name" required />
                         <Input placeholder="Enter Last Name" id="Last Name" :value="profileLastName"
                             @input="event => profileLastName = event.target.value" />
                         <ErrorMessage msg="" v-if="!profileLastName && formSubmitted" />
                     </div>
 
                     <div class="space-y-8px">
-                        <Label label="email" />
+                        <Label label="email" required />
                         <Input placeholder="Enter email" id="email" :value="profileEmail" type="email"
                             @input="profileEmail = $event.target.value; isvalidEmail = validateEmail()"
                             :class="{ 'input_error': !isvalidEmail }" />
@@ -189,7 +198,7 @@ export default {
                     </div>
 
                     <div class="space-y-8px">
-                        <Label label="Phone no." />
+                        <Label label="Phone no." required />
                         <Input placeholder="Enter Phone no." id="Phone no." :value="profileNo" type="number"
                             @input="event => profileNo = event.target.value" disabled />
                         <ErrorMessage msg="" v-if="!profileNo && formSubmitted" />
@@ -197,14 +206,14 @@ export default {
                     </div>
 
                     <div class="space-y-8px">
-                        <Label label="Company name" />
+                        <Label label="Company name" required />
                         <Input placeholder="Enter Company name" id="Company name" :value="companyName"
                             @input="event => companyName = event.target.value" />
                         <ErrorMessage msg="" v-if="!companyName && formSubmitted" />
                     </div>
 
                     <div class="space-y-8px">
-                        <Label label="Company phone no." />
+                        <Label label="Company phone no." required />
                         <Input placeholder="Enter Company phone no." id="Company phone no." :value="companyPhoneNo"
                             @input="event => companyPhoneNo = event.target.value" type="number" />
                         <ErrorMessage msg="" v-if="!companyPhoneNo && formSubmitted" />
@@ -213,7 +222,7 @@ export default {
 
 
                     <div class="space-y-8px col-span-2">
-                        <Label label="Company Address" />
+                        <Label label="Company Address" required />
                         <TextArea placeholder="Enter Company Address" id="Company Address" :value="companyAddress"
                             @input="event => companyAddress = event.target.value" type="number" />
                         <ErrorMessage msg="" v-if="!companyAddress && formSubmitted" />

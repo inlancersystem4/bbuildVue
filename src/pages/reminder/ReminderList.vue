@@ -19,11 +19,20 @@ export default {
     components: { Layout, ContentSection, SearchBox, Pagination, DeleteModel, reminderRow, Modal, TextArea, Label },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Follow Ups',
+                }
+            ],
             list: [],
             // searchText: "",
             currentPage: 1,
             totalPages: 1,
-            sort: "asc",
+            sort: "desc",
             deleteItemModal: false,
             itemId: "",
             remDate: "",
@@ -228,7 +237,7 @@ export default {
 
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
 
         <ContentSection>
@@ -339,8 +348,7 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.reminderModal = !this.reminderModal">Cancel</button>
-                <button class="btn-regular bg-purple color-white" :disabled="remBtnDisabled" @click="addReminder">Save
-                    Follow Up</button>
+                <button class="btn-regular" :disabled="remBtnDisabled" @click="addReminder">Update</button>
             </template>
 
         </Modal>
@@ -350,7 +358,7 @@ export default {
     </Layout>
 
 
-    <DeleteModel model_title="Delete Remider" model_subtitle="Are you sure you want to delete this Remider?"
+    <DeleteModel model_title="Delete Follow Up" model_subtitle="Are you sure you want to delete this Follow Up?"
         v-if="deleteItemModal" @close_model="deleteItemModal = false" @delete_item="deleteItem()" />
 </template>
 

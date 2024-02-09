@@ -1001,6 +1001,10 @@ body {
     color: white;
 }
 
+.btn-regular:focus svg path{
+    stroke: white;
+}
+
 button:focus {
     background-color: var(--Grey-5);
     border-color: var(--Grey-90);

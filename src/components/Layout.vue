@@ -9,6 +9,9 @@ export default {
         Header,
         OverLaye,
     },
+    props: {
+        breadcrumb: Array
+    },
     data() {
         return {
             miniSidebarActive: false,
@@ -67,7 +70,7 @@ export default {
     <main class="main-layout">
         <Sidebar :responsiveSidebarActive="responsiveSidebarActive" @closeResponsiveMenu="closeResponsiveMenu" />
         <section class="main-content">
-            <Header @responsiveMenu="responsiveMenu" />
+            <Header @responsiveMenu="responsiveMenu" :breadcrumbList="breadcrumb" />
             <section class="main-content-body">
                 <div class="content-section">
                     <slot></slot>

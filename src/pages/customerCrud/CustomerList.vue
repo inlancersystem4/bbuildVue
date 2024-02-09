@@ -20,6 +20,15 @@ export default {
     components: { Layout, ContentSection, SearchBox, Pagination, Customers, DeleteModel, Modal, TextArea, Label },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Customers',
+                }
+            ],
             list: [],
             searchText: "",
             currentPage: 1,
@@ -106,6 +115,8 @@ export default {
                     this.totalPages = response.total_pages;
                 }
                 else {
+                    const alertStore = useAlertStore()
+                    alertStore.error(response.message)
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }
@@ -198,7 +209,7 @@ export default {
 
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
 
         <ContentSection>
@@ -223,7 +234,8 @@ export default {
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Customer" :value="searchText" @input="searchTextFun" @clear_search="clearSearch" />
+                    <SearchBox placeholder="Search Customer" :value="searchText" @input="searchTextFun"
+                        @clear_search="clearSearch" />
 
                     <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap" @click="addUserFun()">
                         <img src="../../assets/img/icons/plus-3.svg">
@@ -319,8 +331,7 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.reminderModal = !this.reminderModal">Cancel</button>
-                <button class="btn-regular bg-purple color-white" :disabled="remBtnDisabled" @click="addReminder">Add
-                    Follow Up</button>
+                <button class="btn-regular" :disabled="remBtnDisabled" @click="addReminder">Save</button>
             </template>
 
         </Modal>

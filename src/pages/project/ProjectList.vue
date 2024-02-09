@@ -14,6 +14,19 @@ export default {
     components: { Layout, DeleteModel, ContentSection, Pagination, ProjectListRow, SearchBox },
     data() {
         return {
+            breadcrumbList: [
+                {
+                    name: 'Dashboard',
+                    link: '/'
+                },
+                {
+                    name: 'Settings',
+                    link: '/settings'
+                },
+                {
+                    name: 'Projects',
+                }
+            ],
             list: [],
             searchText: "",
             currentPage: 1,
@@ -118,7 +131,7 @@ export default {
 </script>
 
 <template>
-    <Layout>
+    <Layout :breadcrumb="breadcrumbList">
 
         <ContentSection>
 
