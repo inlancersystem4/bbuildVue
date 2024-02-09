@@ -83,8 +83,8 @@ export default {
 
             <div class="sidebar-avatar-header margin-bottom_24px">
 
-                <router-link to="/home">
-                    <img src="/billionbuild.svg" class="w-[150px]">
+                <router-link to="/">
+                    <img src="/billionbuild.svg" class=" w-[150px] ">
                 </router-link>
 
                 <div class="user-profile-btn" id="Open_mini_sidebar"
@@ -105,7 +105,7 @@ export default {
                 <ul class="main-pages-list">
 
                     <li class="list-items">
-                        <router-link to="/home" class="list-link" active-class="link_active">
+                        <router-link to="/" class="list-link" active-class="link_active">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
@@ -296,7 +296,7 @@ export default {
                 <ul class="main-pages-list">
 
                     <li class="list-items">
-                        <router-link to="/home" class="list-link" active-class="link_active">
+                        <router-link to="/" class="list-link" active-class="link_active">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
