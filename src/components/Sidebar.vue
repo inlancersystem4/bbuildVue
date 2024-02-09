@@ -83,7 +83,7 @@ export default {
 
             <div class="sidebar-avatar-header margin-bottom_24px">
 
-                <router-link to="/">
+                <router-link to="/home">
                     <img src="/billionbuild.svg" class="w-[150px]">
                 </router-link>
 
@@ -105,7 +105,7 @@ export default {
                 <ul class="main-pages-list">
 
                     <li class="list-items">
-                        <router-link to="/" class="list-link" active-class="link_active">
+                        <router-link to="/home" class="list-link" active-class="link_active">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
@@ -281,7 +281,7 @@ export default {
         <div class="sidebar-content">
 
             <div class="w-[25px]">
-                <router-link to="/">
+                <router-link to="/home">
                     <img src="/icon.svg">
                 </router-link>
             </div>
@@ -296,7 +296,7 @@ export default {
                 <ul class="main-pages-list">
 
                     <li class="list-items">
-                        <router-link to="/" class="list-link" active-class="link_active">
+                        <router-link to="/home" class="list-link" active-class="link_active">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                     fill="none">
@@ -334,7 +334,7 @@ export default {
                         </router-link>
                     </li>
 
-                    <li class="list-items">
+                    <!-- <li class="list-items">
                         <router-link to="/project-list" class="list-link" :class="{ link_active: isprojectCrudActive }">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -356,7 +356,7 @@ export default {
                                 </svg>
                             </div>
                         </router-link>
-                    </li>
+                    </li> -->
 
                     <li class="list-items">
                         <router-link to="/inventory-list" class="list-link" :class="{ link_active: isInventoryCrudActive }">
@@ -402,7 +402,7 @@ export default {
                         </router-link>
                     </li>
 
-                    <li class="list-items">
+                    <!-- <li class="list-items">
                         <router-link to="/operation-list" class="list-link" :class="{ link_active: isOperationCrudActive }">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -426,9 +426,9 @@ export default {
                                 </svg>
                             </div>
                         </router-link>
-                    </li>
+                    </li> -->
 
-                    <li class="list-items">
+                    <!-- <li class="list-items">
                         <router-link to="/amenities-list" class="list-link" :class="{ link_active: isAmenitiesCrudActive }">
                             <div class="link-items">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -446,7 +446,7 @@ export default {
                                 </svg>
                             </div>
                         </router-link>
-                    </li>
+                    </li> -->
 
                 </ul>
 

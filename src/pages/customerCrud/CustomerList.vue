@@ -12,6 +12,7 @@ import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
 import TextArea from '../../subcomponents/common/TextArea.vue';
 import Label from '../../subcomponents/common/Label.vue';
 import Modal from '../inventeryList/subcomponents/Modal.vue';
+import _debounce from 'lodash/debounce';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
@@ -66,8 +67,13 @@ export default {
         },
 
 
-        searchTextFun(event) {
+        searchTextFun: _debounce(function (event) {
             this.searchText = event.target.value.trim();
+            this.customerData();
+        }, 400),
+
+        clearSearch() {
+            this.searchText = '';
             this.customerData();
         },
 
@@ -93,7 +99,8 @@ export default {
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/customer-list`, user_data);
-                if (response.data.length !== 0) {
+
+                if (response.data && response.data.length !== 0) {
                     this.listLoading = false;
                     this.list = response.data;
                     this.totalPages = response.total_pages;
@@ -216,7 +223,7 @@ export default {
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Customer" :value="searchText" @input="searchTextFun" />
+                    <SearchBox placeholder="Search Customer" :value="searchText" @input="searchTextFun" @clear_search="clearSearch" />
 
                     <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap" @click="addUserFun()">
                         <img src="../../assets/img/icons/plus-3.svg">
@@ -229,11 +236,11 @@ export default {
 
             <template v-slot:main-table>
 
-                <!-- <div v-if="!list" class="data-not-found border-b border-Grey_20 border-solid">
+                <div v-if="listEmpty" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div> -->
+                </div>
 
-                <table class="w-100 user-table">
+                <table class="w-100 user-table" v-if="!listEmpty">
                     <tbody>
                         <tr>
                             <td class="count">
@@ -388,14 +395,14 @@ tr:nth-last-child(3) .custom-dropdown-list {
     min-width: 10%;
     max-width: 10%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .dropdown {
     min-width: 5%;
     max-width: 5%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 

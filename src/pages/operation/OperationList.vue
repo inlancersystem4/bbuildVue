@@ -403,14 +403,14 @@ tr:nth-last-child(3) .custom-dropdown-list {
     min-width: 10%;
     max-width: 10%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .dropdown {
     min-width: 5%;
     max-width: 5%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 

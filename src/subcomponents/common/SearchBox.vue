@@ -16,6 +16,7 @@ export default {
     },
     methods: {
         clearInput() {
+            this.$emit('clear_search');
             this.inputValue = ""
         }
     },

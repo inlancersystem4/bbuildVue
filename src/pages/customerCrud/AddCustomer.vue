@@ -34,12 +34,14 @@ export default {
             customerReference: "",
             activeAcco: "0",
             showErrorOfImg: "",
+            specialCharsRegex: '/[!@#$%^&*()?":{}|<>]/',
+            isValidFirstName:'',
         }
     },
     computed: {
         btnDisabled() {
             const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
-            return !this.customerFirstName.trim() || !this.customerLastName.trim() || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim() || specialCharsRegex.test(this.customerAddress);
+            return !this.customerFirstName.trim() || !this.customerLastName.trim() || specialCharsRegex.test(this.customerLastName) || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim() || specialCharsRegex.test(this.customerAddress);
         }
     },
     created() {
@@ -50,15 +52,44 @@ export default {
         authStore.chnageTitle(title, description)
     },
     methods: {
-        validateEmail() {
+        // validateEmail() {
+        //     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        //     if (this.customerEmail.trim() === '' || emailRegex.test(this.customerEmail)) {
+        //         this.isvalidEmail = true;
+        //         return true;
+        //     } else {
+        //         this.isvalidEmail = false;
+        //         return false;
+        //     }
+        // },
+        validateFirstName(event) {
+            const firstName = event.target.value;
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            this.isValidFirstName = !specialCharsRegex.test(firstName);
+            this.customerFirstName = firstName;
+        },
+        validateLastName(event) {
+            const lastName = event.target.value;
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            this.isValidLastName = !specialCharsRegex.test(lastName);
+            this.customerLastName = lastName;
+        },
+        validateEmail(event) {
+            const email = event.target.value;
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (this.customerEmail.trim() === '' || emailRegex.test(this.customerEmail)) {
-                this.isvalidEmail = true;
-                return true;
-            } else {
-                this.isvalidEmail = false;
-                return false;
-            }
+            this.isvalidEmail = email === '' || emailRegex.test(email);
+            this.customerEmail = email;
+        },
+        validatePhoneNumber(event) {
+            const phoneNumber = event.target.value;
+            this.isValidPhoneNumber = phoneNumber.length === 10 && /^\d+$/.test(phoneNumber);
+            this.customerNumber = phoneNumber;
+        },
+        validateAddress(event) {
+            const address = event.target.value;
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            this.isValidAddress = !specialCharsRegex.test(address);
+            this.customerAddress = address;
         },
         selectedPic(event) {
             const selectedFile = event.target.files[0]
@@ -291,15 +322,18 @@ export default {
 
                         <div class="space-y-8px">
                             <Label label="First Name" />
+                            <!-- <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
+                                @input="event => customerFirstName = event.target.value" /> -->
                             <Input placeholder="Enter customer First Name" id="First Name" :value="customerFirstName"
-                                @input="event => customerFirstName = event.target.value" />
-                            <ErrorMessage msg="" v-if="!customerFirstName && formSubmitted" />
+                            @input="validateFirstName($event)" />
+                            <ErrorMessage msg="First name cannot contain special characters" v-if="!isValidFirstName" />
                         </div>
 
                         <div class="space-y-8px">
                             <Label label="Middle Name (optional)" />
                             <Input placeholder="Enter customer Middle Name" id="Middle Name (optional)"
                                 :value="customerMiddleName" @input="event => customerMiddleName = event.target.value" />
+                            <!-- <ErrorMessage msg="" /> -->
                         </div>
 
                         <div class="space-y-8px">

@@ -3,7 +3,9 @@ import { RouterView } from 'vue-router'
 </script>
 
 <template>
+  <!-- start of rouert view -->
   <RouterView />
+  <!-- end of rouert view -->
 
   <NotificationGroup group="foo">
     <div class="fixed inset-0 flex items-start justify-end p-6 px-4 py-6 pointer-events-none ">

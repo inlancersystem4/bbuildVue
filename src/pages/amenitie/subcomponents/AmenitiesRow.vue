@@ -123,14 +123,14 @@ tr:nth-last-child(3) .custom-dropdown-list {
     min-width: 10%;
     max-width: 10%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .dropdown {
     min-width: 15%;
     max-width: 15%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .custom-dropdown:hover .custom-dropdown-list {

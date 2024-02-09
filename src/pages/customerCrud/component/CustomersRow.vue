@@ -180,14 +180,14 @@ tr:nth-last-child(3) .custom-dropdown-list {
     max-width: 10%;
     display: flex;
     justify-content: center;
-    /* justify-content: end; */
+    /* justify-content: flex-end; */
 }
 
 .dropdown {
     min-width: 5%;
     max-width: 5%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .custom-dropdown:hover .custom-dropdown-list {

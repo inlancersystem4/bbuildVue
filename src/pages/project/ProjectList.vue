@@ -244,7 +244,7 @@ tr {
     min-width: 5%;
     max-width: 5%;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 }
 
 .custom-dropdown:hover .custom-dropdown-list {
