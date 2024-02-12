@@ -17,6 +17,7 @@ export default {
             projectAddress: "",
             projectLevel: "",
             projectId: "",
+            isValidProjectName: true,
         }
     },
     computed: {
@@ -34,6 +35,11 @@ export default {
         next();
     },
     methods: {
+
+        validateField(value) {
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            return value.trim() === '' || !specialCharsRegex.test(value);
+        },
 
         isStringValid(inputString) {
             const stringPattern = /^[A-Za-z\s]+$/;
@@ -124,8 +130,9 @@ export default {
         <div class="space-y-8px">
             <Label label="project Name" required />
             <Input placeholder="Enter Project Name" id="project Name" :value="projectName"
-                @input="event => projectName = event.target.value" />
+                @input="projectName = $event.target.value; isValidProjectName = this.validateField(this.projectName)" />
             <ErrorMessage msg="" v-if="!this.projectName.trim() && formSubmitted" />
+            <ErrorMessage msg="Project name cannot contain special characters" v-if="!isValidProjectName" />
         </div>
 
         <div class="space-y-8px col-span-2">

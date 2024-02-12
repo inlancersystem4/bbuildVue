@@ -12,13 +12,14 @@ import DeleteModel from '../../subcomponents/common/DeleteModel.vue';
 import Input from '../../subcomponents/common/Input.vue';
 import TextArea from '../../subcomponents/common/TextArea.vue';
 import Label from '../../subcomponents/common/Label.vue';
+import ErrorMessage from '../../subcomponents/common/ErrorMessage.vue';
 import _debounce from 'lodash/debounce';
 
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, ContentSection, SearchBox, Pagination, AmenitiesRow, DeleteModel, Input, TextArea, Label },
+    components: { Layout, ContentSection, ErrorMessage, SearchBox, Pagination, AmenitiesRow, DeleteModel, Input, TextArea, Label },
     data() {
         return {
             breadcrumbList: [
@@ -45,7 +46,9 @@ export default {
             amenitiesNote: "",
             amenitiesModal: false,
             listLoading: false,
-            listEmpty: false
+            listEmpty: false,
+            isValidAmenitiesName: true,
+            isValidAmenitiesNote: true,
         }
     },
     created() {
@@ -63,6 +66,11 @@ export default {
         }
     },
     methods: {
+
+        validateField(value) {
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            return value.trim() === '' || !specialCharsRegex.test(value);
+        },
 
         addUserFun() {
             this.amenitiesModal = true
@@ -224,7 +232,8 @@ export default {
 
                 <div class="table-options">
 
-                    <SearchBox placeholder="Search Amenities" :value="searchText" @input="searchTextFun" @clear_search="clearSearch" />
+                    <SearchBox placeholder="Search Amenities" :value="searchText" @input="searchTextFun"
+                        @clear_search="clearSearch" />
 
                     <button class="btn-regular display-flex align-center w-100  gap-8px text-no-wrap" @click="addUserFun()">
                         <img src="../../assets/img/icons/plus-3.svg">
@@ -297,13 +306,16 @@ export default {
                     <div class="space-y-4px">
                         <Label label="Amenities Name" required />
                         <Input placeholder="Enter Amenities Name" id="Amenities Name" :value="amenitiesName"
-                            @input="event => amenitiesName = event.target.value" />
+                            @input="amenitiesName = $event.target.value; isValidAmenitiesName = this.validateField(this.amenitiesName)" />
+                        <ErrorMessage msg="Amenities name cannot contain special characters" v-if="!isValidAmenitiesName" />
                     </div>
 
                     <div class="space-y-4px">
                         <Label label="Amenities details" required />
                         <TextArea placeholder="Enter Amenities details" id="Amenities details" :value="amenitiesNote"
-                            @input="event => amenitiesNote = event.target.value" />
+                            @input="amenitiesNote = $event.target.value; isValidAmenitiesNote = this.validateField(this.amenitiesNote)" />
+                        <ErrorMessage msg="Amenities Note cannot contain special characters" v-if="!isValidAmenitiesNote" />
+
                     </div>
 
                 </div>

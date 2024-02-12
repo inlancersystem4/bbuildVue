@@ -39,13 +39,15 @@ export default {
             profilesaveLoader: false,
             profilenotsaved: true,
             profilesaved: false,
+            isValidProfileFirstName: true,
+            isValidProfileLastName: true,
         }
     },
     computed: {
         profileBtnDis() {
             const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
-            return !this.profileFirstName || !this.profileFirstName.trim() ||
-                !this.profileLastName || !this.profileLastName.trim() ||
+            return !this.profileFirstName || !this.profileFirstName.trim() || specialCharsRegex.test(this.profileFirstName) ||
+                !this.profileLastName || !this.profileLastName.trim() || specialCharsRegex.test(this.profileLastName) ||
                 !this.profileEmail || !this.profileEmail.trim() ||
                 !this.profileNo || this.profileNo.trim().length !== 10 ||
                 !this.isvalidEmail ||
@@ -63,6 +65,10 @@ export default {
         authStore.chnageTitle(title, description)
     },
     methods: {
+        validateField(value) {
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            return value.trim() === '' || !specialCharsRegex.test(value);
+        },
         validateEmail() {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(this.profileEmail);
@@ -177,15 +183,18 @@ export default {
                     <div class="space-y-8px">
                         <Label label="First Name" required />
                         <Input placeholder="Enter First Name" id="First Name" :value="profileFirstName"
-                            @input="event => profileFirstName = event.target.value" />
+                            @input="profileFirstName = $event.target.value; isValidProfileFirstName = validateField(this.profileFirstName) " />
                         <ErrorMessage msg="" v-if="!profileFirstName && formSubmitted" />
+                        <ErrorMessage msg="First name cannot contain special characters" v-if="!isValidProfileFirstName" />
+
                     </div>
 
                     <div class="space-y-8px">
                         <Label label="Last Name" required />
                         <Input placeholder="Enter Last Name" id="Last Name" :value="profileLastName"
-                            @input="event => profileLastName = event.target.value" />
+                            @input="profileLastName = $event.target.value; isValidProfileLastName = validateField(this.profileLastName) " />
                         <ErrorMessage msg="" v-if="!profileLastName && formSubmitted" />
+                        <ErrorMessage msg="Last name cannot contain special characters" v-if="!isValidProfileLastName" />
                     </div>
 
                     <div class="space-y-8px">

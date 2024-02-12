@@ -350,13 +350,11 @@ export default {
                     alertStore.success(data.message)
                 }
                 else {
-                    alert("Call else")
                     const alertStore = useAlertStore()
                     alertStore.error(data.message)
                 }
 
             } catch (error) {
-                alert("Call catch")
                 const alertStore = useAlertStore()
                 alertStore.error(error)
             }
