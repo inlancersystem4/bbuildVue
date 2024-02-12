@@ -1,12 +1,15 @@
 <script>
 import Layout from '../../components/Layout.vue';
-import { useAuthStore } from '../../stores'
+import { useAuthStore, useAlertStore } from '../../stores'
+import { fetchWrapper } from '../../helpers/fetch-wrapper'
 
+const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
     components: { Layout },
     data() {
         return {
+            multiEmailAddress: "",
             breadcrumbList: [
                 {
                     name: 'Dashboard',
@@ -38,11 +41,18 @@ export default {
             ]
         }
     },
+    computed: {
+        btnDisabled() {
+            return !this.multiEmailAddress.trim();
+        }
+    },
     created() {
-        this.authStore = useAuthStore();
+        this.getSettingEmail();
+        const authStore = useAuthStore();
         const title = "Setting | Billion Build"
         const description = "this is description for Setting"
-        this.authStore.chnageTitle(title, description)
+
+        authStore.chnageTitle(title, description)
     },
     methods: {
         handleClick(item) {
@@ -50,6 +60,46 @@ export default {
                 this.$router.push({ path: item.link });
             }
         },
+        async getSettingEmail() {
+            try {
+                const response = await fetchWrapper.post(`${baseUrl}/get-setting`);
+
+                if (response.success === 1) {
+                    this.multiEmailAddress = response.data;
+                }
+                else {
+                    const alertStore = useAlertStore();
+                    alertStore.error(response.message);
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore();
+                alertStore.error(error);
+            }
+        },
+
+        async multiEmailSave() {
+            var item_data = new FormData();
+            item_data.append("receiver_email", this.multiEmailAddress);
+
+            try {
+                const data = await fetchWrapper.post(`${baseUrl}/setting-save`, item_data);
+                console.log(data);
+                if (data.success === 1) {
+                    const alertStore = useAlertStore();
+                    alertStore.success(data.message);
+                    this.$router.push({ name: 'Settings' });
+                }
+                else {
+                    const alertStore = useAlertStore();
+                    alertStore.error(data.message);
+                }
+
+            } catch (error) {
+                const alertStore = useAlertStore();
+                alertStore.error(error);
+            }
+        }
     },
 }
 </script>
@@ -134,11 +184,28 @@ export default {
             </button>
 
         </div>
+
+        <div class="input-group bg-white p-4 border border-solid border-Grey_20 rounded-regualr">
+            <label for="multiEmail">Emails:</label>
+            <textarea id="multiEmail" placeholder="Enter Emails.." rows="4" cols="122" v-model="multiEmailAddress"
+                class="input-1 resize-none bg-white"></textarea>
+            <button class="w-fit btn-regular margin-top_8px" type="submit" @click="multiEmailSave()"
+                :disabled="btnDisabled">Save</button>
+        </div>
     </Layout>
 </template>
 
 <style scoped>
 .options {
     text-align: left;
+}
+
+label {
+    font-size: 14px;
+    text-transform: capitalize;
+    font-family: 500;
+    letter-spacing: 0.2px;
+    display: block;
+    cursor: pointer;
 }
 </style>

@@ -54,6 +54,7 @@ export default {
             updateDetailsModal: false,
             invUpArea: "",
             invUpPrice: "",
+            selectinvUpType: "",
             inventerydetaiId: "",
             updateInvDetaiType: [
                 {
@@ -80,7 +81,6 @@ export default {
             selectedStatusName: "",
             isStatusFiveDisabled: "",
             isValidNote: true,
-            invUpAreaIsValid: true,
             formSubmitted: false,
         }
     },
@@ -109,12 +109,10 @@ export default {
 
         //     return missingFields;
         // },
-
-        // updateDetailsBtn() {
-        //     const isValidArea = !!(this.invUpArea && typeof this.invUpArea === 'string' && this.invUpArea.trim() !== '');
-        //     const isValidPrice = !!(this.invUpPrice && typeof this.invUpPrice === 'string' && this.invUpPrice.trim() !== '');
-        //     return !(isValidArea || isValidPrice) || this.selectinvUpType;
-        // },
+        btnDisabled() {
+            return (!this.invUpArea || !this.invUpPrice || !this.selectinvUpType) ||
+                (this.invUpArea === '' || this.invUpPrice === '' || this.selectinvUpType === '');
+        },
         addOperationBtn() {
             const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
             return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote);
@@ -348,6 +346,8 @@ export default {
                     this.inventerydetaiId = ""
                     this.selectinvUpType = ""
                     this.updateDetailsModal = false
+                    const alertStore = useAlertStore()
+                    alertStore.success(data.message)
                 }
                 else {
                     alert("Call else")
@@ -659,15 +659,17 @@ export default {
 
                     <div class="space-y-4px">
                         <Label label="Area" required />
-                        <Input placeholder="Enter Area" id="Area" :value="invUpArea"
-                            @input="invUpArea = $event.target.value; invUpAreaIsValid = this.noteIsValid(this.invUpArea)" />
-                        <ErrorMessage msg="Area cannot contain special characters" v-if="!invUpAreaIsValid" />
+                        <Input type="number" placeholder="Enter Area" id="Area" :value="invUpArea"
+                            @input="invUpArea = $event.target.value" />
+                        <ErrorMessage msg="" v-if="!invUpArea && formSubmitted" />
                     </div>
 
                     <div class="space-y-4px">
                         <Label label="Price" required />
                         <Input placeholder="Enter Price" id="Price" :value="invUpPrice" type="number"
                             @input="event => invUpPrice = event.target.value" />
+                        <ErrorMessage msg="" v-if="!invUpPrice && formSubmitted" />
+
                     </div>
 
                     <div class="space-y-8px">
@@ -691,8 +693,8 @@ export default {
                                 </label>
 
                             </div>
-
                         </div>
+                        <ErrorMessage msg="" v-if="!selectinvUpType && formSubmitted" />
 
                     </div>
 
@@ -702,7 +704,7 @@ export default {
 
             <template v-slot:footer>
                 <button class="btn-regular" @click="this.updateDetailsModal = !this.updateDetailsModal">Cancel</button>
-                <button class="btn-regular" @click="invUpdated">Update</button>
+                <button class="btn-regular" @click="invUpdated()" :disabled="btnDisabled">Update</button>
             </template>
 
         </Modal>
