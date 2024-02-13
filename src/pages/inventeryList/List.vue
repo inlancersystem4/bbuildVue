@@ -81,6 +81,8 @@ export default {
             selectedStatusName: "",
             isStatusFiveDisabled: "",
             isValidNote: true,
+            isValidInvUpdateName: true,
+            isValidInvUpdateNote: true,
             formSubmitted: false,
         }
     },
@@ -110,12 +112,15 @@ export default {
         //     return missingFields;
         // },
         btnDisabled() {
-            return (!this.invUpArea || !this.invUpPrice || !this.selectinvUpType) ||
+            return (!this.invUpArea || isNaN(this.invUpArea) || !this.invUpPrice || isNaN(this.invUpPrice) || !this.selectinvUpType) ||
                 (this.invUpArea === '' || this.invUpPrice === '' || this.selectinvUpType === '');
         },
         addOperationBtn() {
             const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
             return !this.operationNote.trim() || specialCharsRegex.test(this.operationNote);
+        },
+        inventoryUpdatedBtn() {
+            return (!this.invUpdateName || !this.isValidInvUpdateName)
         }
     },
     methods: {
@@ -314,8 +319,8 @@ export default {
             }
         },
         updatedDetails(data) {
-            this.inventeryId = String(data.inv_id)
-            this.inventerydetaiId = String(data.details_id)
+            this.inventeryId = data.inv_id
+            this.inventerydetaiId = data.details_id
             this.updateDetailsModal = true
             this.getinvData();
         },
@@ -657,15 +662,17 @@ export default {
 
                     <div class="space-y-4px">
                         <Label label="Area" required />
-                        <Input type="number" placeholder="Enter Area" id="Area" :value="invUpArea"
+                        <Input type="text" placeholder="Enter Area" id="Area" :value="invUpArea"
                             @input="invUpArea = $event.target.value" />
+                        <ErrorMessage msg="Enter only number" v-if="invUpArea && isNaN(invUpArea)" />
                         <ErrorMessage msg="" v-if="!invUpArea && formSubmitted" />
                     </div>
 
                     <div class="space-y-4px">
                         <Label label="Price" required />
-                        <Input placeholder="Enter Price" id="Price" :value="invUpPrice" type="number"
+                        <Input placeholder="Enter Price" id="Price" :value="invUpPrice" type="text"
                             @input="event => invUpPrice = event.target.value" />
+                        <ErrorMessage msg="Enter only number" v-if="invUpPrice && isNaN(invUpPrice)" />
                         <ErrorMessage msg="" v-if="!invUpPrice && formSubmitted" />
 
                     </div>
@@ -720,13 +727,21 @@ export default {
                     <div class="space-y-4px">
                         <Label label="Name" required />
                         <Input placeholder="Enter Name" id="Name" :value="invUpdateName"
-                            @input="event => invUpdateName = event.target.value" />
+                            @input="invUpdateName = $event.target.value; isValidInvUpdateName = this.noteIsValid(this.invUpdateName)" />
+                        <ErrorMessage msg="Name cannot contain special characters" v-if="!isValidInvUpdateName" />
+                        <ErrorMessage msg="" v-if="!invUpdateName && formSubmitted" />
+
+
                     </div>
 
                     <div class="space-y-4px">
                         <Label label="Note" required />
                         <TextArea placeholder="Enter Note" id="Note" :value="invUpdateNote"
-                            @input="event => invUpdateNote = event.target.value" />
+                            @input="invUpdateNote = $event.target.value; isValidInvUpdateNote = this.noteIsValid(this.invUpdateNote)" />
+                        <ErrorMessage msg="Note cannot contain special characters" v-if="!isValidInvUpdateNote" />
+                        <ErrorMessage msg="" v-if="!invUpdateNote && formSubmitted" />
+
+
                     </div>
 
                     <div class="space-y-8px" v-if="this.amenitiesList.length !== 0">

@@ -88,14 +88,14 @@ export default {
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/project-list`, project_data);
 
-                if (response.data.length !== 0) {
+                if (response.data && response.data.length !== 0) {
                     this.listLoading = false;
                     this.list = response.data;
                     this.totalPages = response.total_pages;
                 }
                 else {
                     const alertStore = useAlertStore()
-                    alertStore.error("No Data Available")
+                    alertStore.error(response.message)
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }
@@ -125,13 +125,20 @@ export default {
                 const data = await fetchWrapper.post(`${baseUrl}/project-remove`, delete_data);
 
                 if (data.success === 1) {
+                    const alertStore = useAlertStore();
+                    alertStore.success(data.message);
                     this.projectData();
-                    this.deleteItemModal = false
+                    this.deleteItemModal = false;
+                } else {
+                    const alertStore = useAlertStore();
+                    alertStore.error(data.message);
+                    this.deleteItemModal = false;
+
                 }
 
             } catch (error) {
-                const alertStore = useAlertStore()
-                alertStore.error(error)
+                const alertStore = useAlertStore();
+                alertStore.error(error);
             }
         },
 

@@ -40,3 +40,9 @@ export default {
 
     </div>
 </template>
+
+<style scoped>
+.main-table {
+    overflow-x: auto;
+}
+</style>

@@ -51,7 +51,7 @@ export default {
                 !this.profileEmail || !this.profileEmail.trim() ||
                 !this.profileNo || this.profileNo.trim().length !== 10 ||
                 !this.isvalidEmail ||
-                !this.companyPhoneNo || this.companyPhoneNo.trim().length !== 10 ||
+                !this.companyPhoneNo || isNaN(this.companyPhoneNo) || this.companyPhoneNo.trim().length !== 10 ||
                 !this.companyName || !this.companyName.trim() ||
                 !this.companyAddress || !this.companyAddress.trim() || specialCharsRegex.test(this.operationNote)
         },
@@ -183,7 +183,7 @@ export default {
                     <div class="space-y-8px">
                         <Label label="First Name" required />
                         <Input placeholder="Enter First Name" id="First Name" :value="profileFirstName"
-                            @input="profileFirstName = $event.target.value; isValidProfileFirstName = validateField(this.profileFirstName) " />
+                            @input="profileFirstName = $event.target.value; isValidProfileFirstName = validateField(this.profileFirstName)" />
                         <ErrorMessage msg="" v-if="!profileFirstName && formSubmitted" />
                         <ErrorMessage msg="First name cannot contain special characters" v-if="!isValidProfileFirstName" />
 
@@ -192,7 +192,7 @@ export default {
                     <div class="space-y-8px">
                         <Label label="Last Name" required />
                         <Input placeholder="Enter Last Name" id="Last Name" :value="profileLastName"
-                            @input="profileLastName = $event.target.value; isValidProfileLastName = validateField(this.profileLastName) " />
+                            @input="profileLastName = $event.target.value; isValidProfileLastName = validateField(this.profileLastName)" />
                         <ErrorMessage msg="" v-if="!profileLastName && formSubmitted" />
                         <ErrorMessage msg="Last name cannot contain special characters" v-if="!isValidProfileLastName" />
                     </div>
@@ -224,8 +224,9 @@ export default {
                     <div class="space-y-8px">
                         <Label label="Company phone no." required />
                         <Input placeholder="Enter Company phone no." id="Company phone no." :value="companyPhoneNo"
-                            @input="event => companyPhoneNo = event.target.value" type="number" />
+                            @input="event => companyPhoneNo = event.target.value" type="text" />
                         <ErrorMessage msg="" v-if="!companyPhoneNo && formSubmitted" />
+                        <ErrorMessage msg="Enter only number" v-if="companyPhoneNo && isNaN(companyPhoneNo)" />
                         <ErrorMessage msg="Only 10 numbers valid" v-if="companyPhoneNo && companyPhoneNo.length > 10" />
                     </div>
 

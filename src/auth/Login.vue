@@ -42,10 +42,10 @@ export default {
     },
     computed: {
         loginBtn() {
-            return this.number.trim().length !== 10
+            return this.number.trim().length !== 10 || isNaN(this.number)
         },
         otpBtn() {
-            return this.otp.trim().length !== 5
+            return this.otp.trim().length !== 5 || isNaN(this.otp)
         },
         maskedNumber() {
             if (this.number.length < 8) return this.number;
@@ -169,10 +169,11 @@ export default {
 
                     <div class="input-group">
                         <label for="">Phone No.</label>
-                        <input name="number" class="input-1" type="number" placeholder="Enter Phone No"
+                        <input name="number" class="input-1" type="text" placeholder="Enter Phone No"
                             @input="event => number = event.target.value" :value="number" />
+                        <ErrorMessage msg="Enter only number" v-if="number && isNaN(number)" />
                         <ErrorMessage msg="Plz Enter Valid number"
-                            v-if="this.number.trim().length !== 10 && this.number.trim()" />
+                            v-if="this.number.trim().length > 10 && this.number.trim()" />
                         <ErrorMessage :msg="this.errorMsg" v-if="this.errorMesgShow" />
                     </div>
 
@@ -199,8 +200,9 @@ export default {
 
                     <div class="input-group">
                         <!-- <label for="">Enter otp.</label> -->
-                        <input name="otp" class="input-1" type="number" placeholder="Enter otp"
+                        <input name="otp" class="input-1" type="text" placeholder="Enter otp"
                             @input="event => otp = event.target.value" :value="otp" />
+                        <ErrorMessage msg="Enter only number" v-if="otp && isNaN(otp)" />
                         <!-- <ErrorMessage msg="Plz Enter Valid number" v-if="this.otp.trim().length !== 5 && this.otp.trim()" /> -->
                         <ErrorMessage msg="otp Is reqired" v-if="!this.otp && fromSubmited" />
                         <ErrorMessage :msg="errorMsg" v-if="errorMesgShow" />

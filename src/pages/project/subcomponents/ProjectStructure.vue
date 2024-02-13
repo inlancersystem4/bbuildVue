@@ -30,7 +30,7 @@ export default {
     },
     computed: {
         structureSaveBtn() {
-            return this.structureLimit !== this.items.length
+            return this.structureLimit != this.items.length
         }
     },
     methods: {
@@ -145,7 +145,7 @@ export default {
             class="padding-x_32px  Sm_padding-x_28px Mobile_padding-x_24px  Sm_padding-y_18px Mobile_padding-y_16px padding-y_24px w-full border border-solid border-Grey_20 rounded-regualr bg-white">
             <div class="w-full display-flex align-center justify-end gap-12px">
                 <button class="btn-regular" @click="itemsClear">Cancel</button>
-                <button class="btn-regular bg-purple color-white" :disabled="structureSaveBtn" @click="structureSave">Save
+                <button class="btn-regular bg-purple color-white" @click="structureSave">Save
                     Structure</button>
 
             </div>

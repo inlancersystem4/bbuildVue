@@ -3222,13 +3222,14 @@ input[type="color"] {
 
 .btn-regular.is-loading:before {
     content: "";
+    color: black;
     border: .2em solid currentcolor;
-    border-bottom-color: transparent;
+    /* border-bottom-color: transparent; */
     border-radius: 50%;
     animation: 1s loader linear infinite;
     z-index: 11;
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     -webkit-animation: 1s loader linear infinite;
     position: absolute;
     left: 50%;

@@ -112,14 +112,14 @@ export default {
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/amenity-list`, user_data);
-                if (response.data.length !== 0) {
+                if (response.data && response.data.length !== 0) {
                     this.listLoading = false;
                     this.list = response.data;
                     this.totalPages = response.total_pages;
                 }
                 else {
                     const alertStore = useAlertStore();
-                    alertStore.error("No Data Available.");
+                    alertStore.error(response.message);
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }

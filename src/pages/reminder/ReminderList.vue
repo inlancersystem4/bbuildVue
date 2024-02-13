@@ -99,7 +99,7 @@ export default {
 
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
-                if (response.data.length !== 0) {
+                if (response.data && response.data.length !== 0) {
                     this.listLoading = false;
                     this.list = response.data;
                     this.totalPages = response.total_pages;
@@ -107,6 +107,8 @@ export default {
                 else {
                     this.listEmpty = true;
                     this.totalPages = 1;
+                    const alertStore = useAlertStore()
+                    alertStore.error(response.message)
                 }
 
             } catch (error) {
@@ -269,11 +271,11 @@ export default {
 
             <template v-slot:main-table>
 
-                <!-- <div v-if="!list" class="data-not-found border-b border-Grey_20 border-solid">
+                <div v-if="listEmpty" class="data-not-found border-b border-Grey_20 border-solid">
                     <img src="../../assets/img/no-data.png">
-                </div> -->
+                </div>
 
-                <table class="w-100 user-table">
+                <table class="w-100 user-table" v-if="!listEmpty">
                     <tbody>
                         <tr>
                             <td class="count">

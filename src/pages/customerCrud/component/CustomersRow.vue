@@ -194,7 +194,49 @@ tr:nth-last-child(3) .custom-dropdown-list {
     display: block;
 }
 
-@media (max-width:990px) {
+@media (max-width: 380px) {
+    .count {
+        min-width: 25px;
+        max-width: 25px;
+    }
+
+    .user_name {
+        min-width: 200px;
+        max-width: 200px;
+    }
+
+    .user_email {
+        min-width: 178px;
+        max-width: 178px;
+    }
+
+    .user_number {
+        min-width: 75px;
+        max-width: 75px;
+    }
+
+    .user_address {
+        min-width: 125px;
+        max-width: 125px;
+    }
+
+    .user-status {
+        min-width: 75px;
+        max-width: 75px;
+    }
+
+    .blank {
+        min-width: 0px;
+        max-width: 0px;
+    }
+
+    .dropdown {
+        min-width: 35px;
+        max-width: 35px;
+    }
+}
+
+@media (max-width:768px) {
 
     .count {
         min-width: 50px;

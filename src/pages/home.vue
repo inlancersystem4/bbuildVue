@@ -19,6 +19,7 @@ export default {
                 },
             ],
             list: [],
+            listEmpty: false,
         }
     },
     created() {
@@ -31,6 +32,7 @@ export default {
     },
     methods: {
         async reminderData() {
+            this.listEmpty = false;
 
             var user_data = new FormData();
             user_data.append("rem_id", "");
@@ -40,8 +42,13 @@ export default {
             try {
                 const response = await fetchWrapper.post(`${baseUrl}/reminder-list`, user_data);
 
-                if (response.data.length !== 0) {
+                if (response.data && response.data.length !== 0) {
                     this.list = response.data;
+                }
+                else {
+                    this.listEmpty = true;
+                    const alertStore = useAlertStore();
+                    alertStore.error(response.message);
                 }
 
             } catch (error) {
@@ -67,8 +74,11 @@ export default {
             <div class="px-5 py-2 border-b border-solid border-Grey_20">
                 <h2 class="text-large_regular color-Grey_90">Follow Up List</h2>
             </div>
+            <div v-if="listEmpty" class="data-not-found border-b border-Grey_20 border-solid">
+                <img src="../assets/img/no-data.png">
+            </div>
             <div class="overflow-y-auto max-h-96 relative">
-                <ul>
+                <ul v-if="!listEmpty">
                     <li class="border-b border-solid border-Grey_20 px-5 py-2" v-for="(item, index) in list" :key="index">
                         <div class="w-full flex justify-between items-start gap-3.5">
                             <div class="space-y-1.5">

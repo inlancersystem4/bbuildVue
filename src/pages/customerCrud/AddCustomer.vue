@@ -56,7 +56,7 @@ export default {
     computed: {
         btnDisabled() {
             const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
-            return !this.customerFirstName.trim() || !this.customerLastName.trim() || specialCharsRegex.test(this.customerLastName) || !this.customerNumber.trim() || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim() || specialCharsRegex.test(this.customerAddress);
+            return !this.customerFirstName.trim() || !this.customerLastName.trim() || specialCharsRegex.test(this.customerLastName) || !this.customerNumber.trim() || isNaN(this.customerNumber) || this.customerNumber.trim().length !== 10 || !this.isvalidEmail || !this.customerAddress.trim() || specialCharsRegex.test(this.customerAddress);
         }
     },
     created() {
@@ -354,10 +354,11 @@ export default {
                         <div class="space-y-8px">
                             <Label label="Phone No." required />
                             <Input placeholder="Enter customer Number" id="Phone No." :value="customerNumber"
-                                @input="customerNumber = $event.target.value; isValidNumber = validatePhoneNumber()"
-                                type="number" :class="{ 'input_error': customerNumber.length > 10 }" />
+                                @input="event => customerNumber = event.target.value"
+                                type="text" :class="{ 'input_error': customerNumber.length > 10 }" />
                             <ErrorMessage msg="" v-if="!customerNumber && formSubmitted" />
-                            <ErrorMessage msg="Only 10 number valid" v-if="!isValidNumber" />
+                            <ErrorMessage msg="Enter only number" v-if="customerNumber && isNaN(customerNumber)" />
+                            <ErrorMessage msg="Only 10 numbers valid" v-if="customerNumber && customerNumber.length > 10" />
                         </div>
 
                         <div class="space-y-8px">

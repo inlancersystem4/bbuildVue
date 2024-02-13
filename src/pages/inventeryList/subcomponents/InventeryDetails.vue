@@ -3,11 +3,13 @@ import Layout from '@/components/Layout.vue';
 import TextArea from '@/subcomponents/common/TextArea.vue';
 import { fetchWrapper } from '@/helpers/fetch-wrapper'
 import { useAuthStore, useAlertStore } from '@/stores'
+import ErrorMessage from '@/subcomponents/common/ErrorMessage.vue';
+
 
 const baseUrl = `${import.meta.env.VITE_API_URL}`;
 
 export default {
-    components: { Layout, TextArea },
+    components: { Layout, TextArea, ErrorMessage },
     data() {
         return {
             breadcrumbList: [
@@ -32,6 +34,7 @@ export default {
             operationType: "",
             operationProId: "",
             operationId: "",
+            isValidOperationNote: true,
         };
     },
     created() {
@@ -50,6 +53,10 @@ export default {
         }
     },
     methods: {
+        noteIsValid(value) {
+            const specialCharsRegex = /[!@#$%^&*()?":{}|<>]/;
+            return value.trim() === '' || !specialCharsRegex.test(value);
+        },
         async viewInvData() {
             var status_data = new FormData();
             status_data.append("inv_id", this.inventoryId);
@@ -431,9 +438,11 @@ export default {
                 <div class="padding-y_12px padding-x_16px space-y-4">
 
                     <div class="space-y-4px">
-                        <Label label="operatio Note" />
-                        <TextArea placeholder="Enter operatio Note" id="operatio Note" :value="operationNote"
-                            @input="event => operationNote = event.target.value" />
+                        <Label label="operation Note" />
+                        <TextArea placeholder="Enter operation Note" id="operation Note" :value="operationNote"
+                            @input="operationNote = $event.target.value; isValidOperationNote = this.noteIsValid(this.operationNote)" />
+                        <ErrorMessage msg="Operation Note cannot contain special characters" v-if="!isValidOperationNote" />
+
                     </div>
 
                 </div>
