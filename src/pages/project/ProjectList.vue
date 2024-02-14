@@ -95,7 +95,7 @@ export default {
                 }
                 else {
                     const alertStore = useAlertStore()
-                    alertStore.error(response.message)
+                    alertStore.error("No Data Fount")
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }
@@ -169,7 +169,7 @@ export default {
 
                 </div>
 
-                <div class="table-options">
+                <div class="table-options table-grid">
 
                     <SearchBox placeholder="Search Project" :value="searchText" @input="searchTextFun"
                         @clear_search="clearSearch" />
@@ -279,5 +279,49 @@ tr {
 
 .custom-dropdown:hover .custom-dropdown-list {
     display: block;
+}
+
+
+@media (max-width:768px) {
+
+    .count {
+        min-width: 50px;
+        max-width: 50px;
+    }
+
+    .project_name {
+        min-width: 200px;
+        max-width: 200px;
+    }
+
+
+    .project_stuactur {
+        min-width: 200px;
+        max-width: 200px;
+    }
+
+    .project_address {
+        min-width: 150px;
+        max-width: 150px;
+    }
+
+    .blank {
+        min-width: 20px;
+        max-width: 20px;
+    }
+
+    .dropdown {
+        min-width: 50px;
+        max-width: 50px;
+    }
+
+}
+
+@media (min-width:768px) {
+    .table-grid {
+        display: flex;
+        justify-content: space-evenly;
+        flex-flow: nowrap;
+    }
 }
 </style>

@@ -130,43 +130,32 @@ tr:nth-last-child(3) .custom-dropdown-list {
     display: block;
 }
 
-@media (max-width:990px) {
+@media (max-width:768px) {
 
     .count {
         min-width: 50px;
         max-width: 50px;
     }
 
-    .user_name {
+    .project_name {
         min-width: 200px;
         max-width: 200px;
     }
 
 
-    .user_email {
+    .project_stuactur {
         min-width: 200px;
         max-width: 200px;
     }
 
-    .user_number {
+    .project_address {
         min-width: 150px;
         max-width: 150px;
     }
 
-    .user_address {
-        min-width: 180px;
-        max-width: 180px;
-        display: block;
-    }
-
     .blank {
-        min-width: 50px;
-        max-width: 50px;
-    }
-
-    .user-status {
-        min-width: 100px;
-        max-width: 100px;
+        min-width: 20px;
+        max-width: 20px;
     }
 
     .dropdown {

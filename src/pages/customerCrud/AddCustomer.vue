@@ -354,8 +354,8 @@ export default {
                         <div class="space-y-8px">
                             <Label label="Phone No." required />
                             <Input placeholder="Enter customer Number" id="Phone No." :value="customerNumber"
-                                @input="event => customerNumber = event.target.value"
-                                type="text" :class="{ 'input_error': customerNumber.length > 10 }" />
+                                @input="event => customerNumber = event.target.value" type="text"
+                                :class="{ 'input_error': customerNumber.length > 10 }" />
                             <ErrorMessage msg="" v-if="!customerNumber && formSubmitted" />
                             <ErrorMessage msg="Enter only number" v-if="customerNumber && isNaN(customerNumber)" />
                             <ErrorMessage msg="Only 10 numbers valid" v-if="customerNumber && customerNumber.length > 10" />
@@ -503,7 +503,7 @@ export default {
     display: none;
 }
 
-@media (max-width:790px) {
+@media (max-width:768px) {
     .row {
         flex-wrap: wrap-reverse;
         gap: 24px;
@@ -518,7 +518,100 @@ export default {
     }
 
     .user_pic {
-        margin: auto;
+        width: 100px;
+        height: 100px;
+        border: 1px dashed var(--Grey-50);
+        border-radius: 999px;
+        margin-left: auto;
+        margin-top: -50px;
+        margin-right: 0px;
+        position: relative;
+    }
+
+    .user_pic .add_pic {
+        position: absolute;
+        bottom: 0;
+        right: -3px;
+        width: 26px;
+        height: 26px;
+        background-color: var(--Grey);
+        border: 1px dashed var(--Grey-50);
+        z-index: 12;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        justify-content: center;
+    }
+
+    .user_pic .add_pic img {
+        width: 15px;
+    }
+
+    .address-form {
+        display: grid;
+        width: 100%;
+    }
+
+
+}
+
+@media (max-width: 440px) {
+
+    .row {
+        flex-wrap: wrap-reverse;
+        gap: 24px;
+    }
+
+    .col-8 {
+        width: 100%;
+    }
+
+    .col-2 {
+        width: 100%;
+    }
+
+    .address-form {
+        display: block;
+    }
+
+    .user_pic {
+        width: 80px;
+        height: 80px;
+        border: 1px dashed var(--Grey-50);
+        border-radius: 999px;
+        margin-left: auto;
+        margin-top: -50px;
+        margin-right: 0px;
+        position: relative;
+    }
+
+    .user_pic .add_pic {
+        position: absolute;
+        bottom: 0;
+        right: -3px;
+        width: 21px;
+        height: 21px;
+        background-color: var(--Grey);
+        border: 1px dashed var(--Grey-50);
+        z-index: 12;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        justify-content: center;
+    }
+
+    .user_pic .add_pic img {
+        width: 15px;
+    }
+
+    .space-y-8px {
+        margin-bottom: 0.7rem;
+    }
+
+    .space-y-8px>Input {
+        margin-top: 2px;
     }
 }
 </style>

@@ -277,4 +277,31 @@ export default {
 .auth-page_center .logo_mobile {
     display: none;
 }
+
+@media (max-width: 440px) {
+    .auth-page_center{
+        padding: auto;
+    }
+    .auth-page_center .auth-title {
+        font-size: 12px !important;
+    }
+
+    .auth-page_center .auth-container {
+        display: block;
+    }
+
+    .auth-page_center .auth-from-section {
+        height: 100%;
+        display: flex;
+        align-items: center;
+        max-width: none;
+        justify-content: center;
+    }
+
+    .auth-page_center .auth-from-section .from {
+        margin: 0 auto;
+        position: absolute;
+        min-width: fit-content;
+    }
+}
 </style>

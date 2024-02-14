@@ -119,7 +119,7 @@ export default {
                 }
                 else {
                     const alertStore = useAlertStore();
-                    alertStore.error(response.message);
+                    alertStore.error("No Data Found");
                     this.listEmpty = true;
                     this.totalPages = 1;
                 }
@@ -230,7 +230,7 @@ export default {
 
                 </div>
 
-                <div class="table-options">
+                <div class="table-options table-grid">
 
                     <SearchBox placeholder="Search Amenities" :value="searchText" @input="searchTextFun"
                         @clear_search="clearSearch" />
@@ -445,7 +445,7 @@ tr:nth-last-child(3) .custom-dropdown-list {
     margin-top: 0 !important;
 }
 
-@media (max-width:990px) {
+@media (max-width:768px) {
 
     .count {
         min-width: 50px;
@@ -489,5 +489,14 @@ tr:nth-last-child(3) .custom-dropdown-list {
         max-width: 50px;
     }
 
+}
+
+
+@media (min-width:768px) {
+    .table-grid {
+        display: flex;
+        justify-content: space-evenly;
+        flex-flow: nowrap;
+    }
 }
 </style>

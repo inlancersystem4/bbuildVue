@@ -194,7 +194,7 @@ tr:nth-last-child(3) .custom-dropdown-list {
     display: block;
 }
 
-@media (max-width: 380px) {
+@media (max-width: 440px) {
     .count {
         min-width: 25px;
         max-width: 25px;
@@ -266,8 +266,8 @@ tr:nth-last-child(3) .custom-dropdown-list {
     }
 
     .blank {
-        min-width: 50px;
-        max-width: 50px;
+        min-width: 0px;
+        max-width: 0px;
     }
 
     .user-status {

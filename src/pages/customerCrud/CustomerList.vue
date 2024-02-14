@@ -232,7 +232,7 @@ export default {
 
                 </div>
 
-                <div class="table-options">
+                <div class="table-options table-grid ">
 
                     <SearchBox placeholder="Search Customer" :value="searchText" @input="searchTextFun"
                         @clear_search="clearSearch" />
@@ -416,7 +416,58 @@ tr:nth-last-child(3) .custom-dropdown-list {
     justify-content: flex-end;
 }
 
-@media (max-width: 380px) {
+@media (max-width:768px) {
+
+    .count {
+        min-width: 50px;
+        max-width: 50px;
+    }
+
+    .user_name {
+        min-width: 200px;
+        max-width: 200px;
+    }
+
+
+    .user_email {
+        min-width: 200px;
+        max-width: 200px;
+    }
+
+    .user_number {
+        min-width: 150px;
+        max-width: 150px;
+    }
+
+    .user_address {
+        min-width: 180px;
+        max-width: 180px;
+        display: block;
+    }
+
+    .blank {
+        min-width: 20px;
+        max-width: 20px;
+    }
+
+    .user-status {
+        min-width: 100px;
+        max-width: 100px;
+    }
+
+    .dropdown {
+        min-width: 50px;
+        max-width: 50px;
+    }
+    .table-grid {
+        display: flex;
+        justify-content: space-evenly;
+        flex-flow: nowrap;
+    }
+}
+
+
+@media (max-width: 440px) {
     .count {
         min-width: 25px;
         max-width: 25px;
@@ -458,50 +509,4 @@ tr:nth-last-child(3) .custom-dropdown-list {
     }
 }
 
-
-@media (max-width:768px) {
-
-    .count {
-        min-width: 50px;
-        max-width: 50px;
-    }
-
-    .user_name {
-        min-width: 200px;
-        max-width: 200px;
-    }
-
-
-    .user_email {
-        min-width: 200px;
-        max-width: 200px;
-    }
-
-    .user_number {
-        min-width: 150px;
-        max-width: 150px;
-    }
-
-    .user_address {
-        min-width: 180px;
-        max-width: 180px;
-        display: block;
-    }
-
-    .blank {
-        min-width: 50px;
-        max-width: 50px;
-    }
-
-    .user-status {
-        min-width: 100px;
-        max-width: 100px;
-    }
-
-    .dropdown {
-        min-width: 50px;
-        max-width: 50px;
-    }
-
-}
 </style>

@@ -241,4 +241,15 @@ export default {
     content: '/';
     padding-left: 6px;
 }
+
+@media (max-width: 380px) {
+    .breadcrumb-list {
+    display: flex;
+    align-items: center;
+    text-transform: capitalize;
+    font-size: 12px;
+    color: var(--Grey-90);
+    gap: 1px;
+}
+}
 </style>
