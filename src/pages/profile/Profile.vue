@@ -366,7 +366,7 @@ export default {
 
     .col-2 {
         width: 100%;
-        margin-left: 570px;
+        margin-left: auto;
         margin-top: -55px;
     }
 

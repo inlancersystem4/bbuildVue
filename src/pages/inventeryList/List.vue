@@ -526,7 +526,7 @@ export default {
 
         <div class="display-flex items-center justify-between w-full margin-bottom_12px gap-8px">
 
-            <div class="flex items-center gap-2">
+            <div class="flex items-center ml-5 gap-2">
 
                 <div class="icon-border icon-border-20 icon-border_40px">
                     <div class="icon-bg icon-bg_32px bg-Grey_20">
@@ -540,7 +540,7 @@ export default {
 
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center ml-5 gap-3">
 
                 <div class="dropdown">
 
@@ -836,5 +836,12 @@ export default {
 .sticky {
     position: sticky;
     top: 0;
+}
+
+@media (max-width: 768px) {
+    .display-flex{
+        display: flex;
+        flex-wrap: wrap;
+    }
 }
 </style>

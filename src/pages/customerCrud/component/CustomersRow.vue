@@ -193,7 +193,7 @@ tr:nth-last-child(3) .custom-dropdown-list {
 .custom-dropdown:hover .custom-dropdown-list {
     display: block;
 }
-
+/* 
 @media (max-width: 440px) {
     .count {
         min-width: 25px;
@@ -234,7 +234,7 @@ tr:nth-last-child(3) .custom-dropdown-list {
         min-width: 35px;
         max-width: 35px;
     }
-}
+} */
 
 @media (max-width:768px) {
 
@@ -276,8 +276,17 @@ tr:nth-last-child(3) .custom-dropdown-list {
     }
 
     .dropdown {
-        min-width: 50px;
-        max-width: 50px;
+        min-width: 25px;
+        max-width: 25px;
+    }
+
+    .icon-btn_32px {
+        height: 15px;
+        width: 15px;
+        min-width: 25px;
+        max-width: 25px;
+        min-height: 25px;
+        max-height: 25px;
     }
 
 }

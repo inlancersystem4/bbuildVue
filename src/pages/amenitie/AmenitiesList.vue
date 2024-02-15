@@ -485,10 +485,18 @@ tr:nth-last-child(3) .custom-dropdown-list {
     }
 
     .dropdown {
-        min-width: 50px;
-        max-width: 50px;
+        min-width: 25px;
+        max-width: 25px;
     }
 
+    .icon-btn_32px {
+        height: 15px;
+        width: 15px;
+        min-width: 25px;
+        max-width: 25px;
+        min-height: 25px;
+        max-height: 25px;
+    }
 }
 
 

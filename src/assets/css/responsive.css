@@ -363,7 +363,7 @@
         width: 100%;
     }
 
-    .custom-dropdown-list {
+    .custom-dropdown-list.leftside {
         transform: none;
         left: auto;
         right: 100%;
