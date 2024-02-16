@@ -193,6 +193,7 @@ tr:nth-last-child(3) .custom-dropdown-list {
 .custom-dropdown:hover .custom-dropdown-list {
     display: block;
 }
+
 /* 
 @media (max-width: 440px) {
     .count {
@@ -237,6 +238,14 @@ tr:nth-last-child(3) .custom-dropdown-list {
 } */
 
 @media (max-width:768px) {
+
+    tr:nth-last-child(1) .custom-dropdown-list,
+    tr:nth-last-child(2) .custom-dropdown-list,
+    tr:nth-last-child(3) .custom-dropdown-list {
+        top: auto;
+        bottom: 100%;
+    }
+
 
     .count {
         min-width: 50px;
